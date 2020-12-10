@@ -1,5 +1,12 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import './index.css'
+import { createApp } from 'vue';
+import App from './App.vue';
+import './index.css';
 
-createApp(App).mount('#app')
+import { setupAntd } from '/@/setup/ant-design-vue';
+
+const app = createApp(App);
+
+// ui
+setupAntd(app);
+
+app.mount('#app');

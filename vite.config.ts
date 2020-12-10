@@ -9,7 +9,7 @@ import { resolve } from 'path';
 
 import { isDevFn, loadEnv } from './build/utils';
 
-// import { createRollupPlugin, createVitePlugins } from './build/vite/plugin';
+import { createRollupPlugin, createVitePlugins } from './build/vite/plugin';
 
 const pkg = require('./package.json');
 
@@ -120,16 +120,16 @@ const viteConfig: UserConfig = {
   },
   // The package will be recompiled using rollup, and the new package compiled into the esm module specification will be put into node_modules/.vite_opt_cache
   optimizeDeps: {
-    include: [],
+    include: ['ant-design-vue/es/locale/zh_CN', '@ant-design/icons-vue'],
   },
 
   // Local cross-domain proxy
   // proxy: createProxy(VITE_PROXY),
-  // plugins: createVitePlugins(viteEnv),
+  plugins: createVitePlugins(viteEnv),
   rollupInputOptions: {
     // TODO
     // external: VITE_USE_CDN ? externals : [],
-    // plugins: createRollupPlugin(),
+    plugins: createRollupPlugin(),
   },
 };
 
