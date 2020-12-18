@@ -47,3 +47,10 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.TESTTARGET }}
+      # 发送通知
+      - name: Message
+        uses: yanglbme/v2ex-action@master
+        with:
+          webhook: ${{ secrets.GITHUB_TOKEN }}
+          secret: ${{ secrets.SECRET }}
+          count: 6
