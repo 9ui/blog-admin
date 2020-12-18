@@ -1,5 +1,6 @@
 <template>
   <a-button type="primary">按钮</a-button>
+  <a-button>按钮</a-button>
 </template>
 
 <script lang="ts">
