@@ -15,11 +15,17 @@ jobs:
     steps:
       # 切换分支
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
       # 下载 git submodule
       - uses: srt32/git-actions@v0.0.3
         with:
           args: git submodule update --init --recursive
+      # 检查提交
+      - name: Conventional
+        uses: actions/checkout@v2
+        run: npx conventional-github-releaser -p angular
+        env:
+          CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{secrets.SECRET}}
       # 使用 node:14
       - name: use Node.js 14
         uses: actions/setup-node@v1
@@ -54,7 +60,8 @@ jobs:
           WECHAT_WORK_BOT_WEBHOOK: ${{ secrets.WECHAT_WORK_BOT_WEBHOOK }}
         with:
           msgtype: markdown
-          content: "实时新增用户反馈<font color=\"warning\">132例</font>，请相关同事注意。\n
+          content: "项目更新啦!<font color=\"warning\">v1.0.0</font>，请相关同事注意。\n
           > 类型:<font color=\"comment\">用户反馈</font> \n
           > 普通用户反馈:<font color=\"comment\">117例</font> \n
           > VIP用户反馈:<font color=\"comment\">15例</font>"
+          mentioned_list: '["wangqing","@all"]'
