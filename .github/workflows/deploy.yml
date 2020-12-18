@@ -8,15 +8,13 @@ on:
 
 # 任务
 jobs:
-  # build-and-deploy 为任务的ID
-  build-and-deploy:
+  build:
     # 运行所需要的环境
     runs-on: ubuntu-latest
 
     steps:
-      # 步骤名
+      # 切换分支
       - name: Checkout
-        # 使用的actions脚本，这里是官方提供的获取源码脚本
         uses: actions/checkout@master
       # 下载 git submodule
       - uses: srt32/git-actions@v0.0.3
@@ -37,14 +35,15 @@ jobs:
       - name: Build
         run: |
           npm run build
+        env:
+          CI: true
       # Deploy
       - name: Deploy
         uses: easingthemes/ssh-deploy@v2.0.7
-        with:
-          # 该workflow需要操作repo，因此需要一个密钥，下面会讲到如何获取这个密钥
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN }}
           ARGS: '-avz --delete'
+          SOURCE: 'dist/'
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.TARGET }}
-          FOLDER: ${{ secrets.DIST }}
