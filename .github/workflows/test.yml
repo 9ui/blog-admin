@@ -47,10 +47,10 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.TESTTARGET }}
-      # 发送通知
-      - name: Message
-        uses: yanglbme/v2ex-action@master
+      # Wechat Notification
+      - name: Wechat Notification
+        uses: chf007/action-wechat-work@master
+        env:
+          WECHAT_WORK_BOT_WEBHOOK: ${{ secrets.WECHAT_WORK_BOT_WEBHOOK }}
         with:
-          webhook: ${{ secrets.GITHUB_TOKEN }}
-          secret: ${{ secrets.SECRET }}
-          count: 6
+          msgtype: text
