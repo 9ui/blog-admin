@@ -20,12 +20,6 @@ jobs:
       - uses: srt32/git-actions@v0.0.3
         with:
           args: git submodule update --init --recursive
-      # 检查提交
-      - name: Conventional
-        uses: actions/checkout@v2
-        run: npx conventional-github-releaser -p angular
-        env:
-          CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{secrets.SECRET}}
       # 使用 node:14
       - name: use Node.js 14
         uses: actions/setup-node@v1
