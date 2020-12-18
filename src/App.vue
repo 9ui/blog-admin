@@ -1,12 +1,20 @@
 <template>
-  <a-button type="primary">按钮</a-button>
-  <a-button>按钮</a-button>
+  <ConfigProvider :locale="zhCN">
+    <router-view />
+  </ConfigProvider>
 </template>
 
 <script lang="ts">
   import { defineComponent } from 'vue';
+  import moment from 'moment';
+  import zhCN from 'ant-design-vue/es/locale/zh_CN';
+  moment.locale('zh-cn');
   export default defineComponent({
     name: 'App',
-    setup() {},
+    setup() {
+      return {
+        zhCN,
+      };
+    },
   });
 </script>
