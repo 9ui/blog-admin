@@ -15,12 +15,9 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "experimentalDecorators": true,
-        "noImplicitAny": true,
-        "removeComments": false,
-        "preserveConstEnums": true,
         "lib": [
-            "es2015",
-            "es2017"
+            "dom",
+            "esnext"
         ],
         "incremental": true,
         "skipLibCheck": true,
@@ -36,7 +33,6 @@
         }
     ],
     "include": [
-        ".github/actions/**/*.ts",
         "src/**/*.ts",
         "src/**/*.d.ts",
         "src/**/*.tsx",
