@@ -19,8 +19,8 @@
         "removeComments": false,
         "preserveConstEnums": true,
         "lib": [
-            "dom",
-            "esnext"
+            "es2015",
+            "es2017"
         ],
         "incremental": true,
         "skipLibCheck": true,
