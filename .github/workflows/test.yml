@@ -49,8 +49,8 @@ jobs:
           TARGET: ${{ secrets.TESTTARGET }}
       # 微信通知
       - name: Wechat Notification
-        if: github.event_name == 'pull_request'
-        uses: chf007/action-wechat-work@master
+        if: github.event_name == 'push'
+        uses: ./.github/actions/action-wechat-work
         env:
           WECHAT_WORK_BOT_WEBHOOK: ${{ secrets.WECHAT_WORK_BOT_WEBHOOK }}
         with:
@@ -65,11 +65,3 @@ jobs:
           ##### 修改人:\n
           > ${{ github.event.head_commit.committer.name }}\n"
           mentioned_list: "['@all']"
-      # 打印
-      - name: Wechat Notification
-        if: github.event_name == 'push'
-        run: |
-          echo "COMMIT_BRANCH=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
-          echo "COMMIT_MESSAGE<<EOF" >> $GITHUB_ENV
-          echo "$(git log --format=%B -n 1 HEAD)" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
