@@ -227,7 +227,7 @@
         "affectsGlobalScope": false
       },
       "./.github/actions/debug-action/__tests__/debug.test.ts": {
-        "version": "9511f523c0fbfbc53396f95e24f79e861c8ac501d1d8a2904e5c75a2494852a2",
+        "version": "4f5c39e6e9df95d067161bef015e5cf30d0c0c70174598f2db3ce2922e249923",
         "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
         "affectsGlobalScope": false
       },
@@ -1650,6 +1650,11 @@
         "version": "08c4a97a324b82f7dbc02b9e2bb278b7bb13c160e04e23a16dd04f9d732da20a",
         "signature": "08c4a97a324b82f7dbc02b9e2bb278b7bb13c160e04e23a16dd04f9d732da20a",
         "affectsGlobalScope": true
+      },
+      "./node_modules/@types/js-yaml/index.d.ts": {
+        "version": "c303a72d3128054d400767264e6f5414b86bf29c1b11730c45027f2213e82f34",
+        "signature": "c303a72d3128054d400767264e6f5414b86bf29c1b11730c45027f2213e82f34",
+        "affectsGlobalScope": false
       },
       "./node_modules/@types/json-schema/index.d.ts": {
         "version": "b2be568d8ce95fcb26eebd04c035d94825655fdf689bf67d799f5ff8cbbb1024",
@@ -8764,6 +8769,7 @@
       "./node_modules/@types/istanbul-lib-report/index.d.ts",
       "./node_modules/@types/istanbul-reports/index.d.ts",
       "./node_modules/@types/jest/index.d.ts",
+      "./node_modules/@types/js-yaml/index.d.ts",
       "./node_modules/@types/json-schema/index.d.ts",
       "./node_modules/@types/keygrip/index.d.ts",
       "./node_modules/@types/koa-compose/index.d.ts",
@@ -9551,6 +9557,10 @@
       ],
       [
         "./node_modules/@types/jest/index.d.ts",
+        1
+      ],
+      [
+        "./node_modules/@types/js-yaml/index.d.ts",
         1
       ],
       [
