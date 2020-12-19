@@ -49,8 +49,8 @@ jobs:
           TARGET: ${{ secrets.TESTTARGET }}
       # 微信通知
       - name: Wechat Notification
-        if: github.event_name == 'push'
-        uses: ./.github/actions/action-wechat-work
+        # if: github.event_name == 'push'
+        uses: chf007/action-wechat-work@master
         env:
           WECHAT_WORK_BOT_WEBHOOK: ${{ secrets.WECHAT_WORK_BOT_WEBHOOK }}
         with:
@@ -58,8 +58,8 @@ jobs:
           content: "来画平台<font color=\"warning\">v5.2.3</font>更新了，快来试试看吧～。\n
           ##### 修改内容：\n
           > ${{ github.event.head_commit.message }} \n
-          ##### 版本信息:\n
-          > ${{ github.event.repository.full_name }} \n
+          ##### 修改分支:\n
+          > ${{ github.event.ref }} \n
           ##### 修改时间:\n
           > ${{ github.event.head_commit.timestamp }} \n
           ##### 修改人:\n
