@@ -7,7 +7,7 @@ export function setupPwaPlugin(plugins: Plugin[], env: ViteEnv) {
 
   const pwaPlugin = VitePWA({
     manifest: {
-      name: 'Vben Admin',
+      name: '来画君',
       short_name: 'vben_admin',
       icons: [
         {

@@ -49,7 +49,7 @@ jobs:
           TARGET: ${{ secrets.TESTTARGET }}
       # 微信通知
       - name: Wechat Notification
-        # if: github.event_name == 'push'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: chf007/action-wechat-work@master
         env:
           WECHAT_WORK_BOT_WEBHOOK: ${{ secrets.WECHAT_WORK_BOT_WEBHOOK }}

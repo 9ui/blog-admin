@@ -17,5 +17,5 @@ export default {
   lockScreen: '锁定屏幕',
   lockScreenBtn: '锁定',
 
-  home: '首页',
+  home: '发现页',
 };
