@@ -25,19 +25,19 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14
-      # npm install
+      # 下载依赖
       - name: install
         run: |
           npm install
         env:
           CI: true
-      # build
+      # 构建
       - name: Build
         run: |
           npm run build
         env:
           CI: true
-      # Deploy
+      # 部署
       - name: Deploy
         uses: easingthemes/ssh-deploy@v2.0.7
         env:
@@ -47,7 +47,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.TESTTARGET }}
-      # Wechat Notification
+      # 微信通知
       - name: Wechat Notification
         if: github.event_name == 'pull_request'
         uses: chf007/action-wechat-work@master
@@ -65,7 +65,7 @@ jobs:
           ##### 修改人:\n
           > ${{ github.event.head_commit.committer.name }}\n"
           mentioned_list: "['@all']"
-      # Notification
+      # 打印
       - name: Wechat Notification
         if: github.event_name == 'push'
         run: |
