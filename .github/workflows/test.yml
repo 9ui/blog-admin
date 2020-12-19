@@ -54,9 +54,14 @@ jobs:
           WECHAT_WORK_BOT_WEBHOOK: ${{ secrets.WECHAT_WORK_BOT_WEBHOOK }}
         with:
           msgtype: markdown
-          content: "来画平台<font color=\"warning\">v5.2.3.0.0</font>更新了，快来试试看吧～。\n
+          content: "来画平台<font color=\"warning\">v5.2.3</font>更新了，快来试试看吧～。\n
           修改内容：\n
           > ${{ github.event.head_commit.message }} \n
+          版本信息:\n
+          > ${{ github.event.head_commit.repository.full_name }} \n
+          修改时间:\n
+          > ${{ github.event.head_commit.timestamp }} \n
           修改人:\n
-          > ${{ github.event.head_commit.pusher }} \n"
+          > ${{ github.event.head_commit.author }} \n
+          > ${{ github.event.head_commit.pusher.name }}\n"
           mentioned_list: '["wangqing","@all"]'
