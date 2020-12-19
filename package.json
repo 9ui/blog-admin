@@ -4,7 +4,7 @@
   "scripts": {
     "bootstrap": "yarn install",
     "dev": "esno ./build/script/preserve.ts && cross-env NODE_ENV=development vite",
-    "test": "tsc --noEmit && jest",
+    "tests": "tsc --noEmit && jest",
     "build": "tsc",
     "build1": "cross-env NODE_ENV=production vite build && esno ./build/script/postBuild.ts",
     "build:site": "cross-env SITE=true npm run build ",
