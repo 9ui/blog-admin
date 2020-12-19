@@ -10,6 +10,17 @@ jobs:
       - uses: actions/checkout@v1
         with:
           fetch-depth: 1
-      - run: npm install
-      - run: npm run build
-      - uses: ./.github/actions/debug-action
+      # npm install
+      - name: install
+        run: |
+          npm install
+        env:
+          CI: true
+      # build
+      - name: Build
+        run: |
+          npm run build
+        env:
+          CI: true
+      - name: Debug
+        uses: ./.github/actions/debug-action

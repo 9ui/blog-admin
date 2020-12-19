@@ -16,10 +16,8 @@
         "noUnusedParameters": true,
         "experimentalDecorators": true,
         "lib": [
-            "es2015",
-            "es2017"
-            // "dom",
-            // "esnext"
+            "dom",
+            "esnext"
         ],
         "incremental": true,
         "skipLibCheck": true,
