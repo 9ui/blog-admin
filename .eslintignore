@@ -1,6 +1,7 @@
 
 *.sh
 node_modules
+!/.github
 lib
 *.md
 *.scss
@@ -16,10 +17,5 @@ lib
 .local
 /bin
 /build
-/config
-Dockerfile
-vue.config.js
-commit-lint.js
-postcss.config.js
 stylelint.config.js
 commitlint.config.js
