@@ -55,13 +55,13 @@ jobs:
         with:
           msgtype: markdown
           content: "来画平台<font color=\"warning\">v5.2.3</font>更新了，快来试试看吧～。\n
-          修改内容：\n
+          ### 修改内容：\n
           > ${{ github.event.head_commit.message }} \n
-          版本信息:\n
+          ### 版本信息:\n
           > ${{ github.event.head_commit.repository.full_name }} \n
-          修改时间:\n
+          ### 修改时间:\n
           > ${{ github.event.head_commit.timestamp }} \n
-          修改人:\n
-          > ${{ github.event.head_commit.author }} \n
+          ### 修改人:\n
+          > ${{ github.event.head_commit.author.name }} ---\n
           > ${{ github.event.head_commit.pusher.name }}\n"
           mentioned_list: '["wangqing","@all"]'
