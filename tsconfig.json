@@ -1,17 +1,50 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "esnext",
-    "lib": ["es2015", "es2017"],
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitAny": true,
-    "removeComments": false,
-    "preserveConstEnums": true
-  },
-  "include": [".github/actions/**/*.ts", "**/*.ts"],
-  "exclude": ["node_modules"]
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "allowSyntheticDefaultImports": true,
+        "strictFunctionTypes": false,
+        "jsx": "react",
+        "baseUrl": ".",
+        "allowJs": true,
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "lib": [
+            "dom",
+            "esnext"
+        ],
+        "incremental": true,
+        "skipLibCheck": true,
+        "paths": {
+            "/@/*": [
+                "src/*"
+            ]
+        }
+    },
+    "plugins": [
+        {
+            "name": "@vuedx/typescript-plugin-vue"
+        }
+    ],
+    "include": [
+        ".github/actions/**/*.ts",
+        "src/**/*.ts",
+        "src/**/*.d.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "**/*.js"
+    ]
 }
