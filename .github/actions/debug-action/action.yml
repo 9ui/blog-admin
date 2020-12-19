@@ -1,6 +1,0 @@
-name: 'debug-action'
-description: 'Outputs debug information'
-author: 'zzw'
-runs:
-  using: 'node12'
-  main: './debug.js'
