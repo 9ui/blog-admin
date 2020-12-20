@@ -5,7 +5,7 @@ function createFakeUserList() {
   return [
     {
       userId: '1',
-      username: 'vben',
+      username: 'laihua',
       realName: '来画君',
       desc: 'manager',
       password: '123456',

@@ -95,7 +95,7 @@
       // const openLoginVerifyRef = computed(() => appStore.getProjectConfig.openLoginVerify);
 
       const formData = reactive({
-        account: 'vben',
+        account: 'laihua',
         password: '123456',
         // verify: undefined,
       });
