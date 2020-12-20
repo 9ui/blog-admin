@@ -9,7 +9,7 @@
 
     <template #overlay>
       <Menu @click="handleMenuClick">
-        <MenuItem key="doc" :text="t('layout.header.dropdownItemDoc')" icon="gg:loadbar-doc" />
+        <!-- <MenuItem key="doc" :text="t('layout.header.dropdownItemDoc')" icon="gg:loadbar-doc" /> -->
         <MenuDivider v-if="getShowDoc" />
         <MenuItem
           key="loginOut"
