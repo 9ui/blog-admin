@@ -19,13 +19,13 @@ export async function runPreserve() {
   const cwdPath = process.cwd();
   if (reg.test(cwdPath)) {
     errorConsole(
-      'Do not include Chinese in the full path of the project directory, please modify the directory name and run again!'
+      'Do not include Chinese, Japanese or Korean in the full path of the project directory, please modify the directory name and run again!'
     );
-    errorConsole('项目目录全路径请勿包含中文,请修改目录名后再次重新运行!');
+    errorConsole('项目目录全路径请勿包含中文、日文、韩文,请修改目录名后再次重新运行!');
     process.exit(1);
   }
 
-  fs.mkdirp(resolve('build/.cache'));
+  await fs.mkdirp(resolve('build/.cache'));
   function checkPkgUpdate() {
     const pkg = require('../../package.json');
     const { dependencies, devDependencies } = pkg;

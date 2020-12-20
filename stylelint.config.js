@@ -3,35 +3,25 @@ module.exports = {
   plugins: ['stylelint-order'],
   extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
   rules: {
-    // 禁止未知的伪类选择器
     'selector-pseudo-class-no-unknown': [
       true,
       {
         ignorePseudoClasses: ['global'],
       },
     ],
-    // 屏蔽一些scss等语法检查
     'at-rule-no-unknown': [
       true,
       {
         ignoreAtRules: ['function', 'if', 'each', 'include', 'mixin'],
       },
     ],
-    // 禁止空来源
     'no-empty-source': null,
-    // 要求或禁止使用Unicode BOM
-    // 'unicode-bom': 'never',
-    // 禁止较低特异性的选择器在覆盖较高特异性的选择器之后出现。
+    'unicode-bom': 'never',
     'no-descending-specificity': null,
-    // 禁止在字体系列名称列表中缺少通用系列
     'font-family-no-missing-generic-family-keyword': null,
-    // 声明的冒号后必须有一个空格或不允许使用空格（Autofixable）
     'declaration-colon-space-after': 'always-single-line',
-    // 在冒号声明之前需要一个空格或禁止空格（可自动修复）
     'declaration-colon-space-before': 'never',
-    // 在声明块内要求或不允许尾随分号（可自动修复）
     'declaration-block-trailing-semicolon': 'always',
-    // 在规则之前要求或禁止使用空行（可自动修复）。
     'rule-empty-line-before': [
       'always',
       {
