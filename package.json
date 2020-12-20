@@ -3,7 +3,7 @@
   "version": "5.3.2",
   "scripts": {
     "bootstrap": "yarn install",
-    "serve": "esno ./build/script/preserve.ts && cross-env NODE_ENV=development vite",
+    "dev": "esno ./build/script/preserve.ts && cross-env NODE_ENV=development vite",
     "build": "cross-env NODE_ENV=production vite build && esno ./build/script/postBuild.ts",
     "build:site": "cross-env SITE=true npm run build ",
     "build:no-cache": "yarn  clean:cache && npm run build",
