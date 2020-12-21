@@ -1,3 +1,7 @@
+/*
+ * @Author: Vben
+ * @Description:
+ */
 module.exports = {
   printWidth: 100,
   tabWidth: 2,
@@ -15,7 +19,7 @@ module.exports = {
   requirePragma: false,
   proseWrap: 'never',
   htmlWhitespaceSensitivity: 'strict',
-  endOfLine: 'auto',
+  endOfLine: 'lf',
   rangeStart: 0,
   overrides: [
     {

@@ -1,41 +1,36 @@
-import type { AppRouteRecordRaw } from '/@/router/types';
+import type { AppRouteRecordRaw, AppRouteModule } from '/@/router/types';
 
-// import modules from 'globby!/@/router/routes/modules/**/*.@(ts)';
+import { PAGE_NOT_FOUND_ROUTE, REDIRECT_ROUTE } from '../constant';
 
-import { DEFAULT_LAYOUT_COMPONENT } from '../constant';
+import modules from 'globby!/@/router/routes/modules/**/*.@(ts)';
+import { PageEnum } from '/@/enums/pageEnum';
 
-// const routeModuleList: AppRouteModule[] = [];
+const routeModuleList: AppRouteModule[] = [];
 
-// Object.keys(modules).forEach((key) => {
-//   routeModuleList.push(modules[key]);
-// });
+Object.keys(modules).forEach((key) => {
+  const mod = Array.isArray(modules[key]) ? [...modules[key]] : [modules[key]];
+  routeModuleList.push(...mod);
+});
 
-// export const asyncRoutes = [
-//   REDIRECT_ROUTE,
-//   PAGE_NOT_FOUND_ROUTE,
-//   ...genRouteModule(routeModuleList),
-// ];
+export const asyncRoutes = [PAGE_NOT_FOUND_ROUTE, ...routeModuleList];
 
-// 主框架根路由
 export const RootRoute: AppRouteRecordRaw = {
   path: '/',
   name: 'Root',
-  // component: DEFAULT_LAYOUT_COMPONENT,
-  redirect: '/home',
+  redirect: PageEnum.BASE_HOME,
   meta: {
     title: 'Root',
   },
-  children: [],
 };
 
-export const HomeRoute: AppRouteRecordRaw = {
-  path: '/home',
-  name: 'Home',
-  component: DEFAULT_LAYOUT_COMPONENT,
+export const LoginRoute: AppRouteRecordRaw = {
+  path: '/login',
+  name: 'Login',
+  component: () => import('/@/views/sys/login/Login.vue'),
   meta: {
-    title: '主页',
+    title: '登陆',
   },
 };
 
-// 基础路由
-export const basicRoutes = [RootRoute, HomeRoute];
+// 基础路由 不用权限
+export const basicRoutes = [LoginRoute, RootRoute, REDIRECT_ROUTE];
