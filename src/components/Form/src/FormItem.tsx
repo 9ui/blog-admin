@@ -17,7 +17,6 @@ import { upperFirst, cloneDeep } from 'lodash-es';
 import { useItemLabelWidth } from './hooks/useLabelWidth';
 import { ComponentType } from './types';
 import { isNumber } from '/@/utils/is';
-import { useI18n } from '/@/hooks/web/useI18n';
 
 export default defineComponent({
   name: 'BasicFormItem',
@@ -47,7 +46,6 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    const { t } = useI18n();
     // @ts-ignore
     const itemLabelWidthRef = useItemLabelWidth(toRef(props, 'schema'), toRef(props, 'formProps'));
 

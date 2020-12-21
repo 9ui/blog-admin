@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash-es';
 import { ref, onBeforeUnmount, onBeforeMount, unref, Ref } from 'vue';
-import { useI18n } from '/@/hooks/web/useI18n';
+
 import { getMenus } from '/@/router/menus';
 import type { Menu } from '/@/router/types';
 import { filter, forEach } from '/@/utils/helper/treeHelper';
@@ -40,7 +40,6 @@ export function useMenuSearch(refs: Ref<HTMLElement[]>, scrollWrap: Ref<ElRef>, 
 
   let menuList: Menu[] = [];
 
-  const { t } = useI18n();
   const go = useGo();
   const [handleSearch] = useDebounce(search, 200);
 
@@ -48,7 +47,7 @@ export function useMenuSearch(refs: Ref<HTMLElement[]>, scrollWrap: Ref<ElRef>, 
     const list = await getMenus();
     menuList = cloneDeep(list);
     forEach(menuList, (item) => {
-      item.name = t(item.name);
+      item.name = item.name;
     });
 
     document.addEventListener('keydown', registerKeyDown);

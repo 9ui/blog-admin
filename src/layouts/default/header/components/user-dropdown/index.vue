@@ -11,11 +11,7 @@
       <Menu @click="handleMenuClick">
         <!-- <MenuItem key="doc" :text="t('layout.header.dropdownItemDoc')" icon="gg:loadbar-doc" /> -->
         <MenuDivider v-if="getShowDoc" />
-        <MenuItem
-          key="loginOut"
-          :text="t('layout.header.dropdownItemLoginOut')"
-          icon="carbon:power"
-        />
+        <MenuItem key="loginOut" text="退出系统" icon="carbon:power" />
       </Menu>
     </template>
   </Dropdown>
@@ -37,7 +33,6 @@
   import { openWindow } from '/@/utils';
 
   import { useHeaderSetting } from '/@/hooks/setting/useHeaderSetting';
-  import { useI18n } from '/@/hooks/web/useI18n';
 
   import { useDesign } from '/@/hooks/web/useDesign';
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
@@ -59,7 +54,7 @@
     },
     setup() {
       const { prefixCls } = useDesign('header-user-dropdown');
-      const { t } = useI18n();
+
       const { getShowDoc } = useHeaderSetting();
 
       const getUserInfo = computed(() => {
@@ -90,7 +85,6 @@
 
       return {
         prefixCls,
-        t,
         getUserInfo,
         handleMenuClick,
         getShowDoc,

@@ -35,7 +35,6 @@
 
   import { useModal } from '/@/components/Modal/index';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { useI18n } from '/@/hooks/web/useI18n';
 
   import { errorStore, ErrorInfo } from '/@/store/modules/error';
 
@@ -50,8 +49,6 @@
     setup() {
       const rowInfoRef = ref<ErrorInfo>();
       const imgListRef = ref<string[]>([]);
-
-      const { t } = useI18n();
 
       const [register, { setTableData }] = useTable({
         title: t('sys.errorLog.tableTitle'),

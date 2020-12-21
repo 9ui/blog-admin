@@ -17,7 +17,6 @@
   import { getConfigProvider, initAppConfigStore } from '/@/setup/App';
 
   import { useLockPage } from '/@/hooks/web/useLockPage';
-  import { useLocale } from '/@/hooks/web/useLocale';
 
   import { AppProvider } from '/@/components/Application';
 
@@ -35,11 +34,9 @@
       const lockEvent = useLockPage();
 
       // support Multi-language
-      const { antConfigLocale } = useLocale();
 
       return {
         transformCellText,
-        antConfigLocale,
         lockEvent,
       };
     },

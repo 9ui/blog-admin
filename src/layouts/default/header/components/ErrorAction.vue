@@ -13,7 +13,7 @@
 <script lang="ts">
   import { defineComponent, computed } from 'vue';
   import { Tooltip, Badge } from 'ant-design-vue';
-  import { useI18n } from '/@/hooks/web/useI18n';
+
   import { BugOutlined } from '@ant-design/icons-vue';
   import { errorStore } from '/@/store/modules/error';
   import { PageEnum } from '/@/enums/pageEnum';
@@ -24,7 +24,6 @@
     components: { BugOutlined, Tooltip, Badge },
 
     setup() {
-      const { t } = useI18n();
       const { push } = useRouter();
 
       const getCount = computed(() => {
@@ -38,7 +37,6 @@
       }
 
       return {
-        t,
         getCount,
         handleToErrorList,
       };

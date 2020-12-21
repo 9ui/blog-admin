@@ -204,10 +204,4 @@
         "source.fixAll.eslint": true,
         "source.fixAll.stylelint": true
     },
-    "i18n-ally.localesPaths": [
-        "src/locales",
-        "src/locales/lang",
-        "src/setup/i18n",
-        "public/resource/tinymce/langs"
-    ],
 }

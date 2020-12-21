@@ -11,7 +11,6 @@ import { useGlobSetting, useProjectSetting } from '/@/hooks/setting';
 import { setTitle } from '/@/utils/browser';
 import { AxiosCanceler } from '/@/utils/http/axios/axiosCancel';
 
-import { useI18n } from '/@/hooks/web/useI18n';
 import { REDIRECT_NAME } from '/@/router/constant';
 import { setLastChangeTab } from '/@/logics/mitt/tabChange';
 
@@ -54,10 +53,8 @@ export function createGuard(router: Router) {
 
     loadedPageMap.set(to.path, true);
 
-    const { t } = useI18n();
-
     // change html title
-    to.name !== REDIRECT_NAME && setTitle(t(to.meta.title), globSetting.title);
+    to.name !== REDIRECT_NAME && setTitle(to.meta.title, globSetting.title);
   });
   createPageLoadingGuard(router);
   createProgressGuard(router);

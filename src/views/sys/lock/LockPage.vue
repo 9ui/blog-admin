@@ -20,9 +20,7 @@
             <p :class="`${prefixCls}-entry__header-name`">{{ realName }}</p>
           </div>
           <InputPassword :placeholder="t('sys.lock.placeholder')" v-model:value="password" />
-          <span :class="`${prefixCls}-entry__err-msg`" v-if="errMsgRef">
-            {{ t('sys.lock.alert') }}
-          </span>
+          <span :class="`${prefixCls}-entry__err-msg`" v-if="errMsgRef"> 锁屏密码错误 </span>
           <div :class="`${prefixCls}-entry__footer`">
             <a-button
               type="link"
@@ -40,10 +38,10 @@
               :disabled="loadingRef"
               @click="goLogin"
             >
-              {{ t('sys.lock.backToLogin') }}
+              返回登录
             </a-button>
             <a-button class="mt-2" type="link" size="small" @click="unLock()" :loading="loadingRef">
-              {{ t('sys.lock.entry') }}
+              进入系统
             </a-button>
           </div>
         </div>
@@ -64,7 +62,6 @@
 
   import { userStore } from '/@/store/modules/user';
   import { lockStore } from '/@/store/modules/lock';
-  import { useI18n } from '/@/hooks/web/useI18n';
 
   import { useNow } from './useNow';
   import { useDesign } from '/@/hooks/web/useDesign';
@@ -84,8 +81,6 @@
       const { prefixCls } = useDesign('lock-page');
 
       const { start, stop, ...state } = useNow(true);
-
-      const { t } = useI18n();
 
       const realName = computed(() => {
         const { realName } = userStore.getUserInfoState || {};
@@ -124,7 +119,6 @@
         unLock,
         errMsgRef,
         loadingRef,
-        t,
         prefixCls,
         showDate,
         password: passwordRef,

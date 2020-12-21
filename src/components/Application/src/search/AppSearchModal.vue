@@ -7,7 +7,7 @@
             <div :class="`${prefixCls}-input__wrapper`">
               <a-input
                 :class="`${prefixCls}-input`"
-                :placeholder="t('component.app.search')"
+                placeholder="搜索"
                 allow-clear
                 @change="handleSearch"
               >
@@ -15,14 +15,10 @@
                   <SearchOutlined />
                 </template>
               </a-input>
-              <span :class="`${prefixCls}-cancel`" @click="handleClose">{{
-                t('component.app.cancel')
-              }}</span>
+              <span :class="`${prefixCls}-cancel`" @click="handleClose">取消</span>
             </div>
 
-            <div :class="`${prefixCls}-not-data`" v-show="getIsNotData">
-              {{ t('component.app.searchNotData') }}
-            </div>
+            <div :class="`${prefixCls}-not-data`" v-show="getIsNotData"> 暂无搜索结果 </div>
             <ul :class="`${prefixCls}-list`" v-show="!getIsNotData" ref="scrollWrap">
               <li
                 :ref="setRefs(index)"
@@ -62,7 +58,7 @@
   import { useMenuSearch } from './useMenuSearch';
   import { SearchOutlined } from '@ant-design/icons-vue';
   import AppSearchFooter from './AppSearchFooter.vue';
-  import { useI18n } from '/@/hooks/web/useI18n';
+
   import { ClickOutSide } from '/@/components/ClickOutSide';
   import { useAppInject } from '/@/hooks/web/useAppInject';
   export default defineComponent({
@@ -75,7 +71,7 @@
     setup(_, { emit }) {
       const scrollWrap = ref<ElRef>(null);
       const { prefixCls } = useDesign('app-search-modal');
-      const { t } = useI18n();
+
       const [refs, setRefs] = useRefs();
       const { getIsMobile } = useAppInject();
 
@@ -102,7 +98,6 @@
       });
 
       return {
-        t,
         prefixCls,
         getClass,
         handleSearch,
