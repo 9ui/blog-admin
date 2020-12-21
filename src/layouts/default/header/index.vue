@@ -41,13 +41,6 @@
       <FullScreen v-if="getShowFullScreen" :class="`${prefixCls}-action__item fullscreen-item`" />
 
       <UserDropDown :theme="getHeaderTheme" />
-
-      <AppLocalePicker
-        v-if="getShowLocale"
-        :reload="true"
-        :showText="false"
-        :class="`${prefixCls}-action__item`"
-      />
     </div>
   </Header>
 </template>
@@ -69,7 +62,6 @@
   import { useLocaleSetting } from '/@/hooks/setting/useLocaleSetting';
 
   import { MenuModeEnum, MenuSplitTyeEnum } from '/@/enums/menuEnum';
-  import { AppLocalePicker } from '/@/components/Application';
 
   import {
     UserDropDown,
@@ -91,7 +83,6 @@
       LayoutBreadcrumb,
       LayoutMenu,
       UserDropDown,
-      AppLocalePicker,
       FullScreen,
       Notify,
       LockItem,

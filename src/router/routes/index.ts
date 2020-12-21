@@ -5,8 +5,6 @@ import { PAGE_NOT_FOUND_ROUTE, REDIRECT_ROUTE } from '../constant';
 import modules from 'globby!/@/router/routes/modules/**/*.@(ts)';
 import { PageEnum } from '/@/enums/pageEnum';
 
-import { t } from '/@/hooks/web/useI18n';
-
 const routeModuleList: AppRouteModule[] = [];
 
 Object.keys(modules).forEach((key) => {
@@ -30,7 +28,7 @@ export const LoginRoute: AppRouteRecordRaw = {
   name: 'Login',
   component: () => import('/@/views/sys/login/Login.vue'),
   meta: {
-    title: t('routes.basic.login'),
+    title: '登陆',
   },
 };
 

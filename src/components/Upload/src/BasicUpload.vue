@@ -2,11 +2,11 @@
   <div>
     <a-button-group>
       <a-button type="primary" @click="openUploadModal" preIcon="carbon:cloud-upload">
-        {{ t('component.upload.upload') }}
+        上传
       </a-button>
       <Tooltip placement="bottom" v-if="showPreview">
         <template #title>
-          {{ t('component.upload.uploaded') }}
+          已上传
           <template v-if="fileListRef.length">{{ fileListRef.length }}</template>
         </template>
         <a-button @click="openPreviewModal">
@@ -39,14 +39,12 @@
 
   import { uploadContainerProps } from './props';
   import { omit } from 'lodash-es';
-  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'BasicUpload',
     components: { UploadModal, UploadPreviewModal, Icon, Tooltip },
     props: uploadContainerProps,
     setup(props, { emit, attrs }) {
-      const { t } = useI18n();
       // 上传modal
       const [registerUploadModal, { openModal: openUploadModal }] = useModal();
 
@@ -96,7 +94,6 @@
         fileListRef,
         showPreview,
         bindValue,
-        t,
       };
     },
   });

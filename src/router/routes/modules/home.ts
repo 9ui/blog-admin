@@ -1,7 +1,6 @@
 import type { AppRouteModule } from '/@/router/types';
 
 import { LAYOUT } from '/@/router/constant';
-import { t } from '/@/hooks/web/useI18n';
 
 const dashboard: AppRouteModule = {
   path: '/home',
@@ -10,7 +9,7 @@ const dashboard: AppRouteModule = {
   redirect: '/home/welcome',
   meta: {
     icon: 'bx:bx-home',
-    title: t('routes.dashboard.welcome'),
+    title: '主页',
   },
   children: [
     {
@@ -18,7 +17,7 @@ const dashboard: AppRouteModule = {
       name: 'Welcome',
       component: () => import('/@/views/dashboard/welcome/index.vue'),
       meta: {
-        title: t('routes.dashboard.welcome'),
+        title: '主页',
         affix: true,
         icon: 'bx:bx-home',
       },

@@ -59,13 +59,10 @@
   import { warn } from '/@/utils/log';
   import FileList from './FileList';
 
-  import { useI18n } from '/@/hooks/web/useI18n';
   export default defineComponent({
     components: { BasicModal, Upload, Alert, FileList },
     props: basicProps,
     setup(props, { emit }) {
-      const { t } = useI18n();
-
       //   是否正在上传
       const isUploadingRef = ref(false);
       const fileListRef = ref<FileItem[]>([]);

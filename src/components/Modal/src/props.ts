@@ -1,17 +1,15 @@
 import type { PropType } from 'vue';
 import { ButtonProps } from 'ant-design-vue/es/button/buttonTypes';
 
-import { useI18n } from '/@/hooks/web/useI18n';
 import { propTypes } from '/@/utils/propTypes';
-const { t } = useI18n();
 
 export const modalProps = {
   visible: propTypes.bool,
   // open drag
   draggable: propTypes.bool.def(true),
   centered: propTypes.bool,
-  cancelText: propTypes.string.def(t('component.modal.cancelText')),
-  okText: propTypes.string.def(t('component.modal.okText')),
+  cancelText: propTypes.string.def('取消'),
+  okText: propTypes.string.def('确定'),
 
   closeFunc: Function as PropType<() => Promise<boolean>>,
 };

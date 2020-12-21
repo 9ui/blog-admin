@@ -4,10 +4,10 @@
       <template #itemRender="{ route, routes }">
         <Icon :icon="route.meta.icon" v-if="getShowBreadCrumbIcon && route.meta.icon" />
         <span v-if="routes.indexOf(route) === routes.length - 1">
-          {{ t(route.meta.title) }}
+          {{ route.meta.title }}
         </span>
         <router-link v-else :to="route.path">
-          {{ t(route.meta.title) }}
+          {{ route.meta.title }}
         </router-link>
       </template>
     </a-breadcrumb>
@@ -15,8 +15,6 @@
 </template>
 <script lang="ts">
   import { defineComponent, ref, toRaw, watchEffect } from 'vue';
-  import { useI18n } from 'vue-i18n';
-
   import type { RouteLocationMatched } from 'vue-router';
   import { useRouter } from 'vue-router';
   import { filter } from '/@/utils/helper/treeHelper';
@@ -43,7 +41,6 @@
       const { prefixCls } = useDesign('layout-breadcrumb');
       const { getShowBreadCrumbIcon } = useRootSetting();
 
-      const { t } = useI18n();
       watchEffect(() => {
         if (currentRoute.value.name === REDIRECT_NAME) {
           return;
@@ -70,14 +67,14 @@
           filterBreadcrumbList.unshift(({
             path: PageEnum.BASE_HOME,
             meta: {
-              title: t('layout.header.home'),
+              title: '主页',
             },
           } as unknown) as RouteLocationMatched);
         }
         routes.value = filterBreadcrumbList.length === 1 ? [] : filterBreadcrumbList;
       });
 
-      return { routes, t, prefixCls, getShowBreadCrumbIcon };
+      return { routes, prefixCls, getShowBreadCrumbIcon };
     },
   });
 </script>

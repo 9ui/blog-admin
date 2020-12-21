@@ -8,9 +8,7 @@ import { isBoolean } from '/@/utils/is';
 
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from '../const';
 import { useProps } from './useProps';
-import { useI18n } from '/@/hooks/web/useI18n';
 
-const { t } = useI18n();
 export function usePagination(refProps: ComputedRef<BasicTableProps>) {
   const configRef = ref<PaginationProps>({});
   const { propsRef } = useProps(refProps);

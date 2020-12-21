@@ -1,7 +1,7 @@
 <template>
   <div :class="prefixCls" v-if="getShowSearch" @click.stop="handleSearch">
     <Tooltip>
-      <template #title> {{ t('component.app.search') }} </template>
+      <template #title> 搜索 </template>
       <SearchOutlined />
     </Tooltip>
 
@@ -16,7 +16,6 @@
   import AppSearchModal from './AppSearchModal.vue';
   import { useHeaderSetting } from '/@/hooks/setting/useHeaderSetting';
   import { SearchOutlined } from '@ant-design/icons-vue';
-  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     name: 'AppSearch',
@@ -25,13 +24,11 @@
       const showModal = ref(false);
       const { prefixCls } = useDesign('app-search');
       const { getShowSearch } = useHeaderSetting();
-      const { t } = useI18n();
 
       function handleSearch() {
         showModal.value = true;
       }
       return {
-        t,
         prefixCls,
         showModal,
         getShowSearch,

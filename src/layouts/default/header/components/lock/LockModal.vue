@@ -1,7 +1,7 @@
 <template>
   <BasicModal
     :footer="null"
-    :title="t('layout.header.lockScreen')"
+    title="锁定密码"
     v-bind="$attrs"
     :class="prefixCls"
     @register="register"
@@ -15,16 +15,14 @@
       <BasicForm @register="registerForm" layout="vertical" />
 
       <div :class="`${prefixCls}__footer`">
-        <a-button type="primary" block class="mt-2" @click="handleLock">
-          {{ t('layout.header.lockScreenBtn') }}
-        </a-button>
+        <a-button type="primary" block class="mt-2" @click="handleLock"> 锁定 </a-button>
       </div>
     </div>
   </BasicModal>
 </template>
 <script lang="ts">
   import { defineComponent, computed } from 'vue';
-  import { useI18n } from '/@/hooks/web/useI18n';
+
   import { useDesign } from '/@/hooks/web/useDesign';
   import { BasicModal, useModalInner } from '/@/components/Modal/index';
   import { BasicForm, useForm } from '/@/components/Form/index';
@@ -36,7 +34,6 @@
     components: { BasicModal, BasicForm },
 
     setup() {
-      const { t } = useI18n();
       const { prefixCls } = useDesign('header-lock-modal');
 
       const getRealName = computed(() => {
@@ -49,7 +46,7 @@
         schemas: [
           {
             field: 'password',
-            label: t('layout.header.lockScreenPassword'),
+            label: '锁屏密码',
             component: 'InputPassword',
             required: true,
           },
@@ -69,7 +66,6 @@
       }
 
       return {
-        t,
         prefixCls,
         getRealName,
         register,

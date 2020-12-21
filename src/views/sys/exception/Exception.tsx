@@ -14,7 +14,6 @@ import { useRoute } from 'vue-router';
 
 import { useGo, useRedo } from '/@/hooks/web/usePage';
 import { PageEnum } from '/@/enums/pageEnum';
-import { useI18n } from '/@/hooks/web/useI18n';
 
 interface MapValue {
   title: string;
@@ -53,7 +52,6 @@ export default defineComponent({
     const { query } = useRoute();
     const go = useGo();
     const redo = useRedo();
-    const { t } = useI18n();
 
     const getStatus = computed(() => {
       const { status: routeStatus } = query;

@@ -19,7 +19,6 @@ import { transformRouteToMenu } from '/@/router/helper/menuHelper';
 
 import { useMessage } from '/@/hooks/web/useMessage';
 // import { warn } from '/@/utils/log';
-import { useI18n } from '/@/hooks/web/useI18n';
 
 const { createMessage } = useMessage();
 const NAME = 'permission';
@@ -84,7 +83,6 @@ class Permission extends VuexModule {
 
   @Action
   async buildRoutesAction(id?: number | string): Promise<AppRouteRecordRaw[]> {
-    const { t } = useI18n();
     let routes: AppRouteRecordRaw[] = [];
     const roleList = toRaw(userStore.getRoleListState);
 

@@ -20,7 +20,7 @@
   import { defineComponent, unref } from 'vue';
 
   import { useDesign } from '/@/hooks/web/useDesign';
-  import { useI18n } from '/@/hooks/web/useI18n';
+
   import { CopyOutlined, RedoOutlined } from '@ant-design/icons-vue';
   import { appStore } from '/@/store/modules/app';
   import defaultSetting from '/@/settings/projectSetting';
@@ -35,7 +35,7 @@
     setup() {
       const { getRootSetting } = useRootSetting();
       const { prefixCls } = useDesign('setting-footer');
-      const { t } = useI18n();
+
       const { createSuccessModal, createMessage } = useMessage();
 
       function handleCopy() {

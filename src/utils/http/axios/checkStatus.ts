@@ -1,11 +1,10 @@
 import { useMessage } from '/@/hooks/web/useMessage';
 import { userStore } from '/@/store/modules/user';
-import { useI18n } from '/@/hooks/web/useI18n';
+
 const { createMessage } = useMessage();
 
 const error = createMessage.error!;
 export function checkStatus(status: number, msg: string): void {
-  const { t } = useI18n();
   switch (status) {
     case 400:
       error(`${msg}`);

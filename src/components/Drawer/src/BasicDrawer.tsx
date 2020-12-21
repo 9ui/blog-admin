@@ -10,8 +10,6 @@ import { BasicTitle } from '/@/components/Basic';
 import { Loading } from '/@/components/Loading';
 import { LeftOutlined } from '@ant-design/icons-vue';
 
-import { useI18n } from '/@/hooks/web/useI18n';
-
 import { getSlot } from '/@/utils/helper/tsxHelper';
 import { isFunction, isNumber } from '/@/utils/is';
 import { deepMerge } from '/@/utils';
@@ -28,8 +26,6 @@ export default defineComponent({
     const scrollRef = ref<ElRef>(null);
     const visibleRef = ref(false);
     const propsRef = ref<Partial<Nullable<DrawerProps>>>(null);
-
-    const { t } = useI18n();
 
     const getMergeProps = computed(
       (): DrawerProps => {
@@ -228,11 +224,7 @@ export default defineComponent({
             default: () => (
               <>
                 <div ref={scrollRef} style={unref(getScrollContentStyle)}>
-                  <Loading
-                    absolute
-                    tip={t('component.drawer.loadingText')}
-                    loading={unref(getLoading)}
-                  />
+                  <Loading absolute tip="加载中..." loading={unref(getLoading)} />
                   {getSlot(slots)}
                 </div>
                 {renderFooter()}

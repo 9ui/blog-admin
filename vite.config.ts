@@ -90,7 +90,7 @@ const viteConfig: UserConfig = {
       resolvers: resolvers,
       root: root,
       alias: alias,
-      includes: [resolve('src/router'), resolve('src/locales')],
+      includes: [resolve('src/router')],
     }),
     dynamicImportTransform(VITE_DYNAMIC_IMPORT),
   ],

@@ -24,13 +24,11 @@
 
   import { createPreviewColumns, createPreviewActionColumn } from './data';
 
-  import { useI18n } from '/@/hooks/web/useI18n';
   export default defineComponent({
     components: { BasicModal, FileList },
     props: previewProps,
     setup(props, { emit }) {
       const [register, { closeModal }] = useModalInner();
-      const { t } = useI18n();
 
       const fileListRef = ref<PreviewFileItem[]>([]);
       watch(

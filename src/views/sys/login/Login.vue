@@ -3,7 +3,6 @@
     <div class="login-mask" />
     <div class="login-form-wrap">
       <div class="login-form mx-6">
-        <AppLocalePicker v-if="showLocale" class="login-form__locale" />
         <div class="login-form__content px-2 py-10">
           <header>
             <!-- <img :src="logo" class="mr-4" /> -->
@@ -30,15 +29,13 @@
               <a-col :span="12">
                 <a-form-item>
                   <!-- No logic, you need to deal with it yourself -->
-                  <a-checkbox v-model:checked="autoLogin" size="small">{{
-                    t('sys.login.autoLogin')
-                  }}</a-checkbox>
+                  <a-checkbox v-model:checked="autoLogin" size="small"> 自动登录</a-checkbox>
                 </a-form-item>
               </a-col>
               <a-col :span="12">
                 <a-form-item :style="{ 'text-align': 'right' }">
                   <!-- No logic, you need to deal with it yourself -->
-                  <a-button type="link" size="small">{{ t('sys.login.forgetPassword') }}</a-button>
+                  <a-button type="link" size="small">忘记密码</a-button>
                 </a-form-item>
               </a-col>
             </a-row>
@@ -50,7 +47,7 @@
                 :block="true"
                 @click="login"
                 :loading="formState.loading"
-                >{{ t('sys.login.loginButton') }}</a-button
+                >登陆</a-button
               >
             </a-form-item>
           </a-form>
@@ -64,7 +61,6 @@
   import { Checkbox } from 'ant-design-vue';
 
   import { Button } from '/@/components/Button';
-  import { AppLocalePicker } from '/@/components/Application';
   // import { BasicDragVerify, DragVerifyActionType } from '/@/components/Verify/index';
 
   import { userStore } from '/@/store/modules/user';
@@ -73,14 +69,12 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useGlobSetting, useProjectSetting } from '/@/hooks/setting';
   import logo from '/@/assets/images/logo.png';
-  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
     components: {
       //  BasicDragVerify,
       AButton: Button,
       ACheckbox: Checkbox,
-      AppLocalePicker,
     },
     setup() {
       const formRef = ref<any>(null);
@@ -90,7 +84,6 @@
       const globSetting = useGlobSetting();
       const { locale } = useProjectSetting();
       const { notification } = useMessage();
-      const { t } = useI18n();
 
       // const openLoginVerifyRef = computed(() => appStore.getProjectConfig.openLoginVerify);
 
@@ -105,10 +98,8 @@
       });
 
       const formRules = reactive({
-        account: [{ required: true, message: t('sys.login.accountPlaceholder'), trigger: 'blur' }],
-        password: [
-          { required: true, message: t('sys.login.passwordPlaceholder'), trigger: 'blur' },
-        ],
+        account: [{ required: true, message: '请输入账号', trigger: 'blur' }],
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
         // verify: unref(openLoginVerifyRef) ? [{ required: true, message: '请通过验证码校验' }] : [],
       });
 
@@ -133,8 +124,8 @@
           );
           if (userInfo) {
             notification.success({
-              message: t('sys.login.loginSuccessTitle'),
-              description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.realName}`,
+              message: '登录成功',
+              description: `欢迎回来: ${userInfo.realName}`,
               duration: 3,
             });
           }
@@ -155,7 +146,6 @@
         // openLoginVerify: openLoginVerifyRef,
         title: globSetting && globSetting.title,
         logo,
-        t,
         showLocale: locale.show,
       };
     },

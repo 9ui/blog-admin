@@ -8,14 +8,13 @@ import { BasicForm, useForm } from '/@/components/Form/index';
 import headerImg from '/@/assets/images/header.jpg';
 
 import { userStore } from '/@/store/modules/user';
-import { useI18n } from '/@/hooks/web/useI18n';
+
 import { lockStore } from '/@/store/modules/lock';
 
 const prefixCls = 'lock-modal';
 export default defineComponent({
   name: 'LockModal',
   setup(_, { attrs }) {
-    const { t } = useI18n();
     const [register, { closeModal }] = useModalInner();
 
     const [registerForm, { validateFields, resetFields }] = useForm({
