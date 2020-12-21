@@ -3,7 +3,7 @@
     <span :class="`${prefixCls}__item`">
       <g-icon icon="ant-design:enter-outlined" />
     </span>
-    <span>{{ t('component.app.toSearch') }}</span>
+    <span>搜索</span>
 
     <span :class="`${prefixCls}__item`">
       <g-icon icon="bi:arrow-up" />
@@ -11,27 +11,26 @@
     <span :class="`${prefixCls}__item`">
       <g-icon icon="bi:arrow-down" />
     </span>
-    <span>{{ t('component.app.toNavigate') }}</span>
+    <span>切换</span>
     <span :class="`${prefixCls}__item`">
       <g-icon icon="mdi:keyboard-esc" />
     </span>
-    <span>{{ t('component.app.toClose') }}</span>
+    <span>关闭</span>
   </div>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
 
   import { useDesign } from '/@/hooks/web/useDesign';
-  import { useI18n } from '/@/hooks/web/useI18n';
+
   export default defineComponent({
     name: 'AppSearchFooter',
     components: {},
     setup() {
       const { prefixCls } = useDesign('app-search-footer');
-      const { t } = useI18n();
+
       return {
         prefixCls,
-        t,
       };
     },
   });

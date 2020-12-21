@@ -4,7 +4,7 @@ name: deploy
 # workflow的触发事件，这里代表master分支的push事件触发
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 # 任务
 jobs:
@@ -47,3 +47,21 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.TARGET }}
+      # 微信通知
+      - name: Wechat Notification
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: chf007/action-wechat-work@master
+        env:
+          WECHAT_WORK_BOT_WEBHOOK: ${{ secrets.WECHAT_WORK_BOT_WEBHOOK }}
+        with:
+          msgtype: markdown
+          content: "来画平台<font color=\"warning\">v5.2.3</font>更新了，快来试试看吧～。\n
+          ##### 修改内容：\n
+          > ${{ github.event.head_commit.message }} \n
+          ##### 修改分支:\n
+          > ${{ github.event.ref }} \n
+          ##### 修改时间:\n
+          > ${{ github.event.head_commit.timestamp }} \n
+          ##### 修改人:\n
+          > ${{ github.event.head_commit.committer.name }}\n"
+          mentioned_list: "['@all']"

@@ -18,7 +18,7 @@ import { isString } from '/@/utils/is';
 import { setObjToUrlParams, deepMerge } from '/@/utils';
 import { errorStore } from '/@/store/modules/error';
 import { errorResult } from './const';
-import { useI18n } from '/@/hooks/web/useI18n';
+
 import { createNow, formatRequestDate } from './helper';
 
 const globSetting = useGlobSetting();
@@ -33,7 +33,6 @@ const transform: AxiosTransform = {
    * @description: 处理请求数据
    */
   transformRequestData: (res: AxiosResponse<Result>, options: RequestOptions) => {
-    const { t } = useI18n();
     const { isTransformRequestResult } = options;
     // 不进行任何处理，直接返回
     // 用于页面代码可能需要直接获取code，data，message这些信息时开启
@@ -150,7 +149,6 @@ const transform: AxiosTransform = {
    * @description: 响应错误处理
    */
   responseInterceptorsCatch: (error: any) => {
-    const { t } = useI18n();
     errorStore.setupErrorHandle(error);
     const { response, code, message } = error || {};
     const msg: string = response?.data?.error ? response.data.error.message : '';

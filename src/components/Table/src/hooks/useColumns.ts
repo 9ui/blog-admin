@@ -4,9 +4,7 @@ import { unref, ComputedRef, Ref, computed, watchEffect, ref, toRaw } from 'vue'
 import { isBoolean, isArray, isObject } from '/@/utils/is';
 import { PAGE_SIZE } from '../const';
 import { useProps } from './useProps';
-import { useI18n } from '/@/hooks/web/useI18n';
 
-const { t } = useI18n();
 export function useColumns(
   refProps: ComputedRef<BasicTableProps>,
   getPaginationRef: ComputedRef<false | PaginationProps>

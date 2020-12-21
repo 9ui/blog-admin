@@ -6,10 +6,8 @@ import { Button } from '/@/components/Button';
 import { BasicArrow } from '/@/components/Basic/index';
 
 import { getSlot } from '/@/utils/helper/tsxHelper';
-import { useI18n } from '/@/hooks/web/useI18n';
-import { propTypes } from '/@/utils/propTypes';
 
-const { t } = useI18n();
+import { propTypes } from '/@/utils/propTypes';
 
 export default defineComponent({
   name: 'BasicFormAction',
@@ -38,14 +36,14 @@ export default defineComponent({
   setup(props, { slots, emit }) {
     const getResetBtnOptionsRef = computed(() => {
       return {
-        text: t('component.form.resetButton'),
+        text: '重置',
         ...props.resetButtonOptions,
       };
     });
 
     const getSubmitBtnOptionsRef = computed(() => {
       return {
-        text: t('component.form.submitButton'),
+        text: '查询',
         // htmlType: 'submit',
         ...props.submitButtonOptions,
       };
@@ -77,7 +75,7 @@ export default defineComponent({
         <Button type="default" class="mr-2" onClick={toggleAdvanced}>
           {() => (
             <>
-              {isAdvanced ? t('component.form.putAway') : t('component.form.unfold')}
+              {isAdvanced ? '收起' : '展开'}
               <BasicArrow expand={!isAdvanced} top />
             </>
           )}
