@@ -13,8 +13,8 @@ const comp: AppRouteModule = {
   children: [
     {
       path: 'vipservice',
-      name: 'Vipservice',
-      component: () => import('/@/views/dashboard/vipservice/index.vue'),
+      name: 'VipService',
+      component: () => import('/@/views/vipservice/index.vue'),
       meta: {
         title: '企业服务',
       },

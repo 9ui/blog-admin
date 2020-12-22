@@ -7,10 +7,10 @@ import { primaryColor } from '../../build/config/lessModifyVars';
 
 // ! You need to clear the browser cache after the change
 const setting: ProjectConfig = {
-  // Whether to show the configuration button
+  // 是否显示SettingButton
   showSettingButton: true,
 
-  // Permission mode
+  // 权限模式
   permissionMode: PermissionModeEnum.ROLE,
 
   // Permission-related cache is stored in sessionStorage or localStorage
@@ -63,13 +63,13 @@ const setting: ProjectConfig = {
     useLockPage: true,
 
     // Whether to show the full screen button
-    showFullScreen: true,
+    showFullScreen: false,
     // Whether to show the document button
     showDoc: false,
     // Whether to show the notification button
     showNotice: true,
     // Whether to display the menu search
-    showSearch: true,
+    showSearch: false,
   },
 
   // Menu configuration
@@ -92,61 +92,55 @@ const setting: ProjectConfig = {
     // Menu width
     menuWidth: 210,
     // Menu mode
-    mode: MenuModeEnum.INLINE,
+    mode: MenuModeEnum.HORIZONTAL,
     // Menu type
-    type: MenuTypeEnum.SIDEBAR,
+    type: MenuTypeEnum.TOP_MENU,
     // Menu theme
-    theme: ThemeEnum.DARK,
+    theme: ThemeEnum.LIGHT,
     // Split menu
     split: false,
     // Top menu layout
-    topMenuAlign: 'center',
+    topMenuAlign: 'start',
     // Fold trigger position
     trigger: TriggerEnum.HEADER,
     // Turn on accordion mode, only show a menu
     accordion: true,
   },
 
-  // Multi-label
+  // 多标签
   multiTabsSetting: {
-    // Turn on
-    show: true,
-    // Is it possible to drag and drop sorting tabs
+    // 开启
+    show: false,
+    // 是否可以拖拽
     canDrag: true,
-    // Turn on quick actions
+    // 开启快速操作
     showQuick: true,
-
-    // Whether to show the refresh button
+    // 是否可以刷新
     showRedo: true,
   },
 
-  // Transition Setting
+  // 动画配置
   transitionSetting: {
-    //  Whether to open the page switching animation
-    // The disabled state will also disable pageLoadinng
+    //  是否开启切换动画
     enable: true,
-
-    // Route basic switching animation
-    basicTransition: RouterTransitionEnum.FADE_SIDE,
-
-    // Whether to open page switching loading
-    // Only open when enable=true
+    // 动画名
+    basicTransition: RouterTransitionEnum.FADE,
+    // 是否打开页面切换loading
     openPageLoading: true,
-
-    // Whether to open the top progress bar
+    //是否打开页面切换顶部进度条
     openNProgress: false,
   },
 
-  // Whether to enable KeepAlive cache is best to close during development, otherwise the cache needs to be cleared every time
+  // 是否开启KeepAlive缓存  开发时候最好关闭,不然每次都需要清除缓存
   openKeepAlive: true,
 
-  // Automatic screen lock time, 0 does not lock the screen. Unit minute default 0
+  // 自动锁屏时间，为0不锁屏。 单位分钟 默认1个小时
   lockTime: 0,
 
-  // Whether to show breadcrumbs
+  // 显示面包屑
   showBreadCrumb: false,
 
-  // Whether to show the breadcrumb icon
+  // 显示面包屑图标
   showBreadCrumbIcon: false,
 
   // Use error-handler-plugin
