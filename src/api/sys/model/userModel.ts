@@ -21,7 +21,7 @@ export interface RoleInfo {
 /**
  * @description: Get user information return value
  */
-export interface GetUserInfoByUserIdModel {
+export interface GetUserInfoModel {
   // 用户id
   id: string | number;
   // 账号
