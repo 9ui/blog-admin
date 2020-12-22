@@ -1,8 +1,4 @@
-import type {
-  LoginParams,
-  GetUserInfoByUserIdModel,
-  GetUserInfoByUserIdParams,
-} from '/@/api/sys/model/userModel';
+import type { LoginParams, GetUserInfoModel } from '/@/api/sys/model/userModel';
 
 import store from '/@/store/index';
 import { VuexModule, Module, getModule, Mutation, Action } from 'vuex-module-decorators';
@@ -16,14 +12,14 @@ import { useMessage } from '/@/hooks/web/useMessage';
 
 import router from '/@/router';
 
-import { loginApi, getUserInfoById } from '/@/api/sys/user';
+import { loginApi } from '/@/api/sys/user';
 
 import { setLocal, getLocal, getSession, setSession } from '/@/utils/helper/persistent';
 import { useProjectSetting } from '/@/hooks/setting';
 
 import { ErrorMessageMode } from '/@/utils/http/axios/types';
 
-export type UserInfo = Omit<GetUserInfoByUserIdModel, 'roles'>;
+export type UserInfo = Omit<GetUserInfoModel, 'roles'>;
 
 const NAME = 'user';
 hotModuleUnregisterModule(NAME);
@@ -100,36 +96,35 @@ class User extends VuexModule {
       goHome?: boolean;
       mode?: ErrorMessageMode;
     }
-  ): Promise<GetUserInfoByUserIdModel | null> {
+  ): Promise<GetUserInfoModel | null> {
     try {
       const { goHome = true, mode, ...loginParams } = params;
       const data = await loginApi(loginParams, mode);
-
-      const { token, userId } = data;
+      //   const { token, userId } = data;
       // get user info
-      const userInfo = await this.getUserInfoAction({ userId });
+      //   const userInfo = await this.getUserInfoAction({ userId });
 
       // save token
-      this.commitTokenState(token);
+      //   this.commitTokenState(token);
 
       // const name = FULL_PAGE_NOT_FOUND_ROUTE.name;
       // name && router.removeRoute(name);
       goHome && (await router.replace(PageEnum.BASE_HOME));
-      return userInfo;
+      return data;
     } catch (error) {
       return null;
     }
   }
 
-  @Action
-  async getUserInfoAction({ userId }: GetUserInfoByUserIdParams) {
-    const userInfo = await getUserInfoById({ userId });
-    const { role } = userInfo;
-    const roleList = [role.value] as RoleEnum[];
-    this.commitUserInfoState(userInfo);
-    this.commitRoleListState(roleList);
-    return userInfo;
-  }
+  //   @Action
+  //   async getUserInfoAction({ userId }: GetUserInfoByUserIdParams) {
+  //     const userInfo = await getUserInfoById({ userId });
+  //     const { role } = userInfo;
+  //     const roleList = [role.value] as RoleEnum[];
+  //     this.commitUserInfoState(userInfo);
+  //     this.commitRoleListState(roleList);
+  //     return userInfo;
+  //   }
 
   /**
    * @description: login out

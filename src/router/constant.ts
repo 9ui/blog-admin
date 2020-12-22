@@ -11,6 +11,11 @@ export const LAYOUT = () => import('/@/layouts/default/index.vue');
 /**
  * @description: page-layout
  */
+export const PAGE_LAYOUT_COMPONENT = () => import('/@/layouts/page/index');
+
+/**
+ * @description: page-layout
+ */
 export const getParentLayout = (name: string) => {
   return () =>
     new Promise((resolve) => {

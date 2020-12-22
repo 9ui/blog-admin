@@ -1,3 +1,3 @@
 export default {
-  prefixCls: 'vben',
+  prefixCls: 'lh',
 };

@@ -41,40 +41,40 @@ const transform: AxiosTransform = {
     }
     // 错误的时候返回
 
-    const { data } = res;
-    if (!data) {
+    // const { data } = res;
+    if (!res) {
       // return '[HTTP] Request has no return value';
       return errorResult;
     }
     //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
-    const { code, result, message } = data;
+    const { code, data, msg } = res.data;
 
     // 这里逻辑可以根据项目进行修改
-    const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
+    const hasSuccess = data && Reflect.has(res.data, 'code') && code === ResultEnum.SUCCESS;
     if (!hasSuccess) {
-      if (message) {
+      if (data) {
         // errorMessageMode=‘modal’的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
         if (options.errorMessageMode === 'modal') {
-          createErrorModal({ title: t('sys.api.errorTip'), content: message });
+          createErrorModal({ title: '错误提示', content: msg });
         } else if (options.errorMessageMode === 'message') {
-          createMessage.error(message);
+          createMessage.error(msg);
         }
       }
-      Promise.reject(new Error(message));
+      Promise.reject(new Error(msg));
       return errorResult;
     }
 
     // 接口请求成功，直接返回结果
     if (code === ResultEnum.SUCCESS) {
-      return result;
+      return data;
     }
     // 接口请求错误，统一提示错误信息
     if (code === ResultEnum.ERROR) {
-      if (message) {
+      if (msg) {
         createMessage.error(data.message);
-        Promise.reject(new Error(message));
+        Promise.reject(new Error(msg));
       } else {
-        const msg = t('sys.api.errorMessage');
+        const msg = '操作失败,系统异常!';
         createMessage.error(msg);
         Promise.reject(new Error(msg));
       }
@@ -82,9 +82,9 @@ const transform: AxiosTransform = {
     }
     // 登录超时
     if (code === ResultEnum.TIMEOUT) {
-      const timeoutMsg = t('sys.api.timeoutMessage');
+      const timeoutMsg = '登录超时,请重新登录!';
       createErrorModal({
-        title: t('sys.api.operationFailed'),
+        title: '操作失败',
         content: timeoutMsg,
       });
       Promise.reject(new Error(timeoutMsg));
@@ -155,12 +155,12 @@ const transform: AxiosTransform = {
     const err: string = error?.toString();
     try {
       if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
-        createMessage.error(t('sys.api.apiTimeoutMessage'));
+        createMessage.error('接口请求超时,请刷新页面重试!');
       }
       if (err?.includes('Network Error')) {
         createErrorModal({
-          title: t('sys.api.networkException'),
-          content: t('sys.api.networkExceptionMsg'),
+          title: '网络异常',
+          content: '网络异常,请检查您的网络连接是否正常!',
         });
       }
     } catch (error) {

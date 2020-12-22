@@ -8,7 +8,6 @@ const dashboard: AppRouteModule = {
   component: LAYOUT,
   redirect: '/home/welcome',
   meta: {
-    icon: 'bx:bx-home',
     title: '主页',
   },
   children: [
@@ -19,7 +18,6 @@ const dashboard: AppRouteModule = {
       meta: {
         title: '主页',
         affix: true,
-        icon: 'bx:bx-home',
       },
     },
   ],

@@ -3,10 +3,9 @@
     <span :class="[prefixCls, `${prefixCls}--${theme}`]">
       <img :class="`${prefixCls}__header`" src="/@/assets/images/header.jpg" />
       <span :class="`${prefixCls}__info`">
-        <span :class="`${prefixCls}__name anticon`">{{ getUserInfo.realName }}</span>
+        <span :class="`${prefixCls}__name anticon`">{{ getUserInfo.nickname }}</span>
       </span>
     </span>
-
     <template #overlay>
       <Menu @click="handleMenuClick">
         <!-- <MenuItem key="doc" :text="t('layout.header.dropdownItemDoc')" icon="gg:loadbar-doc" /> -->
