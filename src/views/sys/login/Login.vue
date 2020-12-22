@@ -11,14 +11,14 @@
 
           <a-form class="mx-auto mt-10" :model="formData" :rules="formRules" ref="formRef">
             <a-form-item name="account">
-              <a-input size="large" v-model:value="formData.account" placeholder="username: vben" />
+              <a-input size="large" v-model:value="formData.account" placeholder="请输入用户名" />
             </a-form-item>
-            <a-form-item name="password">
+            <a-form-item name="psw">
               <a-input-password
                 size="large"
                 visibilityToggle
-                v-model:value="formData.password"
-                placeholder="password: 123456"
+                v-model:value="formData.psw"
+                placeholder="请输入密码"
               />
             </a-form-item>
 
@@ -88,8 +88,8 @@
       // const openLoginVerifyRef = computed(() => appStore.getProjectConfig.openLoginVerify);
 
       const formData = reactive({
-        account: 'laihua',
-        password: '123456',
+        account: '',
+        psw: '',
         // verify: undefined,
       });
 
@@ -99,16 +99,8 @@
 
       const formRules = reactive({
         account: [{ required: true, message: '请输入账号', trigger: 'blur' }],
-        password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-        // verify: unref(openLoginVerifyRef) ? [{ required: true, message: '请通过验证码校验' }] : [],
+        psw: [{ required: true, message: '请输入密码', trigger: 'blur' }],
       });
-
-      // function resetVerify() {
-      //   const verify = unref(verifyRef);
-      //   if (!verify) return;
-      //   formData.verify && verify.$.resume();
-      //   formData.verify = undefined;
-      // }
 
       async function handleLogin() {
         const form = unref(formRef);
@@ -118,14 +110,14 @@
           const data = await form.validate();
           const userInfo = await userStore.login(
             toRaw({
-              password: data.password,
-              username: data.account,
+              psw: data.psw,
+              account: data.account,
             })
           );
           if (userInfo) {
             notification.success({
               message: '登录成功',
-              description: `欢迎回来: ${userInfo.realName}`,
+              description: `欢迎回来: ${userInfo.nickname}`,
               duration: 3,
             });
           }
