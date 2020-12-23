@@ -57,8 +57,8 @@
       const { getShowDoc } = useHeaderSetting();
 
       const getUserInfo = computed(() => {
-        const { realName = '', desc } = userStore.getUserInfoState || {};
-        return { realName, desc };
+        const { nickname = '', levelName } = userStore.getUserInfoState || {};
+        return { nickname, levelName };
       });
 
       //  login out
