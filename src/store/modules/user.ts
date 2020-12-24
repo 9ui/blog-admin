@@ -12,7 +12,7 @@ import { useMessage } from '/@/hooks/web/useMessage';
 
 import router from '/@/router';
 
-import { loginApi } from '/@/api/sys/user';
+import { loginApi, logoutApi } from '/@/api/sys/user';
 
 import { setLocal, getLocal, getSession, setSession } from '/@/utils/helper/persistent';
 import { useProjectSetting } from '/@/hooks/setting';
@@ -88,7 +88,7 @@ class User extends VuexModule {
   }
 
   /**
-   * @description: login
+   * @description: 登录
    */
   @Action
   async login(
@@ -122,10 +122,11 @@ class User extends VuexModule {
   //   }
 
   /**
-   * @description: login out
+   * @description: 退出
    */
   @Action
-  async loginOut(goLogin = false) {
+  async loginOut(goLogin = false, mode?: ErrorMessageMode): Promise<void | null> {
+    await logoutApi(mode);
     goLogin && router.push(PageEnum.BASE_LOGIN);
   }
 

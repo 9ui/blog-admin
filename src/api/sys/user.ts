@@ -4,12 +4,13 @@ import { ErrorMessageMode } from '/@/utils/http/axios/types';
 
 enum Api {
   Login = '/login',
+  Logout = '/logout',
   GetUserInfoById = '/getUserInfoById',
   GetPermCodeByUserId = '/getPermCodeByUserId',
 }
 
 /**
- * @description: user login api
+ * @description: 登录操作
  */
 export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') {
   return defHttp.request<GetUserInfoModel>(
@@ -22,6 +23,13 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
       errorMessageMode: mode,
     }
   );
+}
+/**
+ * @description: 退出登录
+ * @param mode
+ */
+export function logoutApi(mode: ErrorMessageMode = 'modal') {
+  return defHttp.request<void>({ url: Api.Logout, method: 'PUT' }, { errorMessageMode: mode });
 }
 
 /**
