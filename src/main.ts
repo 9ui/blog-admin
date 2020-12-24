@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-// import VConsole from 'vconsole';
+import VConsole from 'vconsole';
 
 import router, { setupRouter } from '/@/router';
 import { setupStore } from '/@/store';
@@ -16,7 +16,7 @@ import '/@/design/index.less';
 
 const app = createApp(App);
 
-// new VConsole();
+new VConsole();
 
 // Configure component library
 setupAntd(app);
