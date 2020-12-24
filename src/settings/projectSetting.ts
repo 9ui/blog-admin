@@ -8,7 +8,7 @@ import { primaryColor } from '../../build/config/lessModifyVars';
 // ! You need to clear the browser cache after the change
 const setting: ProjectConfig = {
   // 是否显示SettingButton
-  showSettingButton: true,
+  showSettingButton: false,
 
   // 权限模式
   permissionMode: PermissionModeEnum.ROLE,
@@ -16,11 +16,10 @@ const setting: ProjectConfig = {
   // Permission-related cache is stored in sessionStorage or localStorage
   permissionCacheType: CacheTypeEnum.LOCAL,
 
-  // color
-  // TODO Theme color
+  // 主题色
   themeColor: primaryColor,
 
-  // Website gray mode, open for possible mourning dates
+  // 网站灰色模式，用于可能悼念的日期开启
   grayMode: false,
 
   // Color Weakness Mode
@@ -49,30 +48,29 @@ const setting: ProjectConfig = {
     availableLocales: ['zh_CN', 'en'],
   },
 
-  // Header configuration
+  // 头部配置
   headerSetting: {
     // header bg color
     bgColor: '#ffffff',
     // Fixed at the top
     fixed: true,
-    // Whether to show top
+    // 是否显示顶部
     show: true,
     // theme
     theme: ThemeEnum.LIGHT,
-    // Whether to enable the lock screen function
-    useLockPage: true,
-
-    // Whether to show the full screen button
+    // 开启锁屏功能
+    useLockPage: false,
+    // 显示全屏按钮
     showFullScreen: false,
-    // Whether to show the document button
+    // 显示文档按钮
     showDoc: false,
-    // Whether to show the notification button
+    // 显示消息中心按钮
     showNotice: true,
     // Whether to display the menu search
     showSearch: false,
   },
 
-  // Menu configuration
+  // 菜单配置
   menuSetting: {
     // sidebar menu bg color
     bgColor: '#273352',
@@ -143,20 +141,20 @@ const setting: ProjectConfig = {
   // 显示面包屑图标
   showBreadCrumbIcon: false,
 
-  // Use error-handler-plugin
+  // 使用error-handler-plugin
   useErrorHandle: false,
 
-  // Whether to open back to top
+  // 开启顶部进度条
   useOpenBackTop: true,
 
-  //  Is it possible to embed iframe pages
+  //  是否可以嵌入iframe页面
   canEmbedIFramePage: true,
 
-  // Whether to delete unclosed messages and notify when switching the interface
+  // 切换界面的时候是否删除未关闭的message及notify
   closeMessageOnSwitch: true,
 
-  // Whether to cancel the http request that has been sent but not responded when switching the interface.
-  // If it is enabled, I want to overwrite a single interface. Can be set in a separate interface
+  // 切换界面的时候是否取消已经发送但是未响应的http请求。
+  // 如果开启,想对单独接口覆盖。可以在单独接口设置
   removeAllHttpPending: true,
 };
 
