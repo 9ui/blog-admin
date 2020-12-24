@@ -125,7 +125,7 @@ class User extends VuexModule {
    * @description: 退出
    */
   @Action
-  async loginOut(goLogin = false, mode?: ErrorMessageMode): Promise<void | null> {
+  async loginOut(goLogin = false, mode?: ErrorMessageMode): void  {
     await logoutApi(mode);
     goLogin && router.push(PageEnum.BASE_LOGIN);
   }
