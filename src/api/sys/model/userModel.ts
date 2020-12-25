@@ -1,5 +1,5 @@
 /**
- * @description: Login interface parameters
+ * @description: 登陆参数
  */
 export interface LoginParams {
   account: string;
@@ -7,7 +7,14 @@ export interface LoginParams {
 }
 
 /**
- * @description: Get user information
+ * @description: 退出返回状态
+ */
+export interface LogouApiResult {
+  code: number;
+}
+
+/**
+ * @description:获取用户id
  */
 export interface GetUserInfoByUserIdParams {
   userId: string | number;
@@ -19,7 +26,7 @@ export interface RoleInfo {
 }
 
 /**
- * @description: Get user information return value
+ * @description:获取用户信息返回值
  */
 export interface GetUserInfoModel {
   // 用户id

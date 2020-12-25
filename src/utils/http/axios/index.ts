@@ -50,7 +50,7 @@ const transform: AxiosTransform = {
     const { code, data, msg } = res.data;
 
     // 这里逻辑可以根据项目进行修改
-    const hasSuccess = data && Reflect.has(res.data, 'code') && code === ResultEnum.SUCCESS;
+    const hasSuccess = Reflect.has(res.data, 'code') && code === ResultEnum.SUCCESS;
     if (!hasSuccess) {
       if (data) {
         // errorMessageMode=‘modal’的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
