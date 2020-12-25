@@ -1,5 +1,10 @@
 import { defHttp } from '/@/utils/http/axios';
-import { LoginParams, GetUserInfoByUserIdParams, GetUserInfoModel } from './model/userModel';
+import {
+  LoginParams,
+  GetUserInfoByUserIdParams,
+  GetUserInfoModel,
+  LogouApiResult,
+} from './model/userModel';
 import { ErrorMessageMode } from '/@/utils/http/axios/types';
 
 enum Api {
@@ -29,7 +34,10 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
  * @param mode
  */
 export function logoutApi(mode: ErrorMessageMode = 'modal') {
-  return defHttp.request<void>({ url: Api.Logout, method: 'PUT' }, { errorMessageMode: mode });
+  return defHttp.request<LogouApiResult>(
+    { url: Api.Logout, method: 'PUT' },
+    { errorMessageMode: mode }
+  );
 }
 
 /**

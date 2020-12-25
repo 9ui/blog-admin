@@ -125,8 +125,13 @@ class User extends VuexModule {
    * @description: 退出
    */
   @Action
-  loginOut(goLogin = false): void  {
-    goLogin && router.push(PageEnum.BASE_LOGIN);
+  async loginOut(goLogin = false): Promise<void> {
+    try {
+      await logoutApi();
+      goLogin && router.push(PageEnum.BASE_LOGIN);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   /**
@@ -143,7 +148,6 @@ class User extends VuexModule {
       cancelText: '取消',
       okText: '确认',
       onOk: async () => {
-        await logoutApi();
         await this.loginOut(true);
       },
     });
