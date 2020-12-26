@@ -52,13 +52,11 @@ const transform: AxiosTransform = {
     // 这里逻辑可以根据项目进行修改
     const hasSuccess = Reflect.has(res.data, 'code') && code === ResultEnum.SUCCESS;
     if (!hasSuccess) {
-      if (data) {
-        // errorMessageMode=‘modal’的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
-        if (options.errorMessageMode === 'modal') {
-          createErrorModal({ title: '错误提示', content: msg });
-        } else if (options.errorMessageMode === 'message') {
-          createMessage.error(msg);
-        }
+      // errorMessageMode=‘modal’的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
+      if (options.errorMessageMode === 'modal') {
+        createErrorModal({ title: '错误提示', content: msg });
+      } else if (options.errorMessageMode === 'message') {
+        createMessage.error(msg);
       }
       Promise.reject(new Error(msg));
       return errorResult;

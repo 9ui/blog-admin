@@ -16,6 +16,7 @@ const dashboard: AppRouteModule = {
       name: 'Welcome',
       component: () => import('/@/views/dashboard/welcome/index.vue'),
       meta: {
+        icon: 'bx:bx-home',
         title: '主页',
         affix: true,
       },
