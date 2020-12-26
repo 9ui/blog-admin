@@ -14,7 +14,7 @@ const animation: AppRouteModule = {
     {
       path: 'animation',
       name: 'Animation',
-      component: () => import('/@/views/animation/templates.vue'),
+      component: () => import('/@/views/animation/templates/index.vue'),
       meta: {
         icon: 'bx:bx-abacus',
         title: '动画模板',
