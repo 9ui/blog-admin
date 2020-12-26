@@ -5,10 +5,10 @@ import { CacheTypeEnum } from '/@/enums/cacheEnum';
 import { ContentEnum, PermissionModeEnum, ThemeEnum, RouterTransitionEnum } from '/@/enums/appEnum';
 import { primaryColor } from '../../build/config/lessModifyVars';
 
-// ! You need to clear the browser cache after the change
+// ! 改动后需要清空浏览器缓存
 const setting: ProjectConfig = {
   // 是否显示SettingButton
-  showSettingButton: false,
+  showSettingButton: true,
 
   // 权限模式
   permissionMode: PermissionModeEnum.ROLE,
@@ -22,41 +22,41 @@ const setting: ProjectConfig = {
   // 网站灰色模式，用于可能悼念的日期开启
   grayMode: false,
 
-  // Color Weakness Mode
+  // 色弱模式
   colorWeak: false,
 
-  // Whether to cancel the menu, the top, the multi-tab page display, for possible embedded in other systems
+  // 是否取消菜单,顶部,多标签页显示, 用于可能内嵌在别的系统内
   fullContent: false,
 
-  // content mode
+  // 主题内容宽度
   contentMode: ContentEnum.FULL,
 
-  // Whether to display the logo
+  // 是否显示logo
   showLogo: true,
 
-  // Whether to show footer
+  // 是否显示底部信息 copyright
   showFooter: false,
 
-  // locale setting
+  // 多语言配置
   locale: {
     show: true,
-    // Locale
+    // 当前语言
     lang: 'zh_CN',
-    // Default locale
+    // 默认语言
     fallback: 'zh_CN',
-    // available Locales
+    //允许的语言
     availableLocales: ['zh_CN', 'en'],
   },
 
   // 头部配置
   headerSetting: {
-    // header bg color
+    // 背景色
     bgColor: '#ffffff',
-    // Fixed at the top
+    // 固定头部
     fixed: true,
     // 是否显示顶部
     show: true,
-    // theme
+    // 主题
     theme: ThemeEnum.LIGHT,
     // 开启锁屏功能
     useLockPage: false,
@@ -67,42 +67,41 @@ const setting: ProjectConfig = {
     // 显示消息中心按钮
     showNotice: true,
     // Whether to display the menu search
-    showSearch: false,
+    showSearch: true,
   },
 
   // 菜单配置
   menuSetting: {
-    // sidebar menu bg color
+    // 背景色
     bgColor: '#273352',
-    //  Whether to fix the left menu
+    // 是否固定住菜单
     fixed: true,
-    // Menu collapse
+    // 菜单折叠
     collapsed: false,
-    // Whether to display the menu name when folding the menu
+    // 折叠菜单时候是否显示菜单名
     collapsedShowTitle: false,
-    // Whether it can be dragged
-    // Only limited to the opening of the left menu, the mouse has a drag bar on the right side of the menu
+    // 是否可拖拽
     canDrag: false,
-    // Whether to show no dom
+    // 是否显示
     show: true,
     // Whether to show dom
     hidden: false,
-    // Menu width
+    // 菜单宽度
     menuWidth: 210,
-    // Menu mode
-    mode: MenuModeEnum.HORIZONTAL,
-    // Menu type
-    type: MenuTypeEnum.TOP_MENU,
-    // Menu theme
-    theme: ThemeEnum.LIGHT,
-    // Split menu
+    // 菜单模式
+    mode: MenuModeEnum.INLINE,
+    // 菜单类型
+    type: MenuTypeEnum.SIDEBAR,
+    // 菜单主题
+    theme: ThemeEnum.DARK,
+    // 分割菜单
     split: false,
-    // Top menu layout
+    // 顶部菜单布局
     topMenuAlign: 'start',
-    // Fold trigger position
+    // 折叠触发器的位置
     trigger: TriggerEnum.HEADER,
-    // Turn on accordion mode, only show a menu
-    accordion: true,
+    // 手风琴模式，只展示一个菜单
+    accordion: false,
   },
 
   // 多标签
@@ -136,10 +135,10 @@ const setting: ProjectConfig = {
   lockTime: 0,
 
   // 显示面包屑
-  showBreadCrumb: false,
+  showBreadCrumb: true,
 
   // 显示面包屑图标
-  showBreadCrumbIcon: false,
+  showBreadCrumbIcon: true,
 
   // 使用error-handler-plugin
   useErrorHandle: false,
