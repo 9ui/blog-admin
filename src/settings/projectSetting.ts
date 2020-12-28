@@ -8,7 +8,7 @@ import { primaryColor } from '../../build/config/lessModifyVars';
 // ! 改动后需要清空浏览器缓存
 const setting: ProjectConfig = {
   // 是否显示SettingButton
-  showSettingButton: true,
+  showSettingButton: false,
 
   // 权限模式
   permissionMode: PermissionModeEnum.ROLE,
