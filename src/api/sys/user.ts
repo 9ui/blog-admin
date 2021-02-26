@@ -8,7 +8,7 @@ import {
 import { ErrorMessageMode } from '/@/utils/http/axios/types';
 
 enum Api {
-  Login = '/login',
+  Login = '/admin/user/login',
   Logout = '/logout',
   GetUserInfoById = '/getUserInfoById',
   GetPermCodeByUserId = '/getPermCodeByUserId',

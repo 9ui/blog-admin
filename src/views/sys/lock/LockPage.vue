@@ -57,7 +57,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, computed } from 'vue';
+  import { defineComponent, ref } from 'vue';
   import { Alert, Input } from 'ant-design-vue';
 
   import { userStore } from '/@/store/modules/user';
@@ -82,27 +82,27 @@
 
       const { start, stop, ...state } = useNow(true);
 
-      const realName = computed(() => {
-        const { realName } = userStore.getUserInfoState || {};
-        return realName;
-      });
+      //   const realName = computed(() => {
+      //     const { realName } = userStore.getUserInfoState || {};
+      //     return realName;
+      //   });
 
       /**
        * @description: unLock
        */
-      async function unLock() {
-        if (!passwordRef.value) {
-          return;
-        }
-        let password = passwordRef.value;
-        try {
-          loadingRef.value = true;
-          const res = await lockStore.unLockAction({ password });
-          errMsgRef.value = !res;
-        } finally {
-          loadingRef.value = false;
-        }
-      }
+      //   async function unLock() {
+      //     if (!passwordRef.value) {
+      //       return;
+      //     }
+      //     let password = passwordRef.value;
+      //     try {
+      //       loadingRef.value = true;
+      //     //   const res = await lockStore.unLockAction({ password });
+      //       errMsgRef.value = !res;
+      //     } finally {
+      //       loadingRef.value = false;
+      //     }
+      //   }
 
       function goLogin() {
         userStore.loginOut(true);
@@ -115,8 +115,8 @@
 
       return {
         goLogin,
-        realName,
-        unLock,
+        // realName,
+        // unLock,
         errMsgRef,
         loadingRef,
         prefixCls,
