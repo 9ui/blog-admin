@@ -33,6 +33,7 @@ export function useDataSource(
     () => unref(propsRef).dataSource,
     (data: any[]) => {
       const { api } = unref(propsRef);
+      console.log('dataSourceRef.value', data);
       !api && (dataSourceRef.value = data);
     },
     { immediate: true }
@@ -57,6 +58,7 @@ export function useDataSource(
 
   const getDataSourceRef = computed(() => {
     const dataSource = unref(dataSourceRef);
+    console.log('dataSource', dataSource);
     if (!dataSource || dataSource.length === 0) {
       return [];
     }
