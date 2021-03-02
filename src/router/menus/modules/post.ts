@@ -11,8 +11,8 @@ const menu: MenuModule = {
         name: '文章列表',
       },
       {
-        path: '/demonstration',
-        name: '演示视频',
+        path: '/add',
+        name: '新增文章',
       },
       {
         path: '/material',

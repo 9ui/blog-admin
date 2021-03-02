@@ -22,11 +22,11 @@ const mine: AppRouteModule = {
       },
     },
     {
-      path: 'demonstration',
-      name: 'Demonstration',
-      component: () => import('/@/views/mine/demonstration/index.vue'),
+      path: 'add',
+      name: 'Add',
+      component: () => import('/@/views/post/add/index.vue'),
       meta: {
-        title: '演示视频',
+        title: '新增文章',
         affix: true,
       },
     },
