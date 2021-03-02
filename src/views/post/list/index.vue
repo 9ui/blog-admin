@@ -2,8 +2,7 @@
   <div class="p-4">
     <BasicTable @register="registerTable">
       <template #toolbar>
-        <a-button type="primary" @click="handleReloadCurrent"> 新增 </a-button>
-        <a-button type="primary" @click="handleReload"> 刷新并返回第一页 </a-button>
+        <a-button type="primary" @click="add"> 新增 </a-button>
       </template>
       <template #id="{ record }"> ID: {{ record.id }} </template>
       <template #no="{ record }"
@@ -23,26 +22,33 @@
   import { Tag } from 'ant-design-vue';
   import { demoListApi } from '/@/api/demo/table';
   const columns: BasicColumn[] = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      //   slots: { customRender: 'id' },
-    },
-    {
-      title: '发布时间',
-      dataIndex: 'created_at',
-      width: 120,
-    },
+    // {
+    //   title: 'ID',
+    //   dataIndex: 'id',
+    //   //   slots: { customRender: 'id' },
+    // },
+
     {
       title: '文章标题',
       dataIndex: 'title',
-      width: 120,
+      width: 250,
       //   slots: { customRender: 'img' },
+    },
+    {
+      title: '缩略图',
+      dataIndex: 'img',
+      width: 250,
+      slots: { customRender: 'no' },
     },
     {
       title: '是否置顶',
       dataIndex: 'top',
-      //   slots: { customRender: 'no' },
+      slots: { customRender: 'no' },
+    },
+    {
+      title: '发布时间',
+      dataIndex: 'created_at',
+      width: 260,
     },
     {
       title: '更新时间',
@@ -72,8 +78,11 @@
         columns: columns,
       });
 
+      const add = () => {};
+
       return {
         registerTable,
+        add,
       };
     },
   });
