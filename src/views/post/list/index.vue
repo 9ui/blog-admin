@@ -22,12 +22,6 @@
   import { Tag } from 'ant-design-vue';
   import { demoListApi } from '/@/api/demo/table';
   const columns: BasicColumn[] = [
-    // {
-    //   title: 'ID',
-    //   dataIndex: 'id',
-    //   //   slots: { customRender: 'id' },
-    // },
-
     {
       title: '文章标题',
       dataIndex: 'title',
@@ -77,7 +71,9 @@
         api: demoListApi,
         columns: columns,
       });
-
+      /**
+       * @description: 新增操作
+       */
       const add = () => {};
 
       return {
