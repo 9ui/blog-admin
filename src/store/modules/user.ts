@@ -12,9 +12,15 @@ import { useMessage } from '/@/hooks/web/useMessage';
 
 import router from '/@/router';
 
-import { loginApi, logoutApi } from '/@/api/sys/user';
+import { loginApi } from '/@/api/sys/user';
 
-import { setLocal, getLocal, getSession, setSession } from '/@/utils/helper/persistent';
+import {
+  setLocal,
+  getLocal,
+  getSession,
+  setSession,
+  removeLocal,
+} from '/@/utils/helper/persistent';
 import { useProjectSetting } from '/@/hooks/setting';
 
 import { ErrorMessageMode } from '/@/utils/http/axios/types';
@@ -100,10 +106,11 @@ class User extends VuexModule {
     try {
       const { goHome = true, mode, ...loginParams } = params;
       const data = await loginApi(loginParams, mode);
+      console.log('data', data);
       // get user info
       this.commitUserInfoState(data);
       // save token
-      this.commitTokenState(data.acc);
+      this.commitTokenState(data.access_token);
       goHome && (await router.push(PageEnum.BASE_HOME));
       return data;
     } catch (error) {
@@ -111,23 +118,14 @@ class User extends VuexModule {
     }
   }
 
-  //   @Action
-  //   async getUserInfoAction({ userId }: GetUserInfoByUserIdParams) {
-  //     const userInfo = await getUserInfoById({ userId });
-  //     const { role } = userInfo;
-  //     const roleList = [role.value] as RoleEnum[];
-  //     this.commitUserInfoState(userInfo);
-  //     this.commitRoleListState(roleList);
-  //     return userInfo;
-  //   }
-
   /**
    * @description: 退出
    */
   @Action
   async loginOut(goLogin = false): Promise<void> {
     try {
-      await logoutApi();
+      //   await logoutApi();
+      removeLocal(USER_INFO_KEY);
       goLogin && router.push(PageEnum.BASE_LOGIN);
     } catch (error) {
       console.log(error);

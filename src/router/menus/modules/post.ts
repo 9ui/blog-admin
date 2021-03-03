@@ -3,16 +3,16 @@ import type { MenuModule } from '/@/router/types.d';
 const menu: MenuModule = {
   orderNo: 3,
   menu: {
-    path: '/mine',
-    name: '我的',
+    path: '/post',
+    name: '文章',
     children: [
       {
-        path: '/creation',
-        name: '我的创作',
+        path: '/list',
+        name: '文章列表',
       },
       {
-        path: '/demonstration',
-        name: '演示视频',
+        path: '/add',
+        name: '新增文章',
       },
       {
         path: '/material',

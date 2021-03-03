@@ -4,7 +4,7 @@ const menu: MenuModule = {
   orderNo: 0,
   menu: {
     path: '/home/welcome',
-    name: '创作主页',
+    name: '主页',
   },
 };
 export default menu;

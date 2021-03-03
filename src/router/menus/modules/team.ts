@@ -4,7 +4,7 @@ const menu: MenuModule = {
   orderNo: 3,
   menu: {
     path: '/team',
-    name: '团队',
+    name: '系统设置',
     children: [
       {
         path: '/materials',

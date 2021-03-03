@@ -5,36 +5,29 @@
       <div class="login-form mx-6">
         <div class="login-form__content px-2 py-10">
           <header>
-            <!-- <img :src="logo" class="mr-4" /> -->
             <h1>{{ title }}</h1>
           </header>
 
           <a-form class="mx-auto mt-10" :model="formData" :rules="formRules" ref="formRef">
-            <a-form-item name="account">
-              <a-input size="large" v-model:value="formData.account" placeholder="请输入用户名" />
+            <a-form-item name="username">
+              <a-input size="large" v-model:value="formData.username" placeholder="请输入用户名" />
             </a-form-item>
-            <a-form-item name="psw">
+            <a-form-item name="password">
               <a-input-password
                 size="large"
                 visibilityToggle
-                v-model:value="formData.psw"
+                v-model:value="formData.password"
                 placeholder="请输入密码"
               />
             </a-form-item>
-
-            <!-- <a-form-item name="verify" v-if="openLoginVerify">
-              <BasicDragVerify v-model:value="formData.verify" ref="verifyRef" />
-            </a-form-item> -->
             <a-row>
               <a-col :span="12">
                 <a-form-item>
-                  <!-- No logic, you need to deal with it yourself -->
                   <a-checkbox v-model:checked="autoLogin" size="small"> 自动登录</a-checkbox>
                 </a-form-item>
               </a-col>
               <a-col :span="12">
                 <a-form-item :style="{ 'text-align': 'right' }">
-                  <!-- No logic, you need to deal with it yourself -->
                   <a-button type="link" size="small">忘记密码</a-button>
                 </a-form-item>
               </a-col>
@@ -88,8 +81,8 @@
       // const openLoginVerifyRef = computed(() => appStore.getProjectConfig.openLoginVerify);
 
       const formData = reactive({
-        account: '',
-        psw: '',
+        username: '',
+        password: '',
         // verify: undefined,
       });
 
@@ -98,8 +91,8 @@
       });
 
       const formRules = reactive({
-        account: [{ required: true, message: '请输入账号', trigger: 'blur' }],
-        psw: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+        username: [{ required: true, message: '请输入账号', trigger: 'blur' }],
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
       });
 
       async function handleLogin() {
@@ -110,14 +103,14 @@
           const data = await form.validate();
           const userInfo = await userStore.login(
             toRaw({
-              psw: data.psw,
-              account: data.account,
+              password: data.password,
+              username: data.username,
             })
           );
           if (userInfo) {
             notification.success({
               message: '登录成功',
-              description: `欢迎回来: ${userInfo.nickname}`,
+              description: `欢迎回来: ${userInfo}`,
               duration: 3,
             });
           }

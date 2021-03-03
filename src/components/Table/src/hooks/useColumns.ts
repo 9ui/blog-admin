@@ -42,7 +42,7 @@ export function useColumns(
       columns.unshift({
         flag: 'INDEX',
         width: 50,
-        title: t('component.table.index'),
+        title: '表格',
         align: 'center',
         customRender: ({ index }) => {
           const getPagination = unref(getPaginationRef);

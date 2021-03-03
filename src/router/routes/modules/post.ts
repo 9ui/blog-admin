@@ -3,30 +3,30 @@ import type { AppRouteModule } from '/@/router/types';
 import { LAYOUT } from '/@/router/constant';
 
 const mine: AppRouteModule = {
-  path: '/mine',
-  name: 'Mine',
+  path: '/post',
+  name: 'Post',
   component: LAYOUT,
-  redirect: '/mine/creation',
+  redirect: '/post',
   meta: {
     icon: 'bx:bxs-user',
-    title: '我的创作',
+    title: '文章列表',
   },
   children: [
     {
-      path: 'creation',
-      name: 'Creation',
-      component: () => import('/@/views/mine/creation/index.vue'),
+      path: 'list',
+      name: 'List',
+      component: () => import('/@/views/post/list/index.vue'),
       meta: {
-        title: '我的创作',
+        title: '文章列表',
         affix: true,
       },
     },
     {
-      path: 'demonstration',
-      name: 'Demonstration',
-      component: () => import('/@/views/mine/demonstration/index.vue'),
+      path: 'add',
+      name: 'Add',
+      component: () => import('/@/views/post/add/index.vue'),
       meta: {
-        title: '演示视频',
+        title: '新增文章',
         affix: true,
       },
     },
