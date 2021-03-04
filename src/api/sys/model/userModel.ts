@@ -37,7 +37,7 @@ export interface GetUserInfoByUserIdModel {
   // 用户名
   username: string;
   // 真实名字
-  realName: string;
+  name: string;
   // 介绍
   desc?: string;
 }

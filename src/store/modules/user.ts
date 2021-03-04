@@ -102,15 +102,11 @@ class User extends VuexModule {
     try {
       const { goHome = true, mode, ...loginParams } = params;
       const data = await loginApi(loginParams, mode);
-
       const { token, userId } = data;
-
       // save token
       this.commitTokenState(token);
-
       // get user info
       const userInfo = await this.getUserInfoAction({ userId });
-
       goHome && (await router.replace(PageEnum.BASE_HOME));
       return userInfo;
     } catch (error) {

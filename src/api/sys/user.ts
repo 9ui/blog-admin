@@ -9,7 +9,7 @@ import { ErrorMessageMode } from '/@/utils/http/axios/types';
 
 enum Api {
   Login = '/admin/user/login',
-  GetUserInfoById = '/getUserInfoById',
+  GetUserInfoById = '/user/getUserInfo',
   GetPermCodeByUserId = '/getPermCodeByUserId',
 }
 
