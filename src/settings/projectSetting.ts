@@ -13,7 +13,7 @@ import { primaryColor, themeMode } from '../../build/config/themeConfig';
 // ! You need to clear the browser cache after the change
 const setting: ProjectConfig = {
   // Whether to show the configuration button
-  showSettingButton: true,
+  showSettingButton: false,
 
   // `Settings` button position
   settingButtonPosition: SettingButtonPositionEnum.AUTO,
@@ -115,16 +115,16 @@ const setting: ProjectConfig = {
   // Multi-label
   multiTabsSetting: {
     // Turn on
-    show: true,
+    show: false,
     // Is it possible to drag and drop sorting tabs
-    canDrag: true,
+    canDrag: false,
     // Turn on quick actions
-    showQuick: true,
+    showQuick: false,
 
     // Whether to show the refresh button
-    showRedo: true,
+    showRedo: false,
     // Whether to show the collapse button
-    showFold: true,
+    showFold: false,
   },
 
   // Transition Setting
