@@ -1,31 +1,35 @@
+/**
+ * Zero-config PWA for Vite
+ * https://github.com/antfu/vite-plugin-pwa
+ */
+import type { ViteEnv } from '../../utils';
+
 import { VitePWA } from 'vite-plugin-pwa';
-import type { Plugin } from 'vite';
-import { isProdFn, ViteEnv } from '../../utils';
 
-export function setupPwaPlugin(plugins: Plugin[], env: ViteEnv) {
-  const { VITE_USE_PWA } = env;
+export function configPwaConfig(env: ViteEnv) {
+  const { VITE_USE_PWA, VITE_GLOB_APP_TITLE, VITE_GLOB_APP_SHORT_NAME } = env;
 
-  const pwaPlugin = VitePWA({
-    manifest: {
-      name: '来画君',
-      short_name: 'vben_admin',
-      icons: [
-        {
-          src: './resource/img/pwa-192x192.png',
-          sizes: '192x192',
-          type: 'image/png',
-        },
-        {
-          src: './resource/img/pwa-512x512.png',
-          sizes: '512x512',
-          type: 'image/png',
-        },
-      ],
-    },
-  });
-
-  if (isProdFn() && VITE_USE_PWA) {
-    plugins.push(pwaPlugin);
+  if (VITE_USE_PWA) {
+    // vite-plugin-pwa
+    const pwaPlugin = VitePWA({
+      manifest: {
+        name: VITE_GLOB_APP_TITLE,
+        short_name: VITE_GLOB_APP_SHORT_NAME,
+        icons: [
+          {
+            src: './resource/img/pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: './resource/img/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
+      },
+    });
+    return pwaPlugin;
   }
-  return plugins;
+  return [];
 }

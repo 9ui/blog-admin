@@ -1,4 +1,8 @@
-import type { LoginParams, GetUserInfoModel } from '/@/api/sys/model/userModel';
+import type {
+  LoginParams,
+  GetUserInfoByUserIdModel,
+  GetUserInfoByUserIdParams,
+} from '/@/api/sys/model/userModel';
 
 import store from '/@/store/index';
 import { VuexModule, Module, getModule, Mutation, Action } from 'vuex-module-decorators';
@@ -12,37 +16,29 @@ import { useMessage } from '/@/hooks/web/useMessage';
 
 import router from '/@/router';
 
-import { loginApi } from '/@/api/sys/user';
+import { loginApi, getUserInfoById } from '/@/api/sys/user';
 
-import {
-  setLocal,
-  getLocal,
-  getSession,
-  setSession,
-  removeLocal,
-} from '/@/utils/helper/persistent';
-import { useProjectSetting } from '/@/hooks/setting';
-
+import { Persistent, BasicKeys } from '/@/utils/cache/persistent';
+import { useI18n } from '/@/hooks/web/useI18n';
 import { ErrorMessageMode } from '/@/utils/http/axios/types';
+import projectSetting from '/@/settings/projectSetting';
 
-export type UserInfo = Omit<GetUserInfoModel, 'roles'>;
+export type UserInfo = Omit<GetUserInfoByUserIdModel, 'roles'>;
 
-const NAME = 'user';
+const { permissionCacheType } = projectSetting;
+const isLocal = permissionCacheType === CacheTypeEnum.LOCAL;
+
+const NAME = 'app-user';
 hotModuleUnregisterModule(NAME);
 
-const { permissionCacheType } = useProjectSetting();
-
-function getCache<T>(key: string) {
-  const fn = permissionCacheType === CacheTypeEnum.LOCAL ? getLocal : getSession;
+function getCache<T>(key: BasicKeys) {
+  const fn = isLocal ? Persistent.getLocal : Persistent.getSession;
   return fn(key) as T;
 }
 
-function setCache(USER_INFO_KEY: string, info: any) {
-  if (!info) return;
-  // const fn = permissionCacheType === CacheTypeEnum.LOCAL ? setLocal : setSession;
-  setLocal(USER_INFO_KEY, info, true);
-  // TODO
-  setSession(USER_INFO_KEY, info, true);
+function setCache(key: BasicKeys, value) {
+  const fn = isLocal ? Persistent.setLocal : Persistent.setSession;
+  return fn(key, value);
 }
 
 @Module({ namespaced: true, name: NAME, dynamic: true, store })
@@ -94,7 +90,7 @@ class User extends VuexModule {
   }
 
   /**
-   * @description: 登录
+   * @description: login
    */
   @Action
   async login(
@@ -102,34 +98,42 @@ class User extends VuexModule {
       goHome?: boolean;
       mode?: ErrorMessageMode;
     }
-  ): Promise<GetUserInfoModel | null> {
+  ): Promise<GetUserInfoByUserIdModel | null> {
     try {
       const { goHome = true, mode, ...loginParams } = params;
       const data = await loginApi(loginParams, mode);
-      console.log('data', data);
-      // get user info
-      this.commitUserInfoState(data);
+
+      const { token, userId } = data;
+
       // save token
-      this.commitTokenState(data.access_token);
-      goHome && (await router.push(PageEnum.BASE_HOME));
-      return data;
+      this.commitTokenState(token);
+
+      // get user info
+      const userInfo = await this.getUserInfoAction({ userId });
+
+      goHome && (await router.replace(PageEnum.BASE_HOME));
+      return userInfo;
     } catch (error) {
       return null;
     }
   }
 
+  @Action
+  async getUserInfoAction({ userId }: GetUserInfoByUserIdParams) {
+    const userInfo = await getUserInfoById({ userId });
+    const { roles } = userInfo;
+    const roleList = roles.map((item) => item.value) as RoleEnum[];
+    this.commitUserInfoState(userInfo);
+    this.commitRoleListState(roleList);
+    return userInfo;
+  }
+
   /**
-   * @description: 退出
+   * @description: logout
    */
   @Action
-  async loginOut(goLogin = false): Promise<void> {
-    try {
-      //   await logoutApi();
-      removeLocal(USER_INFO_KEY);
-      goLogin && router.push(PageEnum.BASE_LOGIN);
-    } catch (error) {
-      console.log(error);
-    }
+  async logout(goLogin = false) {
+    goLogin && router.push(PageEnum.BASE_LOGIN);
   }
 
   /**
@@ -138,15 +142,13 @@ class User extends VuexModule {
   @Action
   async confirmLoginOut() {
     const { createConfirm } = useMessage();
-
+    const { t } = useI18n();
     createConfirm({
       iconType: 'warning',
-      title: '温馨提醒',
-      content: '是否确认退出系统',
-      cancelText: '取消',
-      okText: '确认',
+      title: t('sys.app.logoutTip'),
+      content: t('sys.app.logoutMessage'),
       onOk: async () => {
-        await this.loginOut(true);
+        await this.logout(true);
       },
     });
   }

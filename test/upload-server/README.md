@@ -6,10 +6,10 @@ Simple file upload service for testing file upload components.
 
 ```js
 
-cs ./test/upload-server
+cd ./test/upload-server
 
 yarn install
 
-node app.js
+yarn start
 
 ```

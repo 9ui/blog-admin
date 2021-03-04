@@ -3,14 +3,28 @@
 -->
 <template>
   <div>
-    <router-view>
-      <template v-slot="{ Component, route }">
-        <keep-alive v-if="openCache" :include="getCaches">
-          <component :is="Component" :key="route.fullPath" />
-        </keep-alive>
-        <component v-else :is="Component" :key="route.fullPath" />
+    <RouterView>
+      <template #default="{ Component, route }">
+        <transition
+          :name="
+            getTransitionName({
+              route,
+              openCache: openCache,
+              enableTransition: getEnableTransition,
+              cacheTabs: getCaches,
+              def: getBasicTransition,
+            })
+          "
+          mode="out-in"
+          appear
+        >
+          <keep-alive v-if="openCache" :include="getCaches">
+            <component :is="Component" v-bind="getKey(Component, route)" />
+          </keep-alive>
+          <component v-else :is="Component" v-bind="getKey(Component, route)" />
+        </transition>
       </template>
-    </router-view>
+    </RouterView>
   </div>
 </template>
 <script lang="ts">
@@ -20,7 +34,8 @@
   import { useMultipleTabSetting } from '/@/hooks/setting/useMultipleTabSetting';
 
   import { useTransitionSetting } from '/@/hooks/setting/useTransitionSetting';
-  import { useCache } from './useCache';
+  import { useCache, getKey } from './useCache';
+  import { getTransitionName } from './transition';
 
   export default defineComponent({
     parentView: true,
@@ -40,6 +55,8 @@
         getBasicTransition,
         openCache,
         getEnableTransition,
+        getTransitionName,
+        getKey,
       };
     },
   });

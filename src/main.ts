@@ -1,52 +1,49 @@
+import '/@/design/index.less';
+import 'windi.css';
+
 import { createApp } from 'vue';
 import App from './App.vue';
-// import VConsole from 'vconsole';
 
 import router, { setupRouter } from '/@/router';
 import { setupStore } from '/@/store';
-import { setupAntd } from '/@/setup/ant-design-vue';
-import { setupErrorHandle } from '/@/setup/error-handle';
-import { setupGlobDirectives } from '/@/setup/directives';
-import { setupProdMockServer } from '../mock/_createProductionServer';
-import { setApp } from '/@/setup/App';
+import { setupErrorHandle } from '/@/logics/error-handle';
+import { setupGlobDirectives } from '/@/directives';
+import { setupI18n } from '/@/locales/setupI18n';
 
-import { isDevMode, isProdMode, isUseMock } from '/@/utils/env';
+import { registerGlobComp } from '/@/components/registerGlobComp';
 
-import '/@/design/index.less';
+import { isDevMode } from '/@/utils/env';
 
-const app = createApp(App);
+(async () => {
+  const app = createApp(App);
 
-// new VConsole();
+  // Register global components
+  registerGlobComp(app);
 
-// Configure component library
-setupAntd(app);
+  // Configure routing
+  setupRouter(app);
 
-// Configure routing
-setupRouter(app);
+  // Configure vuex store
+  setupStore(app);
 
-// Configure vuex store
-setupStore(app);
+  // Register global directive
+  setupGlobDirectives(app);
 
-// Register global directive
-setupGlobDirectives(app);
+  // Configure global error handling
+  setupErrorHandle(app);
 
-// Configure global error handling
-setupErrorHandle(app);
+  await Promise.all([
+    // Multilingual configuration
+    setupI18n(app),
+    // Mount when the route is ready
+    router.isReady(),
+  ]);
 
-// Mount when the route is ready
-router.isReady().then(() => {
-  app.mount('#app');
-});
+  app.mount('#app', true);
 
-// The development environment takes effect
-if (isDevMode()) {
-  app.config.performance = true;
-  window.__APP__ = app;
-}
-
-// If you do not need to setting the mock service in the production environment, you can comment the code
-if (isProdMode() && isUseMock()) {
-  setupProdMockServer();
-}
-// Used to share app instances in other modules
-setApp(app);
+  // The development environment takes effect
+  if (isDevMode()) {
+    app.config.performance = true;
+    window.__APP__ = app;
+  }
+})();

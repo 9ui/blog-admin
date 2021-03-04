@@ -1,17 +1,18 @@
 import type { BasicTableProps, TableRowSelection } from '../types/table';
 
-import { computed, ref, unref, ComputedRef } from 'vue';
-import { useProps } from './useProps';
+import { computed, ref, unref, ComputedRef, Ref, toRaw } from 'vue';
+import { ROW_KEY } from '../const';
 
-/* eslint-disable */
-export function useRowSelection(refProps: ComputedRef<BasicTableProps>, emit: EmitType) {
-  const { propsRef } = useProps(refProps);
-
+export function useRowSelection(
+  propsRef: ComputedRef<BasicTableProps>,
+  tableData: Ref<Recordable[]>,
+  emit: EmitType
+) {
   const selectedRowKeysRef = ref<string[]>([]);
-  const selectedRowRef = ref<any[]>([]);
+  const selectedRowRef = ref<Recordable[]>([]);
 
   const getRowSelectionRef = computed((): TableRowSelection | null => {
-    const rowSelection = unref(propsRef).rowSelection;
+    const { rowSelection } = unref(propsRef);
     if (!rowSelection) {
       return null;
     }
@@ -30,8 +31,26 @@ export function useRowSelection(refProps: ComputedRef<BasicTableProps>, emit: Em
     };
   });
 
+  const getAutoCreateKey = computed(() => {
+    return unref(propsRef).autoCreateKey && !unref(propsRef).rowKey;
+  });
+
+  const getRowKey = computed(() => {
+    const { rowKey } = unref(propsRef);
+    return unref(getAutoCreateKey) ? ROW_KEY : rowKey;
+  });
+
   function setSelectedRowKeys(rowKeys: string[]) {
     selectedRowKeysRef.value = rowKeys;
+
+    const rows = toRaw(unref(tableData)).filter((item) =>
+      rowKeys.includes(item[unref(getRowKey) as string])
+    );
+    selectedRowRef.value = rows;
+  }
+
+  function setSelectedRows(rows: Recordable[]) {
+    selectedRowRef.value = rows;
   }
 
   function clearSelectedRowKeys() {
@@ -46,19 +65,28 @@ export function useRowSelection(refProps: ComputedRef<BasicTableProps>, emit: Em
       unref(selectedRowKeysRef).splice(index, 1);
     }
   }
+
   function getSelectRowKeys() {
     return unref(selectedRowKeysRef);
   }
-  function getSelectRows() {
-    return unref(selectedRowRef);
+
+  function getSelectRows<T = Recordable>() {
+    // const ret = toRaw(unref(selectedRowRef)).map((item) => toRaw(item));
+    return unref(selectedRowRef) as T[];
+  }
+
+  function getRowSelection() {
+    return unref(getRowSelectionRef)!;
   }
 
   return {
+    getRowSelection,
     getRowSelectionRef,
     getSelectRows,
     getSelectRowKeys,
     setSelectedRowKeys,
     clearSelectedRowKeys,
     deleteSelectRowByKey,
+    setSelectedRows,
   };
 }

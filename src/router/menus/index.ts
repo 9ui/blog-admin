@@ -9,17 +9,17 @@ import router from '/@/router';
 import { PermissionModeEnum } from '/@/enums/appEnum';
 import { pathToRegexp } from 'path-to-regexp';
 
-import modules from 'globby!/@/router/menus/modules/**/*.@(ts)';
-
-const reg = /(((https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
+const modules = import.meta.globEager('./modules/**/*.ts');
 
 const menuModules: MenuModule[] = [];
 
 Object.keys(modules).forEach((key) => {
-  const moduleItem = modules[key];
-  const menuModule = Array.isArray(moduleItem) ? [...moduleItem] : [moduleItem];
-  menuModules.push(...menuModule);
+  const mod = modules[key].default || {};
+  const modList = Array.isArray(mod) ? [...mod] : [mod];
+  menuModules.push(...modList);
 });
+
+const reg = /(((https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
 
 // ===========================
 // ==========Helper===========
@@ -54,7 +54,9 @@ export const getMenus = async (): Promise<Menu[]> => {
 // 获取当前路径的顶级路径
 export async function getCurrentParentPath(currentPath: string) {
   const menus = await getAsyncMenus();
+
   const allParentPath = await getAllParentPath(menus, currentPath);
+
   return allParentPath?.[0];
 }
 
@@ -62,7 +64,6 @@ export async function getCurrentParentPath(currentPath: string) {
 export async function getShallowMenus(): Promise<Menu[]> {
   const menus = await getAsyncMenus();
   const routes = router.getRoutes();
-
   const shallowMenuList = menus.map((item) => ({ ...item, children: undefined }));
   return !isBackMode() ? shallowMenuList.filter(basicFilter(routes)) : shallowMenuList;
 }
@@ -71,8 +72,10 @@ export async function getShallowMenus(): Promise<Menu[]> {
 export async function getChildrenMenus(parentPath: string) {
   const menus = await getAsyncMenus();
   const parent = menus.find((item) => item.path === parentPath);
-  if (!parent) return [] as Menu[];
-  return parent.children;
+  if (!parent || !parent.children) return [] as Menu[];
+  const routes = router.getRoutes();
+
+  return !isBackMode() ? filter(parent.children, basicFilter(routes)) : parent.children;
 }
 
 // 通用过滤方法
@@ -96,7 +99,7 @@ function basicFilter(routes: RouteRecordNormalized[]) {
     });
 
     if (!matchRoute) return false;
-    menu.icon = menu.icon || matchRoute.meta.icon;
+    menu.icon = (menu.icon || matchRoute.meta.icon) as string;
     menu.meta = matchRoute.meta;
     return true;
   };

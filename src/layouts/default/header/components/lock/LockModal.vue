@@ -1,39 +1,45 @@
 <template>
   <BasicModal
     :footer="null"
-    title="锁定密码"
+    :title="t('layout.header.lockScreen')"
     v-bind="$attrs"
     :class="prefixCls"
     @register="register"
   >
     <div :class="`${prefixCls}__entry`">
       <div :class="`${prefixCls}__header`">
-        <img src="/@/assets/images/header.jpg" :class="`${prefixCls}__header-img`" />
-        <p :class="`${prefixCls}__header-name`">{{ getRealName }}</p>
+        <img :src="headerImg" :class="`${prefixCls}__header-img`" />
+        <p :class="`${prefixCls}__header-name`">
+          {{ getRealName }}
+        </p>
       </div>
 
-      <BasicForm @register="registerForm" layout="vertical" />
+      <BasicForm @register="registerForm" />
 
       <div :class="`${prefixCls}__footer`">
-        <a-button type="primary" block class="mt-2" @click="handleLock"> 锁定 </a-button>
+        <a-button type="primary" block class="mt-2" @click="handleLock">
+          {{ t('layout.header.lockScreenBtn') }}
+        </a-button>
       </div>
     </div>
   </BasicModal>
 </template>
 <script lang="ts">
   import { defineComponent, computed } from 'vue';
-
+  import { useI18n } from '/@/hooks/web/useI18n';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { BasicModal, useModalInner } from '/@/components/Modal/index';
   import { BasicForm, useForm } from '/@/components/Form/index';
 
   import { userStore } from '/@/store/modules/user';
   import { lockStore } from '/@/store/modules/lock';
+  import headerImg from '/@/assets/images/header.jpg';
   export default defineComponent({
     name: 'LockModal',
     components: { BasicModal, BasicForm },
 
     setup() {
+      const { t } = useI18n();
       const { prefixCls } = useDesign('header-lock-modal');
 
       const getRealName = computed(() => {
@@ -46,7 +52,7 @@
         schemas: [
           {
             field: 'password',
-            label: '锁屏密码',
+            label: t('layout.header.lockScreenPassword'),
             component: 'InputPassword',
             required: true,
           },
@@ -66,17 +72,18 @@
       }
 
       return {
+        t,
         prefixCls,
         getRealName,
         register,
         registerForm,
         handleLock,
+        headerImg,
       };
     },
   });
 </script>
 <style lang="less">
-  @import (reference) '../../../../../design/index.less';
   @prefix-cls: ~'@{namespace}-header-lock-modal';
 
   .@{prefix-cls} {

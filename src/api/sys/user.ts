@@ -1,27 +1,25 @@
 import { defHttp } from '/@/utils/http/axios';
 import {
   LoginParams,
+  LoginResultModel,
   GetUserInfoByUserIdParams,
-  GetUserInfoModel,
-  LogouApiResult,
+  GetUserInfoByUserIdModel,
 } from './model/userModel';
 import { ErrorMessageMode } from '/@/utils/http/axios/types';
 
 enum Api {
   Login = '/admin/user/login',
-  Logout = '/logout',
   GetUserInfoById = '/getUserInfoById',
   GetPermCodeByUserId = '/getPermCodeByUserId',
 }
 
 /**
- * @description: 登录操作
+ * @description: user login api
  */
 export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') {
-  return defHttp.request<GetUserInfoModel>(
+  return defHttp.post<LoginResultModel>(
     {
       url: Api.Login,
-      method: 'POST',
       params,
     },
     {
@@ -29,32 +27,20 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
     }
   );
 }
-/**
- * @description: 退出登录
- * @param mode
- */
-export function logoutApi(mode: ErrorMessageMode = 'modal') {
-  return defHttp.request<LogouApiResult>(
-    { url: Api.Logout, method: 'PUT' },
-    { errorMessageMode: mode }
-  );
-}
 
 /**
  * @description: getUserInfoById
  */
-// export function getUserInfoById(params: GetUserInfoByUserIdParams) {
-//   return defHttp.request<GetUserInfoByUserIdModel>({
-//     url: Api.GetUserInfoById,
-//     method: 'GET',
-//     params,
-//   });
-// }
+export function getUserInfoById(params: GetUserInfoByUserIdParams) {
+  return defHttp.get<GetUserInfoByUserIdModel>({
+    url: Api.GetUserInfoById,
+    params,
+  });
+}
 
 export function getPermCodeByUserId(params: GetUserInfoByUserIdParams) {
-  return defHttp.request<string[]>({
+  return defHttp.get<string[]>({
     url: Api.GetPermCodeByUserId,
-    method: 'GET',
     params,
   });
 }

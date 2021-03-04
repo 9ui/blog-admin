@@ -9,7 +9,7 @@
 <script lang="ts">
   import { defineComponent, computed, unref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
-
+  import { useI18n } from '/@/hooks/web/useI18n';
   import { useFullscreen } from '/@/hooks/web/useFullScreen';
   import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons-vue';
   export default defineComponent({
@@ -17,10 +17,13 @@
     components: { FullscreenExitOutlined, FullscreenOutlined, Tooltip },
 
     setup() {
+      const { t } = useI18n();
       const { toggleFullscreen, isFullscreenRef } = useFullscreen();
 
       const getTitle = computed(() => {
-        return unref(isFullscreenRef) ? '退出全屏' : '全屏';
+        return unref(isFullscreenRef)
+          ? t('layout.header.tooltipExitFull')
+          : t('layout.header.tooltipEntryFull');
       });
 
       return {

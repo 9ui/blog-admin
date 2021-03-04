@@ -1,48 +1,67 @@
-import type { Plugin as VitePlugin } from 'vite';
-import type { Plugin as rollupPlugin } from 'rollup';
+import type { Plugin } from 'vite';
+import type { ViteEnv } from '../../utils';
+
+import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import legacy from '@vitejs/plugin-legacy';
 
 import PurgeIcons from 'vite-plugin-purge-icons';
 
-import visualizer from 'rollup-plugin-visualizer';
-import gzipPlugin from './gzip/index';
+import { configHtmlPlugin } from './html';
+import { configPwaConfig } from './pwa';
+import { configMockPlugin } from './mock';
+import { configCompressPlugin } from './compress';
+import { configStyleImportPlugin } from './styleImport';
+import { configVisualizerConfig } from './visualizer';
+import { configThemePlugin } from './theme';
+import { configImageminPlugin } from './imagemin';
+import { configWindiCssPlugin } from './windicss';
 
-// @ts-ignore
-import pkg from '../../../package.json';
-import { isProdFn, isSiteMode, ViteEnv, isReportMode, isBuildGzip } from '../../utils';
-import { setupHtmlPlugin } from './html';
-import { setupPwaPlugin } from './pwa';
-import { setupMockPlugin } from './mock';
+export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
+  const { VITE_USE_IMAGEMIN, VITE_USE_MOCK, VITE_LEGACY, VITE_BUILD_COMPRESS } = viteEnv;
 
-// gen vite plugins
-export function createVitePlugins(viteEnv: ViteEnv) {
-  const vitePlugins: VitePlugin[] = [];
+  const vitePlugins: (Plugin | Plugin[])[] = [
+    // have to
+    vue(),
+    // have to
+    vueJsx(),
+  ];
+
+  // @vitejs/plugin-legacy
+  VITE_LEGACY && isBuild && vitePlugins.push(legacy());
 
   // vite-plugin-html
-  setupHtmlPlugin(vitePlugins, viteEnv);
-  // vite-plugin-pwa
-  setupPwaPlugin(vitePlugins, viteEnv);
+  vitePlugins.push(configHtmlPlugin(viteEnv, isBuild));
+
+  // vite-plugin-windicss
+  vitePlugins.push(configWindiCssPlugin());
+
   // vite-plugin-mock
-  setupMockPlugin(vitePlugins, viteEnv);
+  VITE_USE_MOCK && vitePlugins.push(configMockPlugin(isBuild));
 
   // vite-plugin-purge-icons
   vitePlugins.push(PurgeIcons());
 
+  // vite-plugin-style-import
+  vitePlugins.push(configStyleImportPlugin());
+
+  // rollup-plugin-visualizer
+  vitePlugins.push(configVisualizerConfig());
+
+  //vite-plugin-theme
+  vitePlugins.push(configThemePlugin());
+
+  // The following plugins only work in the production environment
+  if (isBuild) {
+    //vite-plugin-imagemin
+    VITE_USE_IMAGEMIN && vitePlugins.push(configImageminPlugin());
+
+    // rollup-plugin-gzip
+    vitePlugins.push(configCompressPlugin(VITE_BUILD_COMPRESS));
+
+    // vite-plugin-pwa
+    vitePlugins.push(configPwaConfig(viteEnv));
+  }
+
   return vitePlugins;
-}
-
-// gen rollup plugins
-export function createRollupPlugin() {
-  const rollupPlugins: rollupPlugin[] = [];
-
-  if (!isProdFn() && isReportMode()) {
-    // rollup-plugin-visualizer
-    rollupPlugins.push(visualizer({ filename: './build/.cache/stats.html', open: true }) as Plugin);
-  }
-
-  if (!isProdFn() && (isBuildGzip() || isSiteMode())) {
-    // rollup-plugin-gizp
-    rollupPlugins.push(gzipPlugin());
-  }
-
-  return rollupPlugins;
 }

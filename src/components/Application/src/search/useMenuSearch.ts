@@ -1,12 +1,17 @@
-import { cloneDeep } from 'lodash-es';
-import { ref, onBeforeUnmount, onBeforeMount, unref, Ref } from 'vue';
+import type { Menu } from '/@/router/types';
+
+import { ref, onBeforeMount, unref, Ref, nextTick } from 'vue';
 
 import { getMenus } from '/@/router/menus';
-import type { Menu } from '/@/router/types';
+
+import { cloneDeep } from 'lodash-es';
 import { filter, forEach } from '/@/utils/helper/treeHelper';
+
 import { useDebounce } from '/@/hooks/core/useDebounce';
 import { useGo } from '/@/hooks/web/usePage';
 import { useScrollTo } from '/@/hooks/event/useScrollTo';
+import { useKeyPress } from '/@/hooks/event/useKeyPress';
+import { useI18n } from '/@/hooks/web/useI18n';
 
 export interface SearchResult {
   name: string;
@@ -40,6 +45,7 @@ export function useMenuSearch(refs: Ref<HTMLElement[]>, scrollWrap: Ref<ElRef>, 
 
   let menuList: Menu[] = [];
 
+  const { t } = useI18n();
   const go = useGo();
   const [handleSearch] = useDebounce(search, 200);
 
@@ -47,14 +53,8 @@ export function useMenuSearch(refs: Ref<HTMLElement[]>, scrollWrap: Ref<ElRef>, 
     const list = await getMenus();
     menuList = cloneDeep(list);
     forEach(menuList, (item) => {
-      item.name = item.name;
+      item.name = t(item.name);
     });
-
-    document.addEventListener('keydown', registerKeyDown);
-  });
-
-  onBeforeUnmount(() => {
-    document.removeEventListener('keydown', registerKeyDown);
   });
 
   function search(e: ChangeEvent) {
@@ -92,7 +92,7 @@ export function useMenuSearch(refs: Ref<HTMLElement[]>, scrollWrap: Ref<ElRef>, 
     return ret;
   }
 
-  function handleMouseenter(e: ChangeEvent) {
+  function handleMouseenter(e: any) {
     const index = e.target.dataset.index;
     activeIndex.value = Number(index);
   }
@@ -134,7 +134,7 @@ export function useMenuSearch(refs: Ref<HTMLElement[]>, scrollWrap: Ref<ElRef>, 
     start();
   }
 
-  function handleEnter() {
+  async function handleEnter() {
     if (!searchResult.value.length) return;
     const result = unref(searchResult);
     const index = unref(activeIndex);
@@ -143,15 +143,17 @@ export function useMenuSearch(refs: Ref<HTMLElement[]>, scrollWrap: Ref<ElRef>, 
     }
     const to = result[index];
     handleClose();
+    await nextTick();
     go(to.path);
   }
 
   function handleClose() {
+    searchResult.value = [];
     emit('close');
   }
 
-  function registerKeyDown(e: KeyboardEvent) {
-    const keyCode = window.event ? e.keyCode : e.which;
+  useKeyPress(['enter', 'up', 'down', 'esc'], (events) => {
+    const keyCode = events.keyCode;
     switch (keyCode) {
       case KeyCodeEnum.UP:
         handleUp();
@@ -166,7 +168,7 @@ export function useMenuSearch(refs: Ref<HTMLElement[]>, scrollWrap: Ref<ElRef>, 
         handleClose();
         break;
     }
-  }
+  });
 
   return { handleSearch, searchResult, keyword, activeIndex, handleMouseenter, handleEnter };
 }

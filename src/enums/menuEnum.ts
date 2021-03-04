@@ -4,6 +4,8 @@
 export enum MenuTypeEnum {
   // left menu
   SIDEBAR = 'sidebar',
+
+  MIX_SIDEBAR = 'mix-sidebar',
   // mixin menu
   MIX = 'mix',
   // top menu
@@ -40,4 +42,9 @@ export enum TopMenuAlignEnum {
   CENTER = 'center',
   START = 'start',
   END = 'end',
+}
+
+export enum MixSidebarTriggerEnum {
+  HOVER = 'hover',
+  CLICK = 'click',
 }

@@ -1,17 +1,15 @@
 import type { AppRouteRecordRaw } from '/@/router/types';
 import ParentLayout from '/@/layouts/page/ParentView.vue';
+import { t } from '/@/hooks/web/useI18n';
 
-const EXCEPTION_COMPONENT = () => import('../views/sys/exception/Exception');
+export const REDIRECT_NAME = 'Redirect';
+
+export const EXCEPTION_COMPONENT = () => import('../views/sys/exception/Exception.vue');
 
 /**
  * @description: default layout
  */
 export const LAYOUT = () => import('/@/layouts/default/index.vue');
-
-/**
- * @description: page-layout
- */
-export const PAGE_LAYOUT_COMPONENT = () => import('/@/layouts/page/index');
 
 /**
  * @description: page-layout
@@ -48,8 +46,6 @@ export const PAGE_NOT_FOUND_ROUTE: AppRouteRecordRaw = {
   ],
 };
 
-export const REDIRECT_NAME = 'Redirect';
-
 export const REDIRECT_ROUTE: AppRouteRecordRaw = {
   path: '/redirect',
   name: REDIRECT_NAME,
@@ -65,6 +61,27 @@ export const REDIRECT_ROUTE: AppRouteRecordRaw = {
       component: () => import('/@/views/sys/redirect/index.vue'),
       meta: {
         title: REDIRECT_NAME,
+        hideBreadcrumb: true,
+      },
+    },
+  ],
+};
+
+export const ERROR_LOG_ROUTE: AppRouteRecordRaw = {
+  path: '/error-log',
+  name: 'errorLog',
+  component: LAYOUT,
+  meta: {
+    title: 'ErrorLog',
+    hideBreadcrumb: true,
+  },
+  children: [
+    {
+      path: 'list',
+      name: 'errorLogList',
+      component: () => import('/@/views/sys/error-log/index.vue'),
+      meta: {
+        title: t('routes.basic.errorLogList'),
         hideBreadcrumb: true,
       },
     },

@@ -4,7 +4,6 @@
 import type { AxiosResponse } from 'axios';
 import type { CreateAxiosOptions, RequestOptions, Result } from './types';
 import { VAxios } from './Axios';
-import { getToken } from '/@/utils/auth';
 import { AxiosTransform } from './axiosTransform';
 
 import { checkStatus } from './checkStatus';
@@ -18,8 +17,9 @@ import { isString } from '/@/utils/is';
 import { setObjToUrlParams, deepMerge } from '/@/utils';
 import { errorStore } from '/@/store/modules/error';
 import { errorResult } from './const';
-
+import { useI18n } from '/@/hooks/web/useI18n';
 import { createNow, formatRequestDate } from './helper';
+import { userStore } from '/@/store/modules/user';
 
 const globSetting = useGlobSetting();
 const prefix = globSetting.urlPrefix;
@@ -32,7 +32,8 @@ const transform: AxiosTransform = {
   /**
    * @description: 处理请求数据
    */
-  transformRequestData: (res: AxiosResponse<Result>, options: RequestOptions) => {
+  transformRequestHook: (res: AxiosResponse<Result>, options: RequestOptions) => {
+    const { t } = useI18n();
     const { isTransformRequestResult } = options;
     // 不进行任何处理，直接返回
     // 用于页面代码可能需要直接获取code，data，message这些信息时开启
@@ -41,38 +42,41 @@ const transform: AxiosTransform = {
     }
     // 错误的时候返回
 
-    // const { data } = res;
-    if (!res) {
+    const { data } = res;
+    if (!data) {
       // return '[HTTP] Request has no return value';
       return errorResult;
     }
+    debugger;
     //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
-    const { code, data, msg } = res.data;
+    const { code, result, message } = data;
 
     // 这里逻辑可以根据项目进行修改
-    const hasSuccess = Reflect.has(res.data, 'code') && code === ResultEnum.SUCCESS;
+    const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
     if (!hasSuccess) {
-      // errorMessageMode=‘modal’的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
-      if (options.errorMessageMode === 'modal') {
-        createErrorModal({ title: '错误提示', content: msg });
-      } else if (options.errorMessageMode === 'message') {
-        createMessage.error(msg);
+      if (message) {
+        // errorMessageMode=‘modal’的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
+        if (options.errorMessageMode === 'modal') {
+          createErrorModal({ title: t('sys.api.errorTip'), content: message });
+        } else if (options.errorMessageMode === 'message') {
+          createMessage.error(message);
+        }
       }
-      Promise.reject(new Error(msg));
+      Promise.reject(new Error(message));
       return errorResult;
     }
 
     // 接口请求成功，直接返回结果
     if (code === ResultEnum.SUCCESS) {
-      return data;
+      return result;
     }
     // 接口请求错误，统一提示错误信息
     if (code === ResultEnum.ERROR) {
-      if (msg) {
+      if (message) {
         createMessage.error(data.message);
-        Promise.reject(new Error(msg));
+        Promise.reject(new Error(message));
       } else {
-        const msg = '操作失败,系统异常!';
+        const msg = t('sys.api.errorMessage');
         createMessage.error(msg);
         Promise.reject(new Error(msg));
       }
@@ -80,9 +84,9 @@ const transform: AxiosTransform = {
     }
     // 登录超时
     if (code === ResultEnum.TIMEOUT) {
-      const timeoutMsg = '登录超时,请重新登录!';
+      const timeoutMsg = t('sys.api.timeoutMessage');
       createErrorModal({
-        title: '操作失败',
+        title: t('sys.api.operationFailed'),
         content: timeoutMsg,
       });
       Promise.reject(new Error(timeoutMsg));
@@ -102,28 +106,27 @@ const transform: AxiosTransform = {
     if (apiUrl && isString(apiUrl)) {
       config.url = `${apiUrl}${config.url}`;
     }
+    const params = config.params || {};
     if (config.method?.toUpperCase() === RequestEnum.GET) {
-      if (!isString(config.params)) {
-        config.data = {
-          // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
-          params: Object.assign(config.params || {}, createNow(joinTime, false)),
-        };
+      if (!isString(params)) {
+        // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
+        config.params = Object.assign(params || {}, createNow(joinTime, false));
       } else {
         // 兼容restful风格
-        config.url = config.url + config.params + `${createNow(joinTime, true)}`;
+        config.url = config.url + params + `${createNow(joinTime, true)}`;
         config.params = undefined;
       }
     } else {
-      if (!isString(config.params)) {
-        formatDate && formatRequestDate(config.params);
-        config.data = config.params;
+      if (!isString(params)) {
+        formatDate && formatRequestDate(params);
+        config.data = params;
         config.params = undefined;
         if (joinParamsToUrl) {
           config.url = setObjToUrlParams(config.url as string, config.data);
         }
       } else {
         // 兼容restful风格
-        config.url = config.url + config.params;
+        config.url = config.url + params;
         config.params = undefined;
       }
     }
@@ -135,7 +138,7 @@ const transform: AxiosTransform = {
    */
   requestInterceptors: (config) => {
     // 请求之前处理config
-    const token = getToken();
+    const token = userStore.getTokenState;
     if (token) {
       // jwt token
       config.headers.Authorization = token;
@@ -147,18 +150,19 @@ const transform: AxiosTransform = {
    * @description: 响应错误处理
    */
   responseInterceptorsCatch: (error: any) => {
+    const { t } = useI18n();
     errorStore.setupErrorHandle(error);
     const { response, code, message } = error || {};
-    const msg: string = response?.data?.error ? response.data.error.message : '';
-    const err: string = error?.toString();
+    const msg: string = response?.data?.error?.message ?? '';
+    const err: string = error?.toString?.() ?? '';
     try {
       if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
-        createMessage.error('接口请求超时,请刷新页面重试!');
+        createMessage.error(t('sys.api.apiTimeoutMessage'));
       }
       if (err?.includes('Network Error')) {
         createErrorModal({
-          title: '网络异常',
-          content: '网络异常,请检查您的网络连接是否正常!',
+          title: t('sys.api.networkException'),
+          content: t('sys.api.networkExceptionMsg'),
         });
       }
     } catch (error) {
@@ -199,6 +203,8 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           apiUrl: globSetting.apiUrl,
           //  是否加入时间戳
           joinTime: true,
+          // 忽略重复请求
+          ignoreCancelToken: true,
         },
       },
       opt || {}

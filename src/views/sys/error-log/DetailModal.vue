@@ -1,16 +1,20 @@
 <template>
-  <BasicModal :width="800" title="详情" v-bind="$attrs">
+  <BasicModal :width="800" :title="t('sys.errorLog.tableActionDesc')" v-bind="$attrs">
     <Description :data="info" @register="register" />
   </BasicModal>
 </template>
 <script lang="ts">
-  import { defineComponent, PropType } from 'vue';
+  import type { PropType } from 'vue';
 
+  import { defineComponent } from 'vue';
   import { BasicModal } from '/@/components/Modal/index';
-  import { ErrorInfo } from '/@/store/modules/error';
   import { Description, useDescription } from '/@/components/Description/index';
 
-  //   import { getDescSchema } from './data';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  import { ErrorInfo } from '/@/store/modules/error';
+
+  import { getDescSchema } from './data';
 
   export default defineComponent({
     name: 'ErrorLogDetailModal',
@@ -22,12 +26,17 @@
       },
     },
     setup() {
+      const { t } = useI18n();
+
       const [register] = useDescription({
         column: 2,
-        // schema: getDescSchema(),
+        schema: getDescSchema(),
       });
+
       return {
         register,
+        useI18n,
+        t,
       };
     },
   });

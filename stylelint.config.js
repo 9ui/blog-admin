@@ -28,7 +28,8 @@ module.exports = {
         ignore: ['after-comment', 'first-nested'],
       },
     ],
-    // 指定声明块内属性的字母顺序
+    'unit-no-unknown': [true, { ignoreUnits: ['rpx'] }],
+    // Specify the alphabetical order of the attributes in the declaration block
     'order/properties-order': [
       'position',
       'top',
@@ -178,4 +179,5 @@ module.exports = {
       'speak',
     ],
   },
+  ignoreFiles: ['**/*.js', '**/*.jsx', '**/*.tsx', '**/*.ts'],
 };

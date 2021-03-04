@@ -1,11 +1,6 @@
 <template>
-  <Scrollbar
-    ref="scrollbarRef"
-    :wrapClass="`scrollbar__wrap`"
-    :viewClass="`scrollbar__view`"
-    class="scroll-container"
-  >
-    <slot />
+  <Scrollbar ref="scrollbarRef" class="scroll-container" v-bind="$attrs">
+    <slot></slot>
   </Scrollbar>
 </template>
 
@@ -17,6 +12,7 @@
 
   export default defineComponent({
     name: 'ScrollContainer',
+    // inheritAttrs: false,
     components: { Scrollbar },
     setup() {
       const scrollbarRef = ref<Nullable<ScrollbarType>>(null);

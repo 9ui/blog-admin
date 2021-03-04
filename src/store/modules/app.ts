@@ -1,4 +1,4 @@
-import type { ProjectConfig } from '/@/types/config';
+import type { ProjectConfig } from '/#/config';
 
 import { VuexModule, getModule, Module, Mutation, Action } from 'vuex-module-decorators';
 import store from '/@/store';
@@ -6,7 +6,7 @@ import store from '/@/store';
 import { PROJ_CFG_KEY } from '/@/enums/cacheEnum';
 
 import { hotModuleUnregisterModule } from '/@/utils/helper/vuexHelper';
-import { setLocal, getLocal, clearSession, clearLocal } from '/@/utils/helper/persistent';
+import { Persistent } from '/@/utils/cache/persistent';
 import { deepMerge } from '/@/utils';
 
 import { resetRouter } from '/@/router';
@@ -24,12 +24,12 @@ let timeId: TimeoutHandle;
 const NAME = 'app';
 hotModuleUnregisterModule(NAME);
 @Module({ dynamic: true, namespaced: true, store, name: NAME })
-class App extends VuexModule {
+export default class App extends VuexModule {
   // Page loading status
   private pageLoadingState = false;
 
   // project config
-  private projectConfigState: ProjectConfig | null = getLocal(PROJ_CFG_KEY);
+  private projectConfigState: ProjectConfig | null = Persistent.getLocal(PROJ_CFG_KEY);
 
   // set main overflow hidden
   private lockMainScrollState = false;
@@ -59,14 +59,13 @@ class App extends VuexModule {
   @Mutation
   commitProjectConfigState(proCfg: DeepPartial<ProjectConfig>): void {
     this.projectConfigState = deepMerge(this.projectConfigState || {}, proCfg);
-    setLocal(PROJ_CFG_KEY, this.projectConfigState);
+    Persistent.setLocal(PROJ_CFG_KEY, this.projectConfigState);
   }
 
   @Action
   async resumeAllState() {
     resetRouter();
-    clearSession();
-    clearLocal();
+    Persistent.clearAll();
 
     permissionStore.commitResetState();
     tabStore.commitResetState();
