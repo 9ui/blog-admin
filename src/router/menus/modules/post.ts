@@ -3,7 +3,7 @@ const menu: MenuModule = {
   orderNo: 10,
   menu: {
     path: '/post',
-    name: '文章列表',
+    name: '文章',
     children: [
       {
         path: 'list',
@@ -11,7 +11,7 @@ const menu: MenuModule = {
       },
       {
         path: 'add',
-        name: '新增文章',
+        name: '写文章',
       },
     ],
   },

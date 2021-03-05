@@ -5,12 +5,17 @@
       :schemas="schemas"
       :actionColOptions="{ span: 24 }"
       :showSubmitButton="true"
+      :showResetButton="false"
+      :submitButtonOptions="{ text: '提交' }"
       @submit="handleSubmit"
     />
   </CollapseContainer>
 </template>
 <script lang="ts">
   import { defineComponent, h } from 'vue';
+  //   import { useRouter } from 'vue-router';
+  //   import { PageEnum } from '/@/enums/pageEnum';
+  //   import { errorStore } from '/@/store/modules/error';
   import { BasicForm, FormSchema } from '/@/components/Form/index';
   import { CollapseContainer } from '/@/components/Container/index';
   //   import { useMessage } from '/@/hooks/web/useMessage';
@@ -47,9 +52,13 @@
       //   const { createMessage } = useMessage();
       return {
         schemas,
-        handleSubmit: (values: any) => {
-          addPostApi(values);
-          //   createMessage.success('click search,values:' + JSON.stringify(values));
+        handleSubmit: async (values: any) => {
+          const result = await addPostApi(values);
+          //   const { push } = useRouter();
+          //   push('/post/list').then(() => {
+          //     errorStore.commitErrorListCountState(0);
+          //   });
+          console.log('result', result);
         },
       };
     },

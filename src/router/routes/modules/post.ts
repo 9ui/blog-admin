@@ -9,7 +9,7 @@ const dashboard: AppRouteModule = {
   redirect: '/post/list',
   meta: {
     icon: 'ion:list-outline',
-    title: '文章列表',
+    title: '文章',
   },
   children: [
     {
@@ -27,7 +27,7 @@ const dashboard: AppRouteModule = {
       name: 'Add',
       component: () => import('/@/views/post/add/index.vue'),
       meta: {
-        title: '新增文章',
+        title: '写文章',
         affix: true,
         icon: 'bx:bx-book-add',
       },
