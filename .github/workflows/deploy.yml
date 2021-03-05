@@ -1,0 +1,67 @@
+# 该workflow的名称，可以随意填写
+name: deploy
+
+# workflow的触发事件，这里代表master分支的push事件触发
+on:
+  push:
+    branches: [main]
+
+# 任务
+jobs:
+  build:
+    # 运行所需要的环境
+    runs-on: ubuntu-latest
+
+    steps:
+      # 切换分支
+      - name: Checkout
+        uses: actions/checkout@master
+      # 下载 git submodule
+      - uses: srt32/git-actions@v0.0.3
+        with:
+          args: git submodule update --init --recursive
+      # 使用 node:14
+      - name: use Node.js 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      # npm install
+      - name: install
+        run: |
+          npm install
+        env:
+          CI: true
+      # build
+      - name: Build
+        run: |
+          npm run build
+        env:
+          CI: true
+      # Deploy
+      - name: Deploy
+        uses: easingthemes/ssh-deploy@v2.0.7
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN }}
+          ARGS: '-avz --delete'
+          SOURCE: 'dist/'
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.TARGET }}
+      # 微信通知
+      - name: Wechat Notification
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: chf007/action-wechat-work@master
+        env:
+          WECHAT_WORK_BOT_WEBHOOK: ${{ secrets.WECHAT_WORK_BOT_WEBHOOK }}
+        with:
+          msgtype: markdown
+          content: "来画平台<font color=\"warning\">v5.2.3</font>更新了，快来试试看吧～。\n
+          ##### 修改内容：\n
+          > ${{ github.event.head_commit.message }} \n
+          ##### 修改分支:\n
+          > ${{ github.event.ref }} \n
+          ##### 修改时间:\n
+          > ${{ github.event.head_commit.timestamp }} \n
+          ##### 修改人:\n
+          > ${{ github.event.head_commit.committer.name }}\n"
+          mentioned_list: "['@all']"
