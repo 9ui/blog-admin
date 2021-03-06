@@ -1,5 +1,5 @@
 {
-  "name": "vben-admin",
+  "name": "laihua-workbench",
   "version": "2.0.2",
   "scripts": {
     "bootstrap": "yarn install",
@@ -120,13 +120,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anncwb/vue-vben-admin.git"
+    "url": "git+https://github.com/9ui/laihua-workbench.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/anncwb/vue-vben-admin/issues"
+    "url": "https://github.com/9ui/laihua-workbench/issues"
   },
-  "homepage": "https://github.com/anncwb/vue-vben-admin",
+  "homepage": "https://github.com/9ui/laihua-workbench",
   "engines": {
     "node": "^12 || ^14 || ^15 || ^16"
   }

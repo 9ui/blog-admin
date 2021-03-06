@@ -1,6 +1,6 @@
 <template>
   <BasicTable @register="registerTable">
-    <template #form-custom> custom-slot </template>
+    <template #form-custom></template>
     <template #action="{ record, column }">
       <TableAction
         :actions="[
@@ -32,7 +32,8 @@
     components: { BasicTable, TableAction },
     setup() {
       const { createMessage } = useMessage();
-      const [registerTable] = useTable({
+
+      const [registerTable, { reload }] = useTable({
         api: postListApi, //  调用api查询表格数据
         columns: getBasicColumns(), // 表列
         useSearchForm: true, // 是否开启搜索功能
@@ -51,8 +52,12 @@
       // 删除文章
       async function handleDelete(record: Recordable) {
         const { id } = await record;
-        const result = await deletePostApi({ id: id });
-        createMessage.success(`删除成功!${result}`);
+        await deletePostApi({ id: id });
+        createMessage.success('删除成功!');
+        // 刷新列表
+        reload({
+          page: 1,
+        });
       }
       // 编辑文章
       function handleEdit(record: Recordable) {

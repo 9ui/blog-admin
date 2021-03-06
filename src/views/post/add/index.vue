@@ -13,12 +13,13 @@
 </template>
 <script lang="ts">
   import { defineComponent, h } from 'vue';
+  import { useGo } from '/@/hooks/web/usePage';
   //   import { useRouter } from 'vue-router';
   //   import { PageEnum } from '/@/enums/pageEnum';
   //   import { errorStore } from '/@/store/modules/error';
   import { BasicForm, FormSchema } from '/@/components/Form/index';
   import { CollapseContainer } from '/@/components/Container/index';
-  //   import { useMessage } from '/@/hooks/web/useMessage';
+  import { useMessage } from '/@/hooks/web/useMessage';
   import { Tinymce } from '/@/components/Tinymce/index';
   import { PageWrapper } from '/@/components/Page';
   import { addPostApi } from '/@/api/sys/post';
@@ -49,16 +50,15 @@
   export default defineComponent({
     components: { BasicForm, CollapseContainer, PageWrapper },
     setup() {
-      //   const { createMessage } = useMessage();
+      const { createMessage } = useMessage();
+      const go = useGo();
       return {
         schemas,
         handleSubmit: async (values: any) => {
-          const result = await addPostApi(values);
-          //   const { push } = useRouter();
-          //   push('/post/list').then(() => {
-          //     errorStore.commitErrorListCountState(0);
-          //   });
-          console.log('result', result);
+          await addPostApi(values);
+          createMessage.success('添加成功!');
+          go();
+          go('/post/list');
         },
       };
     },

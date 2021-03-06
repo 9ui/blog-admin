@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 import type { App } from 'vue';
 
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 import { createGuard } from './guard';
 import { basicRoutes, LoginRoute } from './routes';
@@ -11,7 +11,7 @@ const WHITE_NAME_LIST = [LoginRoute.name, REDIRECT_NAME];
 
 // app router
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes: (basicRoutes as unknown) as RouteRecordRaw[],
   strict: true,
   scrollBehavior: () => ({ left: 0, top: 0 }),
