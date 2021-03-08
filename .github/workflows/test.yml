@@ -1,0 +1,23 @@
+# 该workflow的名称，可以随意填写
+name: deploy
+
+# workflow的触发事件，这里代表master分支的push事件触发
+on:
+  push:
+    branches: [release]
+
+# 任务
+jobs:
+  build:
+    # 运行所需要的环境
+    runs-on: ubuntu-latest
+    steps:
+      # 切换分支
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: send custom message with args
+        uses: appleboy/discord-action@master
+        with:
+          webhook_id: ${{ secrets.WEBHOOK_ID }}
+          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+          args: The ${{ github.event_name }} event triggered first step.
