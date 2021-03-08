@@ -52,19 +52,24 @@ jobs:
         if: success()
         with:
           severity: info
-          details: Test Succeeded!
+          avatarUrl: https://avatars.githubusercontent.com/u/71952965?s=400&u=b4330492595a29cdba1c8c3029c078d1cb70631e&v=4
+          username: ${{ github.event.head_commit.committer.name }}
+          description: 以后完善
+          footer: ${{ github.event.ref }}
+          text: 平台更新.
+          details: ${{ github.event.head_commit.message }}
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Failure
         uses: rjstone/discord-webhook-notify@v1
         if: failure()
         with:
           severity: error
-          details: Test Failed!
+          details: 平台更新失败
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Cancelled
         uses: rjstone/discord-webhook-notify@v1
         if: cancelled()
         with:
           severity: warn
-          details: Test Cancelled!
+          details: 平台取消更新
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
