@@ -1,5 +1,5 @@
 # 该workflow的名称，可以随意填写
-name: deploy
+name: test
 
 # workflow的触发事件，这里代表master分支的push事件触发
 on:
@@ -15,9 +15,24 @@ jobs:
       # 切换分支
       - name: Checkout
         uses: actions/checkout@master
-      - name: send custom message with args
-        uses: appleboy/discord-action@master
+      - name: Success
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
         with:
-          webhook_id: ${{ secrets.WEBHOOK_ID }}
-          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
-          args: The ${{ github.event_name }} event triggered first step.
+          severity: info
+          details: Test Succeeded!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Failure
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+          severity: error
+          details: Test Failed!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Cancelled
+        uses: rjstone/discord-webhook-notify@v1
+        if: cancelled()
+        with:
+          severity: warn
+          details: Test Cancelled!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
