@@ -49,8 +49,8 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.TARGET }}
       # discord Notification
-      - name: Discord Commits
-        uses: tsickert/discord-webhook@v2.0.2
+      - name: Discord
+        uses: appleboy/discord-action@master
         with:
-          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          content: 'Test'
+          webhook_id: ${{ secrets.WEBHOOK_ID }}
+          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
