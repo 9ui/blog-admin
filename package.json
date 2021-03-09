@@ -5,6 +5,7 @@
     "bootstrap": "yarn install",
     "serve": "vite",
     "dev": "vite",
+    "cz": "git-cz",
     "build": "vite build && esno ./build/script/postBuild.ts",
     "build:no-cache": "yarn clean:cache && npm run build",
     "report": "cross-env REPORT=true npm run build ",
@@ -75,8 +76,9 @@
     "@vitejs/plugin-vue-jsx": "^1.1.2",
     "@vue/compiler-sfc": "^3.0.7",
     "autoprefixer": "^10.2.4",
-    "commitizen": "^4.2.3",
+    "commitizen": "^4.2.2",
     "conventional-changelog-cli": "^2.1.1",
+    "conventional-changelog-custom-config": "^0.3.1",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
     "eslint": "^7.21.0",
@@ -117,6 +119,12 @@
   "resolutions": {
     "//": "Used to install imagemin dependencies, because imagemin may not be installed in China.If it is abroad, you can delete it",
     "bin-wrapper": "npm:bin-wrapper-china"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "ls-lint && lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   },
   "repository": {
     "type": "git",

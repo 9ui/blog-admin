@@ -6,7 +6,6 @@
       :actionColOptions="{ span: 24 }"
       :showSubmitButton="true"
       :showResetButton="false"
-      :submitButtonOptions="{ text: '提交' }"
       @submit="handleSubmit"
     />
   </CollapseContainer>
@@ -14,13 +13,10 @@
 <script lang="ts">
   import { defineComponent, h } from 'vue';
   import { useGo } from '/@/hooks/web/usePage';
-  //   import { useRouter } from 'vue-router';
-  //   import { PageEnum } from '/@/enums/pageEnum';
-  //   import { errorStore } from '/@/store/modules/error';
   import { BasicForm, FormSchema } from '/@/components/Form/index';
   import { CollapseContainer } from '/@/components/Container/index';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { Tinymce } from '/@/components/Tinymce/index';
+  import { MarkDown } from '/@/components/Markdown';
   import { PageWrapper } from '/@/components/Page';
   import { addPostApi } from '/@/api/sys/post';
   const schemas: FormSchema[] = [
@@ -36,9 +32,9 @@
       component: 'Input',
       label: '内容',
       defaultValue: '请输入内容',
-      rules: [{ required: true }],
+      rules: [{ required: true, trigger: 'blur' }],
       render: ({ model, field }) => {
-        return h(Tinymce, {
+        return h(MarkDown, {
           value: model[field],
           onChange: (value: string) => {
             model[field] = value;
@@ -55,7 +51,8 @@
       return {
         schemas,
         handleSubmit: async (values: any) => {
-          await addPostApi(values);
+          const params = Object.assign(values, { created_at: new Date(), updated_at: new Date() });
+          await addPostApi(params);
           createMessage.success('添加成功!');
           go();
           go('/post/list');

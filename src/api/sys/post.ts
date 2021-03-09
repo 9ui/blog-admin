@@ -19,7 +19,7 @@ enum Api {
  * @returns 返回文章列表
  */
 export function postListApi(params: PostParams) {
-  return defHttp.get<PostListGetResultModel>({
+  return defHttp.post<PostListGetResultModel>({
     url: Api.POST_LIST,
     params,
   });

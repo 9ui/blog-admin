@@ -2700,7 +2700,7 @@ commander@~2.17.1:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
   integrity sha512-wPMUt6FnH2yzG95SA6mzjQOEKUU3aLaDEmzs1ti+1E9h+CsrZghRlqEM/EJ4KscsQVG8uNN4uVreUeT8+drlgg==
 
-commitizen@^4.0.3, commitizen@^4.2.3:
+commitizen@^4.0.3, commitizen@^4.2.2:
   version "4.2.3"
   resolved "https://registry.npmjs.org/commitizen/-/commitizen-4.2.3.tgz#088d0ef72500240d331b11e02e288223667c1475"
   integrity sha512-pYlYEng7XMV2TW4xtjDKBGqeJ0Teq2zyRSx2S3Ml1XAplHSlJZK8vm1KdGclpMEZuGafbS5TeHXIVnHk8RWIzQ==
@@ -2856,6 +2856,11 @@ conventional-changelog-core@^4.2.1:
     read-pkg-up "^3.0.0"
     shelljs "^0.8.3"
     through2 "^4.0.0"
+
+conventional-changelog-custom-config@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.npmjs.org/conventional-changelog-custom-config/-/conventional-changelog-custom-config-0.3.1.tgz#4a6433138d602a2b7ecc81729feb6fa1855bff7b"
+  integrity sha512-d4Lre8VZll1SVRmpoUe/LSj8Ge8QOt7u8MQyGz8vu/H/KiWf5rvdYkBo5z268QvkUrF43eI64QxVcqd9XOLsew==
 
 conventional-changelog-ember@^2.0.9:
   version "2.0.9"

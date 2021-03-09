@@ -47,6 +47,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.TESTTARGET }}
+      # Notify
       - name: Success
         uses: rjstone/discord-webhook-notify@v1
         if: success()

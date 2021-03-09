@@ -61,6 +61,7 @@
       }
       // 编辑文章
       function handleEdit(record: Recordable) {
+        console.log('record', record);
         createMessage.info(`点击了编辑${record}`);
       }
       return {

@@ -15,6 +15,14 @@ module.exports = {
   requirePragma: false,
   proseWrap: 'never',
   htmlWhitespaceSensitivity: 'strict',
-  endOfLine: 'lf',
+  endOfLine: 'auto',
   rangeStart: 0,
+  overrides: [
+    {
+      files: '*.md',
+      options: {
+        tabWidth: 2,
+      },
+    },
+  ],
 };
