@@ -1,5 +1,5 @@
 <template>
-  <BasicTable @register="registerTable">
+  <BasicTable @register="registerTable" title="文章列表">
     <template #form-custom></template>
     <template #action="{ record, column }">
       <TableAction
@@ -16,6 +16,11 @@
             label: '编辑',
             icon: 'bx:bx-edit',
             onClick: handleEdit.bind(null, record, column),
+          },
+          {
+            label: '预览',
+            icon: 'codicon:preview',
+            onClick: handlePreview.bind(null, record, column),
           },
         ]"
       />
@@ -38,12 +43,12 @@
         columns: getBasicColumns(), // 表列
         useSearchForm: true, // 是否开启搜索功能
         formConfig: getFormConfig(), // 表单配置
-        // showTableSetting: true,
-        rowSelection: { type: 'checkbox' }, // 显示checkbox
+        showTableSetting: true,
+        // rowSelection: { type: 'checkbox' }, // 显示checkbox
         bordered: true, // 边框
         // 操作栏
         actionColumn: {
-          width: 160,
+          width: 250,
           title: '操作',
           dataIndex: 'action',
           slots: { customRender: 'action' },
@@ -64,10 +69,16 @@
         console.log('record', record);
         createMessage.info(`点击了编辑${record}`);
       }
+
+      // 预览文章
+      function handlePreview(record: Recordable) {
+        console.log('record', record);
+      }
       return {
         registerTable,
         handleDelete,
         handleEdit,
+        handlePreview,
       };
     },
   });
