@@ -24,6 +24,8 @@ export interface PostListItem {
   thumbnail: null;
   updated_at: string;
   created_at: string;
+  category: string;
+  tag: string;
   title: string;
   top: boolean;
   version: number;

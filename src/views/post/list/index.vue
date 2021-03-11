@@ -44,7 +44,7 @@
         useSearchForm: true, // 是否开启搜索功能
         formConfig: getFormConfig(), // 表单配置
         showTableSetting: true,
-        // rowSelection: { type: 'checkbox' }, // 显示checkbox
+        rowSelection: { type: 'checkbox' }, // 显示checkbox
         bordered: true, // 边框
         // 操作栏
         actionColumn: {

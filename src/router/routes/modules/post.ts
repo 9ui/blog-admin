@@ -32,6 +32,16 @@ const dashboard: AppRouteModule = {
         icon: 'bx:bx-book-add',
       },
     },
+    {
+      path: 'category',
+      name: 'Category',
+      component: () => import('/@/views/post/category/index.vue'),
+      meta: {
+        title: '分类目录',
+        affix: true,
+        icon: 'bx:bx-book-add',
+      },
+    },
   ],
 };
 

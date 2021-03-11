@@ -13,6 +13,10 @@ const menu: MenuModule = {
         path: 'add',
         name: '写文章',
       },
+      {
+        path: 'category',
+        name: '分类目录',
+      },
     ],
   },
 };

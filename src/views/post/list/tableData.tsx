@@ -10,6 +10,16 @@ export function getBasicColumns(): BasicColumn[] {
       //   slots: { customRender: 'img' },
     },
     {
+      title: '类别',
+      dataIndex: 'category',
+      width: 150,
+    },
+    {
+      title: '标签',
+      dataIndex: 'tag',
+      width: 150,
+    },
+    {
       title: '缩略图',
       dataIndex: 'img',
       width: 250,
