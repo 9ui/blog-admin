@@ -22,34 +22,6 @@ const system: AppRouteModule = {
       component: () => import('/@/views/system/account/index.vue'),
     },
     {
-      path: 'role',
-      name: 'RoleManagement',
-      meta: {
-        title: '角色管理',
-        ignoreKeepAlive: true,
-      },
-      component: () => import('/@/views/system/role/index.vue'),
-    },
-
-    {
-      path: 'menu',
-      name: 'MenuManagement',
-      meta: {
-        title: '菜单管理',
-        ignoreKeepAlive: true,
-      },
-      component: () => import('/@/views/system/menu/index.vue'),
-    },
-    {
-      path: 'dept',
-      name: 'DeptManagement',
-      meta: {
-        title: '部门管理',
-        ignoreKeepAlive: true,
-      },
-      component: () => import('/@/views/system/dept/index.vue'),
-    },
-    {
       path: 'changePassword',
       name: 'ChangePassword',
       meta: {

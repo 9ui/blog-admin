@@ -18,19 +18,6 @@ const menu: MenuModule = {
         },
       },
       {
-        path: 'role',
-        name: t('routes.demo.system.role'),
-      },
-      {
-        path: 'menu',
-        name: t('routes.demo.system.menu'),
-      },
-      {
-        path: 'dept',
-        name: t('routes.demo.system.dept'),
-      },
-
-      {
         path: 'changePassword',
         name: t('routes.demo.system.password'),
         tag: {
