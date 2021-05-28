@@ -1,5 +1,5 @@
 <template>
-  <div :class="getClass" :style="getDragBarStyle" />
+  <div :class="getClass" :style="getDragBarStyle"></div>
 </template>
 <script lang="ts">
   import { defineComponent, computed, unref } from 'vue';
@@ -41,7 +41,6 @@
   });
 </script>
 <style lang="less" scoped>
-  @import (reference) '../../../design/index.less';
   @prefix-cls: ~'@{namespace}-darg-bar';
 
   .@{prefix-cls} {

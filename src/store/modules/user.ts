@@ -18,29 +18,27 @@ import router from '/@/router';
 
 import { loginApi, getUserInfoById } from '/@/api/sys/user';
 
-import { setLocal, getLocal, getSession, setSession } from '/@/utils/helper/persistent';
-import { useProjectSetting } from '/@/hooks/setting';
-
+import { Persistent, BasicKeys } from '/@/utils/cache/persistent';
+import { useI18n } from '/@/hooks/web/useI18n';
 import { ErrorMessageMode } from '/@/utils/http/axios/types';
+import projectSetting from '/@/settings/projectSetting';
 
 export type UserInfo = Omit<GetUserInfoByUserIdModel, 'roles'>;
 
-const NAME = 'user';
+const { permissionCacheType } = projectSetting;
+const isLocal = permissionCacheType === CacheTypeEnum.LOCAL;
+
+const NAME = 'app-user';
 hotModuleUnregisterModule(NAME);
 
-const { permissionCacheType } = useProjectSetting();
-
-function getCache<T>(key: string) {
-  const fn = permissionCacheType === CacheTypeEnum.LOCAL ? getLocal : getSession;
+function getCache<T>(key: BasicKeys) {
+  const fn = isLocal ? Persistent.getLocal : Persistent.getSession;
   return fn(key) as T;
 }
 
-function setCache(USER_INFO_KEY: string, info: any) {
-  if (!info) return;
-  // const fn = permissionCacheType === CacheTypeEnum.LOCAL ? setLocal : setSession;
-  setLocal(USER_INFO_KEY, info, true);
-  // TODO
-  setSession(USER_INFO_KEY, info, true);
+function setCache(key: BasicKeys, value) {
+  const fn = isLocal ? Persistent.setLocal : Persistent.setSession;
+  return fn(key, value);
 }
 
 @Module({ namespaced: true, name: NAME, dynamic: true, store })
@@ -104,16 +102,11 @@ class User extends VuexModule {
     try {
       const { goHome = true, mode, ...loginParams } = params;
       const data = await loginApi(loginParams, mode);
-
       const { token, userId } = data;
-      // get user info
-      const userInfo = await this.getUserInfoAction({ userId });
-
       // save token
       this.commitTokenState(token);
-
-      // const name = FULL_PAGE_NOT_FOUND_ROUTE.name;
-      // name && router.removeRoute(name);
+      // get user info
+      const userInfo = await this.getUserInfoAction({ userId });
       goHome && (await router.replace(PageEnum.BASE_HOME));
       return userInfo;
     } catch (error) {
@@ -124,18 +117,18 @@ class User extends VuexModule {
   @Action
   async getUserInfoAction({ userId }: GetUserInfoByUserIdParams) {
     const userInfo = await getUserInfoById({ userId });
-    const { role } = userInfo;
-    const roleList = [role.value] as RoleEnum[];
+    const { roles } = userInfo;
+    const roleList = roles.map((item) => item.value) as RoleEnum[];
     this.commitUserInfoState(userInfo);
     this.commitRoleListState(roleList);
     return userInfo;
   }
 
   /**
-   * @description: login out
+   * @description: logout
    */
   @Action
-  async loginOut(goLogin = false) {
+  async logout(goLogin = false) {
     goLogin && router.push(PageEnum.BASE_LOGIN);
   }
 
@@ -145,15 +138,13 @@ class User extends VuexModule {
   @Action
   async confirmLoginOut() {
     const { createConfirm } = useMessage();
-
+    const { t } = useI18n();
     createConfirm({
       iconType: 'warning',
-      title: '温馨提醒',
-      content: '是否确认退出系统',
-      cancelText: '取消',
-      okText: '确认',
+      title: t('sys.app.logoutTip'),
+      content: t('sys.app.logoutMessage'),
       onOk: async () => {
-        await this.loginOut(true);
+        await this.logout(true);
       },
     });
   }

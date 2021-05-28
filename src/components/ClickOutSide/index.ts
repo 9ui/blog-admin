@@ -1,6 +1,3 @@
-import { withInstall } from '../util';
-import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
+import ClickOutSide from './src/index.vue';
 
-export const ClickOutSide = createAsyncComponent(() => import('./src/index.vue'));
-
-withInstall(ClickOutSide);
+export { ClickOutSide };

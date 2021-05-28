@@ -13,7 +13,7 @@
     :okButtonProps="getOkButtonProps"
     :cancelButtonProps="{ disabled: isUploadingRef }"
   >
-    <template #centerdFooter>
+    <template #centerFooter>
       <a-button
         @click="handleStartUpload"
         color="success"
@@ -33,14 +33,16 @@
         :before-upload="beforeUpload"
         class="upload-modal-toolbar__btn"
       >
-        <a-button type="primary"> {{ t('component.upload.choose') }} </a-button>
+        <a-button type="primary">
+          {{ t('component.upload.choose') }}
+        </a-button>
       </Upload>
     </div>
     <FileList :dataSource="fileListRef" :columns="columns" :actionColumn="actionColumn" />
   </BasicModal>
 </template>
 <script lang="ts">
-  import { defineComponent, reactive, ref, toRefs, unref, computed } from 'vue';
+  import { defineComponent, reactive, ref, toRefs, unref, computed, PropType } from 'vue';
   import { Upload, Alert } from 'ant-design-vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   //   import { BasicTable, useTable } from '/@/components/Table';
@@ -54,15 +56,24 @@
   // utils
   import { checkFileType, checkImgType, getBase64WithFile } from './helper';
   import { buildUUID } from '/@/utils/uuid';
-  import { createImgPreview } from '/@/components/Preview/index';
   import { isFunction } from '/@/utils/is';
   import { warn } from '/@/utils/log';
   import FileList from './FileList';
 
+  import { useI18n } from '/@/hooks/web/useI18n';
   export default defineComponent({
     components: { BasicModal, Upload, Alert, FileList },
-    props: basicProps,
+    props: {
+      ...basicProps,
+      previewFileList: {
+        type: Array as PropType<string[]>,
+        default: () => [],
+      },
+    },
+    emits: ['change', 'register'],
     setup(props, { emit }) {
+      const { t } = useI18n();
+
       //   是否正在上传
       const isUploadingRef = ref(false);
       const fileListRef = ref<FileItem[]>([]);
@@ -122,7 +133,7 @@
 
         // 设置类型,则判断
         if (accept.length > 0 && !checkFileType(file, accept)) {
-          createMessage.error!(t('acomponent.upload.cceptUpload', [accept.join(',')]));
+          createMessage.error!(t('component.upload.acceptUpload', [accept.join(',')]));
           return false;
         }
         const commonItem = {
@@ -158,12 +169,12 @@
       }
 
       // 预览
-      function handlePreview(record: FileItem) {
-        const { thumbUrl = '' } = record;
-        createImgPreview({
-          imageList: [thumbUrl],
-        });
-      }
+      // function handlePreview(record: FileItem) {
+      //   const { thumbUrl = '' } = record;
+      //   createImgPreview({
+      //     imageList: [thumbUrl],
+      //   });
+      // }
 
       async function uploadApiByItem(item: FileItem) {
         const { api } = props;
@@ -201,7 +212,7 @@
       // 点击开始上传
       async function handleStartUpload() {
         const { maxNumber } = props;
-        if (fileListRef.value.length > maxNumber) {
+        if ((fileListRef.value.length + props.previewFileList?.length ?? 0) > maxNumber) {
           return createMessage.warning(t('component.upload.maxNumber', [maxNumber]));
         }
         try {
@@ -264,7 +275,7 @@
 
       return {
         columns: createTableColumns(),
-        actionColumn: createActionColumn(handleRemove, handlePreview),
+        actionColumn: createActionColumn(handleRemove),
         register,
         closeModal,
         getHelpText,

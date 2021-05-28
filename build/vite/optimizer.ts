@@ -1,15 +1,17 @@
+// TODO
 import type { GetManualChunk, GetManualChunkApi } from 'rollup';
 
 //
 const vendorLibs: { match: string[]; output: string }[] = [
-  {
-    match: ['xlsx'],
-    output: 'xlsx',
-  },
+  // {
+  //   match: ['xlsx'],
+  //   output: 'xlsx',
+  // },
 ];
 
 // @ts-ignore
 export const configManualChunk: GetManualChunk = (id: string, api: GetManualChunkApi) => {
+  console.log(api);
   if (/[\\/]node_modules[\\/]/.test(id)) {
     const matchItem = vendorLibs.find((item) => {
       const reg = new RegExp(`[\\/]node_modules[\\/]_?(${item.match.join('|')})(.*)`, 'ig');

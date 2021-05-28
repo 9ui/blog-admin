@@ -2,76 +2,88 @@
   <Teleport to="body">
     <transition name="zoom-fade" mode="out-in">
       <div :class="getClass" @click.stop v-if="visible">
-        <ClickOutSide @clickOutside="handleClose">
-          <div :class="`${prefixCls}-content`">
-            <div :class="`${prefixCls}-input__wrapper`">
-              <a-input
-                :class="`${prefixCls}-input`"
-                placeholder="搜索"
-                allow-clear
-                @change="handleSearch"
-              >
-                <template #prefix>
-                  <SearchOutlined />
-                </template>
-              </a-input>
-              <span :class="`${prefixCls}-cancel`" @click="handleClose">取消</span>
-            </div>
-
-            <div :class="`${prefixCls}-not-data`" v-show="getIsNotData"> 暂无搜索结果 </div>
-            <ul :class="`${prefixCls}-list`" v-show="!getIsNotData" ref="scrollWrap">
-              <li
-                :ref="setRefs(index)"
-                v-for="(item, index) in searchResult"
-                :key="item.path"
-                :data-index="index"
-                @mouseenter="handleMouseenter"
-                @click="handleEnter"
-                :class="[
-                  `${prefixCls}-list__item`,
-                  {
-                    [`${prefixCls}-list__item--active`]: activeIndex === index,
-                  },
-                ]"
-              >
-                <div :class="`${prefixCls}-list__item-icon`">
-                  <g-icon :icon="item.icon || 'mdi:form-select'" :size="20" />
-                </div>
-                <div :class="`${prefixCls}-list__item-text`">{{ item.name }}</div>
-                <div :class="`${prefixCls}-list__item-enter`">
-                  <g-icon icon="ant-design:enter-outlined" :size="20" />
-                </div>
-              </li>
-            </ul>
-            <AppSearchFooter />
+        <div :class="`${prefixCls}-content`" v-click-outside="handleClose">
+          <div :class="`${prefixCls}-input__wrapper`">
+            <a-input
+              :class="`${prefixCls}-input`"
+              :placeholder="t('common.searchText')"
+              allow-clear
+              @change="handleSearch"
+            >
+              <template #prefix>
+                <SearchOutlined />
+              </template>
+            </a-input>
+            <span :class="`${prefixCls}-cancel`" @click="handleClose">
+              {{ t('common.cancelText') }}
+            </span>
           </div>
-        </ClickOutSide>
+
+          <div :class="`${prefixCls}-not-data`" v-show="getIsNotData">
+            {{ t('component.app.searchNotData') }}
+          </div>
+          <ul :class="`${prefixCls}-list`" v-show="!getIsNotData" ref="scrollWrap">
+            <li
+              :ref="setRefs(index)"
+              v-for="(item, index) in searchResult"
+              :key="item.path"
+              :data-index="index"
+              @mouseenter="handleMouseenter"
+              @click="handleEnter"
+              :class="[
+                `${prefixCls}-list__item`,
+                {
+                  [`${prefixCls}-list__item--active`]: activeIndex === index,
+                },
+              ]"
+            >
+              <div :class="`${prefixCls}-list__item-icon`">
+                <Icon :icon="item.icon || 'mdi:form-select'" :size="20" />
+              </div>
+              <div :class="`${prefixCls}-list__item-text`">
+                {{ item.name }}
+              </div>
+              <div :class="`${prefixCls}-list__item-enter`">
+                <Icon icon="ant-design:enter-outlined" :size="20" />
+              </div>
+            </li>
+          </ul>
+          <AppSearchFooter />
+        </div>
       </div>
     </transition>
   </Teleport>
 </template>
 <script lang="ts">
   import { defineComponent, computed, unref, ref } from 'vue';
+  import { SearchOutlined } from '@ant-design/icons-vue';
+  import { Input } from 'ant-design-vue';
+  import AppSearchFooter from './AppSearchFooter.vue';
+  import Icon from '/@/components/Icon';
+
+  import clickOutside from '/@/directives/clickOutside';
 
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useRefs } from '/@/hooks/core/useRefs';
   import { useMenuSearch } from './useMenuSearch';
-  import { SearchOutlined } from '@ant-design/icons-vue';
-  import AppSearchFooter from './AppSearchFooter.vue';
-
-  import { ClickOutSide } from '/@/components/ClickOutSide';
+  import { useI18n } from '/@/hooks/web/useI18n';
   import { useAppInject } from '/@/hooks/web/useAppInject';
+
   export default defineComponent({
     name: 'AppSearchModal',
-    components: { SearchOutlined, ClickOutSide, AppSearchFooter },
-    emits: ['close'],
+    components: { Icon, SearchOutlined, AppSearchFooter, [Input.name]: Input },
+    directives: {
+      clickOutside,
+    },
+
     props: {
       visible: Boolean,
     },
+    emits: ['close'],
     setup(_, { emit }) {
       const scrollWrap = ref<ElRef>(null);
       const { prefixCls } = useDesign('app-search-modal');
-
+      const { t } = useI18n();
       const [refs, setRefs] = useRefs();
       const { getIsMobile } = useAppInject();
 
@@ -97,7 +109,13 @@
         ];
       });
 
+      function handleClose() {
+        searchResult.value = [];
+        emit('close');
+      }
+
       return {
+        t,
         prefixCls,
         getClass,
         handleSearch,
@@ -108,15 +126,12 @@
         setRefs,
         scrollWrap,
         handleMouseenter,
-        handleClose: () => {
-          emit('close');
-        },
+        handleClose,
       };
     },
   });
 </script>
 <style lang="less" scoped>
-  @import (reference) '../../../../design/index.less';
   @prefix-cls: ~'@{namespace}-app-search-modal';
   @footer-prefix-cls: ~'@{namespace}-app-search-footer';
   .@{prefix-cls} {
@@ -129,7 +144,7 @@
     height: 100%;
     padding-top: 50px;
     // background: #656c85cc;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.25);
     justify-content: center;
     // backdrop-filter: blur(2px);
 
@@ -172,12 +187,13 @@
 
     &-content {
       position: relative;
-      width: 532px;
+      width: 632px;
       // padding: 14px;
       margin: 0 auto auto auto;
       background: #f5f6f7;
-      border-radius: 6px;
-      box-shadow: inset 1px 1px 0 0 hsla(0, 0%, 100%, 0.5), 0 3px 8px 0 #555a64;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      // box-shadow: inset 1px 1px 0 0 hsla(0, 0%, 100%, 0.5), 0 3px 8px 0 #555a64;
       flex-direction: column;
     }
 
@@ -190,9 +206,10 @@
 
     &-input {
       width: 100%;
-      height: 56px;
+      height: 48px;
       font-size: 1.5em;
       color: #1c1e21;
+      border-radius: 6px;
 
       span[role='img'] {
         color: #999;

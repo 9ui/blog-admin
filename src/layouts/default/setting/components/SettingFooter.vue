@@ -7,7 +7,7 @@
 
     <a-button color="warning" block @click="handleResetSetting" class="my-3">
       <RedoOutlined class="mr-2" />
-      {{ t('layout.setting.resetBtn') }}
+      {{ t('common.resetText') }}
     </a-button>
 
     <a-button color="error" block @click="handleClearAndRedo">
@@ -20,14 +20,15 @@
   import { defineComponent, unref } from 'vue';
 
   import { useDesign } from '/@/hooks/web/useDesign';
-
+  import { useI18n } from '/@/hooks/web/useI18n';
   import { CopyOutlined, RedoOutlined } from '@ant-design/icons-vue';
   import { appStore } from '/@/store/modules/app';
   import defaultSetting from '/@/settings/projectSetting';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useCopyToClipboard } from '/@/hooks/web/useCopyToClipboard';
   import { useRootSetting } from '/@/hooks/setting/useRootSetting';
-  import { updateColorWeak, updateGrayMode } from '/@/setup/theme';
+  import { updateColorWeak } from '/@/logics/theme/updateColorWeak';
+  import { updateGrayMode } from '/@/logics/theme/updateGrayMode';
 
   export default defineComponent({
     name: 'SettingFooter',
@@ -35,7 +36,7 @@
     setup() {
       const { getRootSetting } = useRootSetting();
       const { prefixCls } = useDesign('setting-footer');
-
+      const { t } = useI18n();
       const { createSuccessModal, createMessage } = useMessage();
 
       function handleCopy() {
@@ -75,7 +76,6 @@
   });
 </script>
 <style lang="less" scoped>
-  @import (reference) '../../../../design/index.less';
   @prefix-cls: ~'@{namespace}-setting-footer';
 
   .@{prefix-cls} {

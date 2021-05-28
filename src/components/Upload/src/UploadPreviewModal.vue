@@ -19,16 +19,18 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { previewProps } from './props';
   import { PreviewFileItem } from './types';
-  import { createImgPreview } from '/@/components/Preview/index';
   import { downloadByUrl } from '/@/utils/file/download';
 
   import { createPreviewColumns, createPreviewActionColumn } from './data';
 
+  import { useI18n } from '/@/hooks/web/useI18n';
   export default defineComponent({
     components: { BasicModal, FileList },
     props: previewProps,
+    emits: ['list-change', 'register'],
     setup(props, { emit }) {
       const [register, { closeModal }] = useModalInner();
+      const { t } = useI18n();
 
       const fileListRef = ref<PreviewFileItem[]>([]);
       watch(
@@ -61,13 +63,13 @@
         }
       }
 
-      // 预览
-      function handlePreview(record: PreviewFileItem) {
-        const { url = '' } = record;
-        createImgPreview({
-          imageList: [url],
-        });
-      }
+      // // 预览
+      // function handlePreview(record: PreviewFileItem) {
+      //   const { url = '' } = record;
+      //   createImgPreview({
+      //     imageList: [url],
+      //   });
+      // }
 
       // 下载
       function handleDownload(record: PreviewFileItem) {
@@ -81,7 +83,7 @@
         closeModal,
         fileListRef,
         columns: createPreviewColumns(),
-        actionColumn: createPreviewActionColumn({ handleRemove, handlePreview, handleDownload }),
+        actionColumn: createPreviewActionColumn({ handleRemove, handleDownload }),
       };
     },
   });

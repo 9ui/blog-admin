@@ -19,17 +19,21 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, FormSchema, useForm } from '/@/components/Form/index';
 
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { t } = useI18n();
+
   const schemas: FormSchema[] = [
     {
       field: 'filename',
       component: 'Input',
-      label: '文件类型',
+      label: t('component.excel.fileName'),
       rules: [{ required: true }],
     },
     {
       field: 'bookType',
       component: 'Select',
-      label: '文件类型',
+      label: t('component.excel.fileType'),
       defaultValue: 'xlsx',
       rules: [{ required: true }],
       componentProps: {
@@ -80,6 +84,7 @@
         handleOk,
         registerForm,
         registerModal,
+        t,
       };
     },
   });

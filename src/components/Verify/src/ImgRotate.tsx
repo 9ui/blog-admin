@@ -10,6 +10,7 @@ import BasicDragVerify from './DragVerify';
 import { hackCss } from '/@/utils/domUtils';
 
 import { rotateProps } from './props';
+import { useI18n } from '/@/hooks/web/useI18n';
 
 export default defineComponent({
   name: 'ImgRotateDargVerify',
@@ -29,6 +30,7 @@ export default defineComponent({
       endTime: 0,
       draged: false,
     });
+    const { t } = useI18n();
 
     watch(
       () => state.isPassing,

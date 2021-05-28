@@ -16,9 +16,9 @@ export function getBoundingClientRect(element: Element): DOMRect | number {
   return element.getBoundingClientRect();
 }
 
-const trim = function (string: string) {
+function trim(string: string) {
   return (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
-};
+}
 
 /* istanbul ignore next */
 export function hasClass(el: Element, cls: string) {
@@ -73,13 +73,13 @@ export function removeClass(el: Element, cls: string) {
   }
 }
 /**
- * 获取当前元素的left、top偏移
- *   left：元素最左侧距离文档左侧的距离
- *   top:元素最顶端距离文档顶端的距离
- *   right:元素最右侧距离文档右侧的距离
- *   bottom：元素最底端距离文档底端的距离
- *   rightIncludeBody：元素最左侧距离文档右侧的距离
- *   bottomIncludeBody：元素最底端距离文档最底部的距离
+ * Get the left and top offset of the current element
+ * left: the distance between the leftmost element and the left side of the document
+ * top: the distance from the top of the element to the top of the document
+ * right: the distance from the far right of the element to the right of the document
+ * bottom: the distance from the bottom of the element to the bottom of the document
+ * rightIncludeBody: the distance between the leftmost element and the right side of the document
+ * bottomIncludeBody: the distance from the bottom of the element to the bottom of the document
  *
  * @description:
  */
@@ -132,7 +132,7 @@ export function hackCss(attr: string, value: string) {
 }
 
 /* istanbul ignore next */
-export const on = function (
+export function on(
   element: Element | HTMLElement | Document | Window,
   event: string,
   handler: EventListenerOrEventListenerObject
@@ -140,10 +140,10 @@ export const on = function (
   if (element && event && handler) {
     element.addEventListener(event, handler, false);
   }
-};
+}
 
 /* istanbul ignore next */
-export const off = function (
+export function off(
   element: Element | HTMLElement | Document | Window,
   event: string,
   handler: Fn
@@ -151,10 +151,10 @@ export const off = function (
   if (element && event && handler) {
     element.removeEventListener(event, handler, false);
   }
-};
+}
 
 /* istanbul ignore next */
-export const once = function (el: HTMLElement, event: string, fn: EventListener): void {
+export function once(el: HTMLElement, event: string, fn: EventListener): void {
   const listener = function (this: any, ...args: unknown[]) {
     if (fn) {
       fn.apply(this, args);
@@ -162,4 +162,4 @@ export const once = function (el: HTMLElement, event: string, fn: EventListener)
     off(el, event, listener);
   };
   on(el, event, listener);
-};
+}

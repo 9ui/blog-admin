@@ -14,54 +14,62 @@ jobs:
 
     steps:
       # 切换分支
-      # - name: Checkout
-      #   uses: actions/checkout@master
-      # # 下载 git submodule
-      # - uses: srt32/git-actions@v0.0.3
-      #   with:
-      #     args: git submodule update --init --recursive
-      # # 使用 node:14
-      # - name: use Node.js 14
-      #   uses: actions/setup-node@v1
-      #   with:
-      #     node-version: 14
-      # # npm install
-      # - name: install
-      #   run: |
-      #     npm install
-      #   env:
-      #     CI: true
-      # # build
-      # - name: Build
-      #   run: |
-      #     npm run build
-      #   env:
-      #     CI: true
-      # # Deploy
-      # - name: Deploy
-      #   uses: easingthemes/ssh-deploy@v2.0.7
-      #   env:
-      #     SSH_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN }}
-      #     ARGS: '-avz --delete'
-      #     SOURCE: 'dist/'
-      #     REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-      #     REMOTE_USER: ${{ secrets.REMOTE_USER }}
-      #     TARGET: ${{ secrets.TARGET }}
-      # 微信通知
-      - name: Wechat Notification
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: chf007/action-wechat-work@master
-        env:
-          WECHAT_WORK_BOT_WEBHOOK: ${{ secrets.WECHAT_WORK_BOT_WEBHOOK }}
+      - name: Checkout
+        uses: actions/checkout@master
+      # 下载 git submodule
+      - uses: srt32/git-actions@v0.0.3
         with:
-          msgtype: markdown
-          content: "来画平台<font color=\"warning\">v5.2.3</font>更新了，快来试试看吧～。\n
-          ##### 修改内容：\n
-          > ${{ github.event.head_commit.message }} \n
-          ##### 修改分支:\n
-          > ${{ github.event.ref }} \n
-          ##### 修改时间:\n
-          > ${{ github.event.head_commit.timestamp }} \n
-          ##### 修改人:\n
-          > ${{ github.event.head_commit.committer.name }}\n"
-          mentioned_list: "['@all']"
+          args: git submodule update --init --recursive
+      # 使用 node:14
+      - name: use Node.js 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      # npm install
+      - name: install
+        run: |
+          npm install
+        env:
+          CI: true
+      # build
+      - name: Build
+        run: |
+          npm run build
+        env:
+          CI: true
+      # Deploy
+      - name: Deploy
+        uses: easingthemes/ssh-deploy@v2.0.7
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN }}
+          ARGS: '-avz --delete'
+          SOURCE: 'dist/'
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.TARGET }}
+      - name: Success
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+          severity: info
+          avatarUrl: https://avatars.githubusercontent.com/u/71952965?s=400&u=b4330492595a29cdba1c8c3029c078d1cb70631e&v=4
+          username: ${{ github.event.head_commit.committer.name }}
+          description: 以后完善
+          footer: ${{ github.event.ref }}
+          text: 平台更新.
+          details: ${{ github.event.head_commit.message }}
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Failure
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+          severity: error
+          details: 平台更新失败
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Cancelled
+        uses: rjstone/discord-webhook-notify@v1
+        if: cancelled()
+        with:
+          severity: warn
+          details: 平台取消更新
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}

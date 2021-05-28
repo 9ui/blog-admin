@@ -21,8 +21,12 @@
 
           <template #description>
             <div>
-              <div class="description">{{ item.description }}</div>
-              <div class="datetime">{{ item.datetime }}</div>
+              <div class="description">
+                {{ item.description }}
+              </div>
+              <div class="datetime">
+                {{ item.datetime }}
+              </div>
             </div>
           </template>
         </a-list-item-meta>
@@ -34,8 +38,15 @@
   import { defineComponent, PropType } from 'vue';
   import { ListItem } from './data';
   import { useDesign } from '/@/hooks/web/useDesign';
-
+  import { List, Avatar, Tag } from 'ant-design-vue';
   export default defineComponent({
+    components: {
+      [Avatar.name]: Avatar,
+      [List.name]: List,
+      [List.Item.name]: List.Item,
+      AListItemMeta: List.Item.Meta,
+      [Tag.name]: Tag,
+    },
     props: {
       list: {
         type: Array as PropType<ListItem[]>,
@@ -49,7 +60,6 @@
   });
 </script>
 <style lang="less" scoped>
-  @import (reference) '../../../../../design/index.less';
   @prefix-cls: ~'@{namespace}-header-notify-list';
 
   .@{prefix-cls} {

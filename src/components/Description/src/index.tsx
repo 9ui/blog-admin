@@ -1,6 +1,7 @@
 import type { DescOptions, DescInstance, DescItem } from './types';
 
 import { defineComponent, computed, ref, unref, CSSProperties } from 'vue';
+import { get } from 'lodash-es';
 import { Descriptions } from 'ant-design-vue';
 import { DescriptionsProps } from 'ant-design-vue/es/descriptions/index';
 import { CollapseContainer, CollapseContainerOptions } from '/@/components/Container/index';
@@ -24,7 +25,7 @@ export default defineComponent({
     const getMergeProps = computed(() => {
       return {
         ...props,
-        ...(unref(propsRef) as any),
+        ...(unref(propsRef) as Recordable),
       } as DescOptions;
     });
 
@@ -82,39 +83,43 @@ export default defineComponent({
     }
 
     function renderItem() {
-      const { schema } = unref(getProps);
-      return unref(schema).map((item) => {
-        const { render, field, span, show, contentMinWidth } = item;
-        const { data } = unref(getProps) as DescOptions;
+      const { schema, data } = unref(getProps);
+      return unref(schema)
+        .map((item) => {
+          const { render, field, span, show, contentMinWidth } = item;
 
-        if (show && isFunction(show) && !show(data)) {
-          return null;
-        }
+          if (show && isFunction(show) && !show(data)) {
+            return null;
+          }
 
-        const getContent = () =>
-          isFunction(render) ? render(data?.[field], data) : unref(data) && unref(data)[field];
+          const getContent = () => {
+            const _data = unref(data);
+            const getField = get(_data, field);
+            return isFunction(render) ? render(getField, _data) : getField ?? '';
+          };
 
-        const width = contentMinWidth;
-        return (
-          <Descriptions.Item label={renderLabel(item)} key={field} span={span}>
-            {() => {
-              if (!contentMinWidth) {
-                return getContent();
-              }
-              const style: CSSProperties = {
-                minWidth: `${width}px`,
-              };
-              return <div style={style}>{getContent()}</div>;
-            }}
-          </Descriptions.Item>
-        );
-      });
+          const width = contentMinWidth;
+          return (
+            <Descriptions.Item label={renderLabel(item)} key={field} span={span}>
+              {() => {
+                if (!contentMinWidth) {
+                  return getContent();
+                }
+                const style: CSSProperties = {
+                  minWidth: `${width}px`,
+                };
+                return <div style={style}>{getContent()}</div>;
+              }}
+            </Descriptions.Item>
+          );
+        })
+        .filter((item) => !!item);
     }
 
     const renderDesc = () => {
       return (
         <Descriptions class={`${prefixCls}`} {...(unref(getDescriptionsProps) as any)}>
-          {() => renderItem()}
+          {renderItem()}
         </Descriptions>
       );
     };

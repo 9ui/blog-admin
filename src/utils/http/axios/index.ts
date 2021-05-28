@@ -4,7 +4,6 @@
 import type { AxiosResponse } from 'axios';
 import type { CreateAxiosOptions, RequestOptions, Result } from './types';
 import { VAxios } from './Axios';
-import { getToken } from '/@/utils/auth';
 import { AxiosTransform } from './axiosTransform';
 
 import { checkStatus } from './checkStatus';
@@ -18,8 +17,9 @@ import { isString } from '/@/utils/is';
 import { setObjToUrlParams, deepMerge } from '/@/utils';
 import { errorStore } from '/@/store/modules/error';
 import { errorResult } from './const';
-
+import { useI18n } from '/@/hooks/web/useI18n';
 import { createNow, formatRequestDate } from './helper';
+import { userStore } from '/@/store/modules/user';
 
 const globSetting = useGlobSetting();
 const prefix = globSetting.urlPrefix;
@@ -32,7 +32,8 @@ const transform: AxiosTransform = {
   /**
    * @description: 处理请求数据
    */
-  transformRequestData: (res: AxiosResponse<Result>, options: RequestOptions) => {
+  transformRequestHook: (res: AxiosResponse<Result>, options: RequestOptions) => {
+    const { t } = useI18n();
     const { isTransformRequestResult } = options;
     // 不进行任何处理，直接返回
     // 用于页面代码可能需要直接获取code，data，message这些信息时开启
@@ -104,28 +105,27 @@ const transform: AxiosTransform = {
     if (apiUrl && isString(apiUrl)) {
       config.url = `${apiUrl}${config.url}`;
     }
+    const params = config.params || {};
     if (config.method?.toUpperCase() === RequestEnum.GET) {
-      if (!isString(config.params)) {
-        config.data = {
-          // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
-          params: Object.assign(config.params || {}, createNow(joinTime, false)),
-        };
+      if (!isString(params)) {
+        // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
+        config.params = Object.assign(params || {}, createNow(joinTime, false));
       } else {
         // 兼容restful风格
-        config.url = config.url + config.params + `${createNow(joinTime, true)}`;
+        config.url = config.url + params + `${createNow(joinTime, true)}`;
         config.params = undefined;
       }
     } else {
-      if (!isString(config.params)) {
-        formatDate && formatRequestDate(config.params);
-        config.data = config.params;
+      if (!isString(params)) {
+        formatDate && formatRequestDate(params);
+        config.data = params;
         config.params = undefined;
         if (joinParamsToUrl) {
           config.url = setObjToUrlParams(config.url as string, config.data);
         }
       } else {
         // 兼容restful风格
-        config.url = config.url + config.params;
+        config.url = config.url + params;
         config.params = undefined;
       }
     }
@@ -137,7 +137,7 @@ const transform: AxiosTransform = {
    */
   requestInterceptors: (config) => {
     // 请求之前处理config
-    const token = getToken();
+    const token = userStore.getTokenState;
     if (token) {
       // jwt token
       config.headers.Authorization = token;
@@ -149,10 +149,11 @@ const transform: AxiosTransform = {
    * @description: 响应错误处理
    */
   responseInterceptorsCatch: (error: any) => {
+    const { t } = useI18n();
     errorStore.setupErrorHandle(error);
     const { response, code, message } = error || {};
-    const msg: string = response?.data?.error ? response.data.error.message : '';
-    const err: string = error?.toString();
+    const msg: string = response?.data?.error?.message ?? '';
+    const err: string = error?.toString?.() ?? '';
     try {
       if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
         createMessage.error(t('sys.api.apiTimeoutMessage'));
@@ -201,6 +202,8 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           apiUrl: globSetting.apiUrl,
           //  是否加入时间戳
           joinTime: true,
+          // 忽略重复请求
+          ignoreCancelToken: true,
         },
       },
       opt || {}
