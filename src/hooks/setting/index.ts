@@ -1,6 +1,7 @@
 import type { GlobConfig } from '/#/config';
 
 import { warn } from '/@/utils/log';
+
 import { getAppEnvConfig } from '/@/utils/env';
 
 export const useGlobSetting = (): Readonly<GlobConfig> => {
@@ -17,7 +18,6 @@ export const useGlobSetting = (): Readonly<GlobConfig> => {
       `VITE_GLOB_APP_SHORT_NAME Variables can only be characters/underscores, please modify in the environment variables and re-running.`
     );
   }
-
   // Take global configuration
   const glob: Readonly<GlobConfig> = {
     title: VITE_GLOB_APP_TITLE,
