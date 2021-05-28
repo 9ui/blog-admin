@@ -68,7 +68,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       chunkSizeWarningLimit: 1200,
     },
     define: {
-      // setting vue-i18-next
+      // setting vue-i18-ne
       // Suppress warning
       __VUE_I18N_LEGACY_API__: false,
       __VUE_I18N_FULL_INSTALL__: false,
