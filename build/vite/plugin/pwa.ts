@@ -7,14 +7,14 @@ import type { ViteEnv } from '../../utils';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export function configPwaConfig(env: ViteEnv) {
-  const { VITE_USE_PWA, VITE_GLOB_APP_TITLE, VITE_GLOB_APP_SHORT_NAME } = env;
+  const { VITE_USE_PWA } = env;
 
   if (VITE_USE_PWA) {
     // vite-plugin-pwa
     const pwaPlugin = VitePWA({
       manifest: {
-        name: VITE_GLOB_APP_TITLE,
-        short_name: VITE_GLOB_APP_SHORT_NAME,
+        name: '来画平台',
+        short_name: '来画',
         icons: [
           {
             src: './resource/img/pwa-192x192.png',

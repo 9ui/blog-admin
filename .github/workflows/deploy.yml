@@ -65,7 +65,7 @@ jobs:
           CI: true
 
       # 生成压缩包
-      - run: tar dist
+      - run: tar -zcvf dist.tgz dist
 
       # Deploy
       - name: Deploy
@@ -77,6 +77,21 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.TARGET }}
+
+      # 部署
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.ACCESS_TOKEN }}
+          # 远程服务器端口号
+          port: ${{ secrets.PORT }}
+          # 命令超时配置 默认10m
+          command_timeout: 20m
+          script: |
+            cd /www/wwwroot/laihua.90c.vip
+            tar zxvf dist.tgz
 
       # Notify
       - name: Success
