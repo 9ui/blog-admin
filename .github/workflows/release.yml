@@ -65,7 +65,7 @@ jobs:
           CI: true
 
       # 生成压缩包
-       - run: tar -zcvf dist.tgz dist
+      - run: tar -zcvf dist.tgz dist
 
       # 部署
       - name: Deploy
