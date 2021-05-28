@@ -25,28 +25,74 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14
-      # 下载依赖
-      - name: install
-        run: |
-          npm install
-        env:
-          CI: true
+
+      # 设置缓存路径
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      # yarn缓存
+      - name: Cache yarn cache
+        uses: actions/cache@v2
+        id: cache-yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      # 缓存依赖文件
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-
+
+        # 下载依赖
+      - run: yarn
+        if: |
+          steps.cache-yarn-cache.outputs.cache-hit != 'true' ||
+          steps.cache-node-modules.outputs.cache-hit != 'true'
+
       # 构建
       - name: Build
         run: |
-          npm run build
+          yarn build
         env:
           CI: true
+
+      # 生成压缩包
+       - run: tar -zcvf dist.tgz dist
+
       # 部署
       - name: Deploy
         uses: easingthemes/ssh-deploy@v2.0.7
         env:
           SSH_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN }}
           ARGS: '-avz --delete'
-          SOURCE: 'dist/'
+          SOURCE: 'dist.tgz'
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.TESTTARGET }}
+
+      # 部署
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.ACCESS_TOKEN }}
+          # 远程服务器端口号
+          port: ${{ secrets.PORT }}
+          # 命令超时配置 默认10m
+          command_timeout: 20m
+          script: |
+            cd /www/wwwroot/test.90c.vip
+            tar zxvf dist.tgz
+
       # Notify
       - name: Success
         uses: rjstone/discord-webhook-notify@v1
