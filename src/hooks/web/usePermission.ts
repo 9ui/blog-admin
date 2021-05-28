@@ -40,7 +40,7 @@ export function usePermission() {
     resetRouter();
     const routes = await permissionStore.buildRoutesAction(id);
     routes.forEach((route) => {
-      router.addRoute(route as RouteRecordRaw);
+      router.addRoute((route as unknown) as RouteRecordRaw);
     });
     permissionStore.commitLastBuildMenuTimeState();
     const { closeAll } = useTabs();
@@ -58,7 +58,7 @@ export function usePermission() {
         return def;
       }
       if (!isArray(value)) {
-        return userStore.getRoleListState.includes(value as RoleEnum);
+        return userStore.getRoleListState?.includes(value as RoleEnum);
       }
       return (intersection(value, userStore.getRoleListState) as RoleEnum[]).length > 0;
     }

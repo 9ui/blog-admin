@@ -2,11 +2,7 @@
  * copy from element-ui
  */
 
-import { withInstall } from '../util';
+import Scrollbar from './src/index.vue';
 
-import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
-export const Scrollbar = createAsyncComponent(() => import('./src/Scrollbar'));
-
-withInstall(Scrollbar);
-
+export { Scrollbar };
 export type { ScrollbarType } from './src/types';

@@ -1,11 +1,11 @@
 <template>
   <Footer :class="prefixCls" v-if="getShowLayoutFooter">
     <div :class="`${prefixCls}__links`">
-      <a @click="openWindow(SITE_URL)">在线预览</a>
+      <a @click="openWindow(SITE_URL)">{{ t('layout.footer.onlinePreview') }}</a>
       <GithubFilled @click="openWindow(GITHUB_URL)" :class="`${prefixCls}__github`" />
-      <a @click="openWindow(DOC_URL)">在线文档</a>
+      <a @click="openWindow(DOC_URL)">{{ t('layout.footer.onlineDocument') }}</a>
     </div>
-    <div>Copyright &copy;2020 来画平台</div>
+    <div>Copyright &copy;2020 Vben Admin</div>
   </Footer>
 </template>
 
@@ -18,6 +18,7 @@
   import { DOC_URL, GITHUB_URL, SITE_URL } from '/@/settings/siteSetting';
   import { openWindow } from '/@/utils';
 
+  import { useI18n } from '/@/hooks/web/useI18n';
   import { useRootSetting } from '/@/hooks/setting/useRootSetting';
   import { useRouter } from 'vue-router';
   import { useDesign } from '/@/hooks/web/useDesign';
@@ -26,6 +27,7 @@
     name: 'LayoutFooter',
     components: { Footer: Layout.Footer, GithubFilled },
     setup() {
+      const { t } = useI18n();
       const { getShowFooter } = useRootSetting();
       const { currentRoute } = useRouter();
       const { prefixCls } = useDesign('layout-footer');
@@ -33,12 +35,11 @@
       const getShowLayoutFooter = computed(() => {
         return unref(getShowFooter) && !unref(currentRoute).meta?.hiddenFooter;
       });
-      return { getShowLayoutFooter, prefixCls, DOC_URL, GITHUB_URL, SITE_URL, openWindow };
+      return { getShowLayoutFooter, prefixCls, t, DOC_URL, GITHUB_URL, SITE_URL, openWindow };
     },
   });
 </script>
 <style lang="less" scoped>
-  @import (reference) '../../../design/index.less';
   @prefix-cls: ~'@{namespace}-layout-footer';
 
   @normal-color: rgba(0, 0, 0, 0.45);

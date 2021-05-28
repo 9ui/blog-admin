@@ -1,42 +1,44 @@
 <template>
   <div :class="`${prefixCls}`">
     <span :class="`${prefixCls}__item`">
-      <g-icon icon="ant-design:enter-outlined" />
+      <Icon icon="ant-design:enter-outlined" />
     </span>
-    <span>搜索</span>
+    <span>{{ t('component.app.toSearch') }}</span>
 
     <span :class="`${prefixCls}__item`">
-      <g-icon icon="bi:arrow-up" />
+      <Icon icon="bi:arrow-up" />
     </span>
     <span :class="`${prefixCls}__item`">
-      <g-icon icon="bi:arrow-down" />
+      <Icon icon="bi:arrow-down" />
     </span>
-    <span>切换</span>
+    <span>{{ t('component.app.toNavigate') }}</span>
     <span :class="`${prefixCls}__item`">
-      <g-icon icon="mdi:keyboard-esc" />
+      <Icon icon="mdi:keyboard-esc" />
     </span>
-    <span>关闭</span>
+    <span>{{ t('common.closeText') }}</span>
   </div>
 </template>
+
 <script lang="ts">
   import { defineComponent } from 'vue';
+  import Icon from '/@/components/Icon';
 
   import { useDesign } from '/@/hooks/web/useDesign';
-
+  import { useI18n } from '/@/hooks/web/useI18n';
   export default defineComponent({
     name: 'AppSearchFooter',
-    components: {},
+    components: { Icon },
     setup() {
       const { prefixCls } = useDesign('app-search-footer');
-
+      const { t } = useI18n();
       return {
         prefixCls,
+        t,
       };
     },
   });
 </script>
 <style lang="less" scoped>
-  @import (reference) '../../../../design/index.less';
   @prefix-cls: ~'@{namespace}-app-search-footer';
 
   .@{prefix-cls} {
@@ -47,7 +49,7 @@
     font-size: 12px;
     color: #666;
     background: rgb(255 255 255);
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 16px 16px;
     box-shadow: 0 -1px 0 0 #e0e3e8, 0 -3px 6px 0 rgba(69, 98, 155, 0.12);
     align-items: center;
     flex-shrink: 0;

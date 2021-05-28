@@ -1,21 +1,26 @@
 <template>
-  <div class="collapse-container p-2">
-    <CollapseHeader v-bind="$props" :show="show" @expand="handleExpand">
+  <div :class="['p-2', prefixCls]">
+    <CollapseHeader
+      v-bind="getBindValues"
+      :prefixCls="prefixCls"
+      :show="show"
+      @expand="handleExpand"
+    >
       <template #title>
-        <slot name="title" />
+        <slot name="title"></slot>
       </template>
     </CollapseHeader>
 
     <CollapseTransition :enable="canExpan">
       <Skeleton v-if="loading" />
-      <div class="collapse-container__body" v-else v-show="show">
+      <div :class="`${prefixCls}__body`" v-else v-show="show">
         <LazyContainer :timeout="lazyTime" v-if="lazy">
-          <slot />
+          <slot></slot>
           <template #skeleton>
-            <slot name="lazySkeleton" />
+            <slot name="lazySkeleton"></slot>
           </template>
         </LazyContainer>
-        <slot v-else />
+        <slot v-else></slot>
       </div>
     </CollapseTransition>
   </div>
@@ -23,7 +28,7 @@
 <script lang="ts">
   import type { PropType } from 'vue';
 
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref, computed } from 'vue';
 
   // component
   import { Skeleton } from 'ant-design-vue';
@@ -31,10 +36,11 @@
   import CollapseHeader from './CollapseHeader.vue';
   import LazyContainer from '../LazyContainer.vue';
 
-  import { triggerWindowResize } from '/@/utils/event/triggerWindowResizeEvent';
+  import { triggerWindowResize } from '/@/utils/event';
   // hook
   import { useTimeoutFn } from '/@/hooks/core/useTimeout';
   import { propTypes } from '/@/utils/propTypes';
+  import { useDesign } from '/@/hooks/web/useDesign';
 
   export default defineComponent({
     name: 'CollapseContainer',
@@ -64,6 +70,9 @@
     },
     setup(props) {
       const show = ref(true);
+
+      const { prefixCls } = useDesign('collapse-container');
+
       /**
        * @description: Handling development events
        */
@@ -74,22 +83,27 @@
           useTimeoutFn(triggerWindowResize, 200);
         }
       }
+
+      const getBindValues = computed((): any => {
+        return props;
+      });
+
       return {
         show,
         handleExpand,
+        prefixCls,
+        getBindValues,
       };
     },
   });
 </script>
 <style lang="less">
-  .collapse-container {
+  @prefix-cls: ~'@{namespace}-collapse-container';
+
+  .@{prefix-cls} {
     background: #fff;
     border-radius: 2px;
     transition: all 0.3s ease-in-out;
-
-    &.no-shadow {
-      box-shadow: none;
-    }
 
     &__header {
       display: flex;
@@ -101,7 +115,10 @@
 
     &__action {
       display: flex;
+      text-align: right;
+      flex: 1;
       align-items: center;
+      justify-content: flex-end;
     }
   }
 </style>

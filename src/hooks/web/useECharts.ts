@@ -1,30 +1,30 @@
 import { useTimeoutFn } from '/@/hooks/core/useTimeout';
 import { tryOnUnmounted } from '/@/utils/helper/vueHelper';
 import { unref, Ref, nextTick } from 'vue';
-import type { EChartOption, ECharts } from 'echarts';
-import echarts from 'echarts';
+import type { EChartsOption } from 'echarts';
 import { useDebounce } from '/@/hooks/core/useDebounce';
 import { useEventListener } from '/@/hooks/event/useEventListener';
 import { useBreakpoint } from '/@/hooks/event/useBreakpoint';
 
-export type { EChartOption, ECharts };
+import echarts from '/@/plugins/echarts';
+
 export function useECharts(
   elRef: Ref<HTMLDivElement>,
   theme: 'light' | 'dark' | 'default' = 'light'
 ) {
-  let chartInstance: Nullable<ECharts> = null;
+  let chartInstance: echarts.ECharts | null = null;
   let resizeFn: Fn = resize;
   let removeResizeFn: Fn = () => {};
 
   const [debounceResize] = useDebounce(resize, 200);
   resizeFn = debounceResize;
 
-  function init() {
+  function initCharts() {
     const el = unref(elRef);
-
     if (!el || !unref(el)) {
       return;
     }
+
     chartInstance = echarts.init(el, theme);
     const { removeEvent } = useEventListener({
       el: window,
@@ -33,31 +33,36 @@ export function useECharts(
     });
     removeResizeFn = removeEvent;
     const { widthRef, screenEnum } = useBreakpoint();
-    if (unref(widthRef) <= screenEnum.MD) {
+    if (unref(widthRef) <= screenEnum.MD || el.offsetHeight === 0) {
       useTimeoutFn(() => {
         resizeFn();
       }, 30);
     }
   }
 
-  function setOptions(options: any, clear = true) {
+  function setOptions(options: EChartsOption, clear = true) {
+    if (unref(elRef)?.offsetHeight === 0) {
+      useTimeoutFn(() => {
+        setOptions(options);
+      }, 30);
+      return;
+    }
     nextTick(() => {
       useTimeoutFn(() => {
         if (!chartInstance) {
-          init();
+          initCharts();
 
           if (!chartInstance) return;
         }
-        clear && chartInstance.clear();
+        clear && chartInstance?.clear();
 
-        chartInstance && chartInstance.setOption(options);
+        chartInstance?.setOption(options);
       }, 30);
     });
   }
 
   function resize() {
-    if (!chartInstance) return;
-    chartInstance.resize();
+    chartInstance?.resize();
   }
 
   tryOnUnmounted(() => {
@@ -69,7 +74,7 @@ export function useECharts(
 
   return {
     setOptions,
-    echarts,
     resize,
+    echarts,
   };
 }

@@ -23,7 +23,9 @@ export function listenerLastChangeTab(
   immediate = true
 ) {
   mitt.on(key, callback);
-  if (immediate) {
-    callback(lastChangeTab);
-  }
+  immediate && lastChangeTab && callback(lastChangeTab);
+}
+
+export function removeTabChangeListener() {
+  mitt.clear();
 }

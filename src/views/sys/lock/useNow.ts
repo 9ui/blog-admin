@@ -1,11 +1,10 @@
-import moment from 'moment';
+import { dateUtil } from '/@/utils/dateUtil';
 import { reactive, toRefs } from 'vue';
 import { tryOnMounted, tryOnUnmounted } from '/@/utils/helper/vueHelper';
-import { useLocaleSetting } from '/@/hooks/setting/useLocaleSetting';
+import { localeStore } from '/@/store/modules/locale';
 
 export function useNow(immediate = true) {
-  const { getLang } = useLocaleSetting();
-  const localData = moment.localeData(getLang.value);
+  const localData = dateUtil.localeData(localeStore.getLocale);
   let timer: IntervalHandle;
 
   const state = reactive({
@@ -20,14 +19,14 @@ export function useNow(immediate = true) {
   });
 
   const update = () => {
-    const now = moment();
+    const now = dateUtil();
 
     const h = now.format('HH');
     const m = now.format('mm');
     const s = now.get('s');
 
     state.year = now.get('y');
-    state.month = now.get('M');
+    state.month = now.get('M') + 1;
     state.week = localData.weekdays()[now.day()];
     state.day = now.get('D');
     state.hour = h;

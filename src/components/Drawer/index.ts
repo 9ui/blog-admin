@@ -1,8 +1,5 @@
-import { withInstall } from '../util';
+import BasicDrawer from './src/BasicDrawer.vue';
 
-import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
-export const BasicDrawer = createAsyncComponent(() => import('./src/BasicDrawer'));
-
-withInstall(BasicDrawer);
+export { BasicDrawer };
 export * from './src/types';
 export { useDrawer, useDrawerInner } from './src/useDrawer';

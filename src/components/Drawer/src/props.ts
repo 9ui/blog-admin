@@ -1,6 +1,8 @@
 import type { PropType } from 'vue';
 
+import { useI18n } from '/@/hooks/web/useI18n';
 import { propTypes } from '/@/utils/propTypes';
+const { t } = useI18n();
 
 export const footerProps = {
   confirmLoading: propTypes.bool,
@@ -8,14 +10,14 @@ export const footerProps = {
    * @description: Show close button
    */
   showCancelBtn: propTypes.bool.def(true),
-  cancelButtonProps: Object as PropType<any>,
-  cancelText: propTypes.string.def('取消'),
+  cancelButtonProps: Object as PropType<Recordable>,
+  cancelText: propTypes.string.def(t('common.cancelText')),
   /**
    * @description: Show confirmation button
    */
   showOkBtn: propTypes.bool.def(true),
-  okButtonProps: propTypes.any,
-  okText: propTypes.string.def('确定'),
+  okButtonProps: Object as PropType<Recordable>,
+  okText: propTypes.string.def(t('common.okText')),
   okType: propTypes.string.def('primary'),
   showFooter: propTypes.bool,
   footerHeight: {
@@ -26,6 +28,7 @@ export const footerProps = {
 export const basicProps = {
   isDetail: propTypes.bool,
   title: propTypes.string.def(''),
+  loadingText: propTypes.string,
   showDetailBack: propTypes.bool.def(true),
   visible: propTypes.bool,
   loading: propTypes.bool,
