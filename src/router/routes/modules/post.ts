@@ -42,6 +42,16 @@ const dashboard: AppRouteModule = {
         icon: 'bx:bx-book-add',
       },
     },
+    {
+      path: 'tag',
+      name: 'Tag',
+      component: () => import('/@/views/post/tag/index.vue'),
+      meta: {
+        title: '标签',
+        affix: true,
+        icon: 'bx:bx-book-add',
+      },
+    },
   ],
 };
 

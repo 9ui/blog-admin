@@ -6,7 +6,6 @@
       <NewsList class="mb-3" />
     </a-col>
     <a-col :md="24" :lg="7">
-      <img src="https://vvbin.cn/next/assets/wokb.f373341e.png" class="workbench__wokb-img mb-3" />
       <ShortCuts class="mb-3" />
       <Week class="mb-3" />
     </a-col>

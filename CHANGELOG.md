@@ -1,3 +1,86 @@
+## 2.0.2 (2021-06-01)
+
+
+### Bug Fixes
+
+* 删除没有加载的模块 ([aef26d9](https://github.com/9ui/laihua-workbench/commit/aef26d98aab2266a5633239344eaa20d9b212b08))
+* 删除冗余代码 ([ff94b85](https://github.com/9ui/laihua-workbench/commit/ff94b85180967480fd0fb8f470bd04fca8f9f5b0))
+* 删除冗余代码 ([c7a23de](https://github.com/9ui/laihua-workbench/commit/c7a23dec332e305d36bf515bbff7bb2d07e12ff7))
+* 删除冗余代码 ([293aa45](https://github.com/9ui/laihua-workbench/commit/293aa458288db1f0cbab299232904d2709bda7e1))
+* 修复本地登录成功没有跳转 ([d6aae8a](https://github.com/9ui/laihua-workbench/commit/d6aae8a10abcae634b18bf73b578bc39957ec5f4))
+* 修复机器人 ([62d2d03](https://github.com/9ui/laihua-workbench/commit/62d2d03d3ac213153a7904ddec9640e142765200))
+* 修复文件引入错误 ([e380be7](https://github.com/9ui/laihua-workbench/commit/e380be769499af4fdfcf35f81febf68000651adf))
+* 修复无法退出问题 ([b01bcb3](https://github.com/9ui/laihua-workbench/commit/b01bcb3241d08954434b714f31e7a1311286674d))
+* 修复正式环境接口错误 ([a01b308](https://github.com/9ui/laihua-workbench/commit/a01b308f99fd7b771ff93ef7e660854d386c131b))
+* 修改环境变量 ([1382826](https://github.com/9ui/laihua-workbench/commit/13828265d7141c232e4ce93cf433b5ec105017c9))
+* 修改接口前缀 ([300ee3f](https://github.com/9ui/laihua-workbench/commit/300ee3f5b063f84f539be0d013dcf9963d7a74e2))
+* 修改正式环境接口配置 ([b675e1d](https://github.com/9ui/laihua-workbench/commit/b675e1da32acee4fef8d420b3d6466191bf19e20))
+* 修改正式环境配置 ([cfc39b4](https://github.com/9ui/laihua-workbench/commit/cfc39b4130683f5508afaea8cd5db566052101d2))
+* 修改正式环境请求地址 ([0275e70](https://github.com/9ui/laihua-workbench/commit/0275e70e225ad16c1689f48536090c27ec8f6150))
+* 修改vscode配置 ([1860236](https://github.com/9ui/laihua-workbench/commit/18602364f47c9e54e8d2bd5bd41e6ecc6948a1b3))
+* 注释冗余代码 ([039eff3](https://github.com/9ui/laihua-workbench/commit/039eff36cce63b49e904f69f47fb65d65e7f235d))
+* fix api ([eafbc72](https://github.com/9ui/laihua-workbench/commit/eafbc728e85a05e92d15aa42170d79a2fd517065))
+* fix api ([cce96bd](https://github.com/9ui/laihua-workbench/commit/cce96bdad2afe8c3daf951078682ac027f4210fd))
+* fix api ([d6bc159](https://github.com/9ui/laihua-workbench/commit/d6bc15987b87fa27457e3aac81736ec898e5b07e))
+* modify api ([e83f113](https://github.com/9ui/laihua-workbench/commit/e83f113f51696346d91502660ad0ebaee73b7ff3))
+* modify ci ([ff1f5b7](https://github.com/9ui/laihua-workbench/commit/ff1f5b7735d2191e150930a59b2f7e7cd8d773c6))
+* modify ci ([acdd0e7](https://github.com/9ui/laihua-workbench/commit/acdd0e7fead9a290d1deb7f721732d4f28110e52))
+* optimize code ([730cf57](https://github.com/9ui/laihua-workbench/commit/730cf57e88cf162ac0ea0c82d2ee8e41c0df74ab))
+* remove file ([47a18e3](https://github.com/9ui/laihua-workbench/commit/47a18e303ef0a24bae9c51b93b228a4e1c1d0675))
+* remove module ([bef8f0e](https://github.com/9ui/laihua-workbench/commit/bef8f0e3b2b2396802886271e54047ab38bf2c51))
+
+
+### Features
+
+* 对接登录接口 ([4a9d007](https://github.com/9ui/laihua-workbench/commit/4a9d00796aedbe735a3e5f9482101145bbae5977))
+* 对接退出接口 ([2b32cd9](https://github.com/9ui/laihua-workbench/commit/2b32cd910187ff1125117a036d5741ffa137a504))
+* 完善文章模块 ([b51b049](https://github.com/9ui/laihua-workbench/commit/b51b0495e12993934251b3b70c11716f23b0a9a6))
+* 新增视频营销模块 ([718ef0b](https://github.com/9ui/laihua-workbench/commit/718ef0bff2c2ef82a88d01fcf35bce80585ed59f))
+* 新增账号管理模块和修改密码模块 ([8156622](https://github.com/9ui/laihua-workbench/commit/81566226f0d2ed9e74b242c1490324011cd66607))
+* 修改环境变量 ([bf158dd](https://github.com/9ui/laihua-workbench/commit/bf158dd4be9fe9304293c3244170bedf08c45232))
+* **module:** 新增文章分类模块 ([7538374](https://github.com/9ui/laihua-workbench/commit/75383747ab53cb78fc0652ea32eb015b0ebf3173))
+* 测试菜单 ([d903924](https://github.com/9ui/laihua-workbench/commit/d9039248cf625d6a9e8c38e4f5b54746836a278a))
+* 激活机器人 ([81ef30f](https://github.com/9ui/laihua-workbench/commit/81ef30fcccc48930238b4aed2d659e3e5240e8c7))
+* 去掉国际化 ([675397e](https://github.com/9ui/laihua-workbench/commit/675397ebeebada5b64b0407e9ae0b94e522655f6))
+* 完善导航头 ([f3f188c](https://github.com/9ui/laihua-workbench/commit/f3f188c61ef47e01c0f0c6d75f2bbd6bc0417211))
+* 项目重构 ([c4c603d](https://github.com/9ui/laihua-workbench/commit/c4c603d1887f83330377ab7f84d3fe01f0ec4410))
+* 新增路由 ([5bb231a](https://github.com/9ui/laihua-workbench/commit/5bb231a57f21b8ea11f8c24ce36fb2b435e08c1a))
+* 新增一个按钮 ([91487ee](https://github.com/9ui/laihua-workbench/commit/91487ee230cd1d8644d457176de17f8b0d576771))
+* 修改网站标题以及logo ([5dba484](https://github.com/9ui/laihua-workbench/commit/5dba484eb23fdb3345493b5af43ae1c3c584c428))
+* 引入tailwind框架 ([1bce6ef](https://github.com/9ui/laihua-workbench/commit/1bce6ef3e8ac3b9e38b4a6041eac77388ae79798))
+* 优化菜单栏 ([384486a](https://github.com/9ui/laihua-workbench/commit/384486a710bce1eb11ad3bc0d41031b4cb6d9cb1))
+* 自定义github action ([fc46e2b](https://github.com/9ui/laihua-workbench/commit/fc46e2b3ec7d69c72d8cda5ea6874e8184ccb178))
+* add discord module ([5332b07](https://github.com/9ui/laihua-workbench/commit/5332b07155ca26858d77b7b7d9bc86149a819096))
+* add discord module ([1b3a1a1](https://github.com/9ui/laihua-workbench/commit/1b3a1a10befe976175f31e4d80c075f52f33bd36))
+* add discord module ([ad7004b](https://github.com/9ui/laihua-workbench/commit/ad7004b30f36fce05af8cf04cb31f35c9e88900c))
+* add discord module ([6cfcbf1](https://github.com/9ui/laihua-workbench/commit/6cfcbf1be93758bf205e118a153dc33fd490c91a))
+* add discord module ([dcb5589](https://github.com/9ui/laihua-workbench/commit/dcb55899e3a9894d3281b4753e16a8a18705be0d))
+* add discord module ([3c8c4f6](https://github.com/9ui/laihua-workbench/commit/3c8c4f6a7daf40731a215578c0f6ac174e4ad765))
+* add new module ([a440088](https://github.com/9ui/laihua-workbench/commit/a440088ee9fda99c496505995ae5c8c398ef7f60))
+* add post module ([8db8609](https://github.com/9ui/laihua-workbench/commit/8db8609419891ef595d1470319429dc26c29c0b4))
+* add post module ([ffe4b8c](https://github.com/9ui/laihua-workbench/commit/ffe4b8c5424652d9500c7b5d9b4bf5e5f4025289))
+* init project ([67e651a](https://github.com/9ui/laihua-workbench/commit/67e651acc71334bc8caf6228c7d01b4c97e3475f))
+* modify module ([02710bd](https://github.com/9ui/laihua-workbench/commit/02710bd368e7c1cc73a19d12535cf313f037714b))
+* new module post ([ccad1df](https://github.com/9ui/laihua-workbench/commit/ccad1dfe192d7b654ac05c8ae2b71b277ed20639))
+* optimize code ([925cf33](https://github.com/9ui/laihua-workbench/commit/925cf333095fb1ff9971d51dca655806185d1964))
+* optimize table ([a26933e](https://github.com/9ui/laihua-workbench/commit/a26933e42adb8bfa02f34d66d3919116ac423d66))
+* test ([7156847](https://github.com/9ui/laihua-workbench/commit/715684707756b9fda899b38550cd7ce9b7af606e))
+* test ([dcd34e7](https://github.com/9ui/laihua-workbench/commit/dcd34e7e130919f3135a6a5676c1def83544cb8f))
+* test api ([b8aba93](https://github.com/9ui/laihua-workbench/commit/b8aba930ad529ec149649182753819906b004c89))
+* **component:** 引入ant-design-vue ui组件以及axios vuex router等插件 ([37f90c6](https://github.com/9ui/laihua-workbench/commit/37f90c62eadf0cb44b8f04075b14af88b813c7f5))
+* **init:** init project ([67f9984](https://github.com/9ui/laihua-workbench/commit/67f998492db61ea7bf81cd4300b8be3e2cb7ec55))
+
+
+### Reverts
+
+* 版本撤销 ([0be22c2](https://github.com/9ui/laihua-workbench/commit/0be22c28861d6f8777c797add670fff6ca36a749))
+* 登录返回结果处理 ([7ccea70](https://github.com/9ui/laihua-workbench/commit/7ccea70f174903b7215ab64c2fc6f736cc49084c))
+* 修改actions name ([37f0086](https://github.com/9ui/laihua-workbench/commit/37f0086a78f24da76dc502236d0dfe34dacf89e6))
+* 修改ts配置文件 ([ec8be42](https://github.com/9ui/laihua-workbench/commit/ec8be42b9efdf3b58e505951356253414cd784e3))
+* 修改ts配置文件 ([fba8ed9](https://github.com/9ui/laihua-workbench/commit/fba8ed95e40a60d6cea392c736b299936b82525c))
+
+
+
 ## 2.0.2 (2021-03-06)
 
 ### Bug Fixes

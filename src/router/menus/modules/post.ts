@@ -1,6 +1,6 @@
 import type { MenuModule } from '/@/router/types';
 const menu: MenuModule = {
-  orderNo: 10,
+  orderNo: 2,
   menu: {
     path: '/post',
     name: '文章',
@@ -15,7 +15,11 @@ const menu: MenuModule = {
       },
       {
         path: 'category',
-        name: '分类目录',
+        name: '分类',
+      },
+      {
+        path: 'tag',
+        name: '标签',
       },
     ],
   },

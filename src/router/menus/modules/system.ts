@@ -6,23 +6,14 @@ const menu: MenuModule = {
   menu: {
     name: t('routes.demo.system.moduleName'),
     path: '/system',
-    // tag: {
-    //   content: 'new',
-    // },
     children: [
       {
         path: 'account',
         name: t('routes.demo.system.account'),
-        tag: {
-          content: 'new',
-        },
       },
       {
         path: 'changePassword',
         name: t('routes.demo.system.password'),
-        tag: {
-          content: 'new',
-        },
       },
     ],
   },
