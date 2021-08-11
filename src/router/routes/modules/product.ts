@@ -6,7 +6,7 @@ const product: AppRouteModule = {
   path: '/product',
   name: 'Product',
   component: LAYOUT,
-  redirect: '/product/category',
+  redirect: '/product/productCategory',
   meta: {
     icon: 'ion:list-outline',
     title: '商品分类',
@@ -14,21 +14,19 @@ const product: AppRouteModule = {
   children: [
     {
       path: 'category',
-      name: 'Category',
+      name: 'ProductCategory',
       component: () => import('/@/views/product/category/index.vue'),
       meta: {
         title: '商品分类',
-        affix: true,
         icon: 'bx:bx-home',
       },
     },
     {
       path: 'manage',
-      name: 'Manage',
+      name: 'ManageProduct',
       component: () => import('/@/views/product/manage/index.vue'),
       meta: {
         title: '管理商品',
-        affix: true,
         icon: 'bx:bx-home',
       },
     },
