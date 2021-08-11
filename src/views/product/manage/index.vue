@@ -1,5 +1,5 @@
 <template>
-  <div>标签</div>
+  <div>管理商品</div>
 </template>
 
 <script>
