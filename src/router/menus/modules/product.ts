@@ -1,13 +1,13 @@
 import type { MenuModule } from '/@/router/types';
 const menu: MenuModule = {
-  orderNo: 3,
+  orderNo: 2,
   menu: {
-    path: '/comments',
-    name: '评论',
+    name: '商品管理',
+    path: '/product',
     children: [
       {
-        path: 'index',
-        name: '评论列表',
+        path: 'category',
+        name: '商品分类',
       },
     ],
   },
