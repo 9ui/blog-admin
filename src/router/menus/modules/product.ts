@@ -9,6 +9,10 @@ const menu: MenuModule = {
         path: 'category',
         name: '商品分类',
       },
+      {
+        path: 'manage',
+        name: '管理商品',
+      },
     ],
   },
 };

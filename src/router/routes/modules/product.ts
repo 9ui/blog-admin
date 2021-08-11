@@ -22,6 +22,16 @@ const product: AppRouteModule = {
         icon: 'bx:bx-home',
       },
     },
+    {
+      path: 'manage',
+      name: 'Manage',
+      component: () => import('/@/views/product/manage/index.vue'),
+      meta: {
+        title: '管理商品',
+        affix: true,
+        icon: 'bx:bx-home',
+      },
+    },
   ],
 };
 
