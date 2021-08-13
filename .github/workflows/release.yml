@@ -90,7 +90,7 @@ jobs:
           # 命令超时配置 默认10m
           command_timeout: 20m
           script: |
-            cd /www/wwwroot/test.90c.vip
+            cd 	/www/wwwroot/blog-admin.90c.vip
             tar zxvf dist.tgz
 
       # Notify
